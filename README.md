@@ -1,2 +1,0 @@
-# kidsFactory
-キッズファクトリー
