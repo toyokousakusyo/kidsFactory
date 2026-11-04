@@ -108,6 +108,8 @@ a.btn{text-decoration:none;display:inline-block}
 .trio img{height:82%!important;width:auto;max-width:30%;object-fit:contain;object-position:bottom;margin:0!important}
 .trio img:nth-child(2){height:100%!important;max-width:38%}
 #resSign{margin-top:10px}
+#rk{z-index:40;justify-content:flex-start;padding-top:18px;background:#3a1434}#rk h2{color:#ffd447;font-size:20px;margin-bottom:6px;font-weight:normal}#rkl{width:100%;max-width:360px;flex:1;overflow:auto;-webkit-overflow-scrolling:touch;touch-action:pan-y}.rr{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.14);border-radius:10px;padding:5px 8px;margin:4px 0;font-size:15px;color:#fff}.rr.me{background:rgba(255,212,71,.35)}.rr b{width:38px;text-align:center;font-weight:normal}.rr img{width:38px;height:38px;border-radius:6px;animation:none;margin:0;height:38px}.rn{flex:1;text-align:left}.rs{color:#ffd447}.rkm{color:#fff;font-size:15px;margin:30px 0}
+.rowb{display:flex;gap:6px;justify-content:center;flex-wrap:wrap}.rowb .btn{margin:4px 2px;font-size:13px;padding:8px 14px}#backL{position:absolute;left:10px;top:10px;font-size:12px!important;padding:6px 12px!important;margin:0!important}#sndB{position:absolute;right:10px;top:10px;margin:0}
 </style>
 </head>
 <body>
@@ -133,7 +135,7 @@ a.btn{text-decoration:none;display:inline-block}
 
   <!-- タイトル -->
   <div class="screen" id="title">
-    <div class="title-sub">株式会社 東洋工作所</div>
+    <a class="btn sub" id="backL" href="index.html?menu=1">◀ ゲームえらびへ</a><div class="title-sub">株式会社 東洋工作所</div>
     <div class="title-main">東洋工作所の<br>ドキドキ面接<small>〜3人の面接官に採用されたい！〜</small></div>
     <div class="trio"><img id="t_s" alt=""><img id="t_b" alt=""><img id="t_g" alt=""></div>
     <div style="font-size:14px">あなたの名前</div>
@@ -150,6 +152,7 @@ a.btn{text-decoration:none;display:inline-block}
     <div class="flash"></div>
   </div>
 
+  <div class="screen hide" id="rk"><h2>🏆 ランキング</h2><div id="rkl"></div><button class="btn sub" id="rkx">✕ とじる</button></div>
   <!-- 結果 -->
   <div class="screen hide" id="result">
     <div class="letter">
@@ -167,7 +170,7 @@ a.btn{text-decoration:none;display:inline-block}
       <a class="btn ig" id="igBtn" href="#" target="_blank" rel="noopener">Instagram</a>
       <a class="btn yt" id="ytBtn" href="#" target="_blank" rel="noopener">YouTube</a>
     </div>
-    <button class="btn sub" id="retryBtn">もう一度面接を受ける</button>
+    <div class="rowb"><button class="btn sub" id="rkBtn">🏆 ランキング</button><button class="btn sub" id="retryBtn">もう一度うける</button><a class="btn sub" href="index.html?menu=1">ほかのゲームへ</a></div>
   </div>
 </div>
 
@@ -195,7 +198,7 @@ const CH = {
 };
 const ORDER=['b','s','g'];
 
-// 質問データ  by:質問する人  p:[社長,ケイリ,センム]の好感度  r:質問した人の返事  t:パーマポイント
+// 質問データ  by:質問する人  p:[社長,ケイリ,センム]の好感度  r:質問した人の返事  t:おまけ
 const Q = [
   {by:'b', q:'ようこそ東洋工作所へ！\nまずは自己紹介をどうぞ！', a:[
     {s:'パイプの音で目が覚める者です', p:[20,15,-5], r:'カンカーン！って？\nなんやそれ、最高やないか！'},
@@ -205,15 +208,15 @@ const Q = [
   {by:'s', q:'ねえねえ、\n好きな動物なに？', a:[
     {s:'カピバラです', p:[5,20,0], r:'わかる〜！\nのんびりしてて最高やんな！'},
     {s:'それって面接に関係ありますか？', p:[5,-5,10], r:'え、あるよ！\n…たぶん！'},
-    {s:'パイプです', p:[20,10,5], r:'パイプって動物やったっけ…？\nまあええか、かわいいもんな！'},
+    {s:'ぜんぶ好きです！動物園で働きたいです', p:[15,10,0], r:'動物園！？\n工場とだいぶ違うで〜！'},
   ]},
   {by:'g', q:'現場でいちばん\n大事なことは何やと思う？', a:[
     {s:'安全確認と、報告・連絡・相談です', p:[5,5,20], r:'その通りや。\n基本ができる人は、必ず伸びる。'},
     {s:'気合いと根性です！', p:[15,10,5], r:'気合いは大事や。\nでも、安全が先やで。'},
-    {s:'大きな声で「ヨシ！」と言うことです', p:[20,10,10], r:'指差し確認は大事や。\n…声の大きさは関係ないけどな。'},
+    {s:'朝いちばんに来て、掃除をがんばります', p:[15,5,-5], r:'えらい！\nでも、現場の話も聞きたいな。'},
   ]},
   {by:'b', q:'現場でパイプがつまった！\nキミならどうする？', a:[
-    {s:'とりあえずパイプに話しかけます', p:[20,15,-5], r:'話しかけるんかい！\n…まあ、愛情は大事やけどな'},
+    {s:'とりあえず深呼吸して、ラジオ体操をします', p:[10,15,-5], r:'落ち着くのは大事やけど…\n手も動かそか！'},
     {s:'まず原因を調べて、安全第一で対処します', p:[5,5,20], r:'うんうん、正しい！\nセンムの顔がほころんどるわ'},
     {s:'歌って励まします', p:[10,20,-5], r:'パイプを！？\nケイリが一緒に歌い出しそうや'},
   ]},
@@ -227,10 +230,10 @@ const Q = [
     {s:'失敗をネタにしてインスタに上げます', p:[20,15,-10], r:'…まず謝ってから\nにしよか。'},
     {s:'バレないようにこっそり直します', p:[-10,0,-15], r:'…それはあかん。\n一番あかんやつや。'},
   ]},
-  {by:'b', q:'ところで…\nわしの髪型、どう思う？', a:[
-    {s:'パイプみたいにクルクルですね', p:[20,10,0], r:'わはは！\nうまいこと言うやないか！'},
-    {s:'最高にイカしてます！', p:[15,5,5], r:'そ、そうか…？\nこのパーマ、こだわってるんやで…'},
-    {s:'毎朝のセット、何分かかってますか？', p:[10,20,5], r:'15分や！\n…ケイリ、なんでメモしてるん？'},
+  {by:'b', q:'ところで…\nうちの会社の好きなところは？', a:[
+    {s:'みんな仲がよくて、あったかいところです', p:[20,10,0], r:'うれしいこと言うやん！\nセンムも照れとるわ'},
+    {s:'ワクワクする社名が最高です！', p:[15,5,5], r:'そ、そうか…？\nこの社名、こだわってるんやで…'},
+    {s:'お昼ごはんが近所でおいしいところです', p:[10,20,5], r:'食いしん坊か！\nケイリがグルメ地図つくり始めたで'},
   ]},
   {by:'s', q:'入社したら、\nまず何がしたい？', a:[
     {s:'先輩たちの名前と好きなおやつを覚えます！', p:[10,20,10], r:'えっ、ええ子すぎひん！？\n私はチョコ派やで！'},
@@ -238,13 +241,13 @@ const Q = [
     {s:'会社のYouTubeに出たいです！', p:[20,10,0], r:'社長がめっちゃうなずいてる〜！\n一緒に出よ！'},
   ]},
   {by:'b', q:'最後に！\n意気込みを聞かせてくれ！', a:[
-    {s:'東洋工作所を世界一おもろい会社にします！', p:[20,10,5], r:'よう言うた！！\nそれ、わしの夢やねん！'},
+    {s:'社長みたいに、ワクワクを広める人になります！', p:[20,10,-5], r:'そこ目指すんかい！\n…でも、うれしいやないか！'},
     {s:'一つひとつの仕事に、誠実に向き合います', p:[10,5,20], r:'ええこと言うなぁ…\nセンム、泣きそうやん'},
     {s:'明日のお昼ごはんが楽しみです！', p:[5,20,-5], r:'面接の意気込みやで！？\nケイリはめっちゃうなずいてるけど…'},
   ]},
 ];
 
-let score, tenpa, qi, typing=false, skip=false, waitCb=null, sound=true, pname='あなた';
+let score, tenpa, qi, typing=false, skip=false, waitCb=null, sound=(()=>{try{return localStorage.getItem('toyo_mute')!=='1'}catch(e){return true}})(), pname='あなた';
 const START=20;
 const MAXS = {}; ORDER.forEach((c,i)=>MAXS[c]=START+Q.reduce((s,d)=>s+Math.max(...d.a.map(x=>x.p[i])),0));
 const pctOf = c => Math.max(0,Math.min(100,Math.round(score[c]/MAXS[c]*100)));
@@ -299,7 +302,7 @@ function bgmPlay(name){
 }
 function bgmStop(){ clearInterval(BGM.timer); BGM.song=null; }
 function setSound(on){
-  sound=on; $('muteBtn').textContent='♪ 音：'+(on?'ON':'OFF'); $('bgmBtn').textContent=on?'♪':'×';
+  sound=on;try{localStorage.setItem('toyo_mute',on?'0':'1')}catch(e){} $('muteBtn').textContent='♪ 音：'+(on?'ON':'OFF'); $('bgmBtn').textContent=on?'♪':'×';
   if(BGM.master) BGM.master.gain.setTargetAtTime(on?.14:0,AC.currentTime,.1);
 }
 
@@ -450,7 +453,9 @@ function showResult(){
        msg:'3人そろって「この人や！」となりました。東洋工作所へようこそ！'};
     seq=[{c:'b',line:'キミしか、おらん。'},{c:'s',line:'ずっと待ってたよ！'},{c:'g',line:'絶対に一緒に働けたら楽しいな！'}];
   } else if(P[top]>=70){
-    if(top==='b') r={rank:'即採用！社長の右腕', img:'shy', head:'採用通知書', stamp:'即<br>採用', key:'ミツマサの右腕', sign:'推薦：ミツマサ社長',
+    if(top==='b' && P.b>=85) r={rank:'★ ワクワク同盟 結成 ★', img:'joy', head:'同盟通知書', stamp:'ワクワク<br>同盟', key:'ワクワク同盟', sign:'推薦：ミツマサ社長',
+       msg:'キミとは、ワクワクの話で一晩語れそうや。採用はもちろん、今日から「ワクワク同盟」の仲間やで！'};
+    else if(top==='b') r={rank:'即採用！社長の右腕', img:'shy', head:'採用通知書', stamp:'即<br>採用', key:'ミツマサの右腕', sign:'推薦：ミツマサ社長',
        msg:'キミ、おもろすぎるやろ…！こんな人を待ってたんや。明日から一緒に未来をソウゾウしよう！'};
     else if(top==='s') r={rank:'ケイリの後輩として採用！', img:'k3_jump', head:'採用通知書', stamp:'採用', key:'ケイリの後輩', sign:'推薦：ケイリ',
        msg:'キミとおったら毎日楽しそう！困ったことあったら何でも聞いてね。…たぶん答えられへんけど！'};
@@ -474,6 +479,7 @@ function reveal(r,P){
   $('resScore').textContent='好感度　社長 '+P.b+'%　ケイリ '+P.s+'%　センム '+P.g+'%';
   $('result').classList.remove('hide');
   const best=Math.max(P.b,P.s,P.g);
+  try{rkAuto(P)}catch(e){}
   best>=45 ? jingle([523,659,784,1046,784,1046],.13) : jingle([392,349,330,262],.2,'triangle');
 }
 
@@ -504,6 +510,24 @@ function toast(m){ let e=$('toast'); if(!e){ e=document.createElement('div'); e.
 });
 $('muteBtn').onclick=()=>setSound(!sound);
 $('bgmBtn').onclick=()=>setSound(!sound);
+
+// ===== ランキング =====
+const RKDB='https://toyo-game-default-rtdb.asia-southeast1.firebasedatabase.app',GID=14;let rkMe='',rkSent=false,me={};try{me=JSON.parse(localStorage.getItem('toyo_me')||'{}')}catch(e){}
+const NG=['しね','ころす','ころし','ばか','あほ','うんこ','うんち','ちんこ','まんこ','きもい','死ね','殺','ブス','デブ','バカ','アホ','ウンコ','ウンチ'];
+const rkClean=n=>NG.some(w=>n.toLowerCase().includes(w))?'？？？':n;
+function myIcon(){if(me.i)return me.i;const c=document.createElement('canvas');c.width=c.height=48;const t=c.getContext('2d');t.fillStyle='#ffd1e1';t.fillRect(0,0,48,48);try{const im=$('t_b');const w=im.naturalWidth,h=Math.min(im.naturalHeight,w);t.drawImage(im,0,0,w,h,0,0,48,48)}catch(e){}return c.toDataURL('image/jpeg',.7)}
+async function rkAuto(P){if(rkSent)return;rkSent=true;const sc=(P.b+P.s+P.g)*10,n=rkClean(pname).slice(0,8);me.n=pname;try{localStorage.setItem('toyo_me',JSON.stringify(me))}catch(e){}
+ try{const ctl=new AbortController();setTimeout(()=>ctl.abort(),8000);const r=await fetch(RKDB+'/scores/'+GID+'.json',{method:'POST',body:JSON.stringify({n,s:Math.min(99999,sc),i:myIcon(),t:Date.now()}),signal:ctl.signal});const j=await r.json();if(j&&j.name)rkMe=j.name;else rkSent=false}catch(e){rkSent=false}}
+async function rkOpen(){$('rk').classList.remove('hide');const el=$('rkl');el.innerHTML='<div class="rkm">よみこみ中…</div>';
+ try{const ctl=new AbortController();setTimeout(()=>ctl.abort(),8000);const r=await fetch(RKDB+'/scores/'+GID+'.json?orderBy=%22s%22&limitToLast=30',{signal:ctl.signal});if(!r.ok)throw 0;const o=await r.json()||{};const a=Object.keys(o).map(k=>({k,...o[k]})).filter(v=>v&&typeof v.s==='number').sort((p,q)=>q.s-p.s||p.t-q.t);el.innerHTML='';
+  if(!a.length){el.innerHTML='<div class="rkm">まだ だれも いないよ！<br>いちばんのりを めざそう！</div>';return}
+  a.forEach((v,i)=>{const d=document.createElement('div');d.className='rr'+(v.k===rkMe?' me':'');const b=document.createElement('b');b.textContent=i<3?['🥇','🥈','🥉'][i]:(i+1)+'位';const im=document.createElement('img');if(typeof v.i==='string'&&v.i.startsWith('data:image/'))im.src=v.i;const n=document.createElement('span');n.className='rn';n.textContent=String(v.n||'');const sp=document.createElement('span');sp.className='rs';sp.textContent=v.s;d.append(b,im,n,sp);el.appendChild(d)})}
+ catch(e){el.innerHTML='<div class="rkm">つながらなかったよ…<br>もういちど ためしてね</div>'}}
+$('rkBtn').onclick=rkOpen;$('rkx').onclick=()=>$('rk').classList.add('hide');
+$('retryBtn').addEventListener('click',()=>{rkSent=false;rkMe=''});
+if(me.n)$('pname').value=me.n;
+setSound(sound);
+document.addEventListener('pointerdown',()=>{if(!BGM.song&&!$('title').classList.contains('hide'))bgmPlay('main')},{once:true});
 </script>
 </body>
 </html>
