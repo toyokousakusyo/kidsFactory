@@ -108,7 +108,7 @@ html,body{height:100%;height:100svh}
 .card canvas{width:calc(6*var(--u))}
 #ov button{font-size:calc(2.8*var(--u));padding:calc(1.1*var(--u)) calc(4*var(--u));border-radius:calc(2*var(--u))}
 #tb,#qt,#tt,#tt2{font-size:calc(1.7*var(--u));padding:calc(.8*var(--u)) calc(1.8*var(--u));margin-left:calc(1*var(--u))}
-#ov{padding:calc(.5*var(--u));justify-content:flex-start;padding-top:calc(1*var(--u));overflow:hidden}
+#ov{padding:calc(.5*var(--u));justify-content:flex-start;padding-top:calc(1*var(--u));padding-bottom:calc(2.4*var(--u));overflow:hidden}
 #logo{margin:0 0 calc(.6*var(--u));animation:none} #logo .s2{font-size:calc(5.6*var(--u))} #logo .s1{font-size:calc(3.8*var(--u))}
 #ov p{font-size:calc(1.7*var(--u));margin:calc(.2*var(--u)) 0 calc(.4*var(--u));line-height:1.35}
 #tb,#tt,#tt2{position:absolute;top:calc(.6*var(--u));right:calc(.6*var(--u));font-size:calc(1.1*var(--u));padding:calc(.3*var(--u)) calc(.8*var(--u));margin:0;opacity:.7}
@@ -558,6 +558,11 @@ function jOpen(L){if(sel>0)L=L.map(x=>({t:x.t.replace('ぼくの 会社','うち
 setInterval(jTick,100);
 document.getElementById('jdlg').addEventListener('pointerdown',e=>{e.preventDefault();e.stopPropagation();wake();jAdv()});
 document.getElementById('jskip').addEventListener('click',e=>{e.stopPropagation();jClose()});
+document.getElementById('jsp').style.pointerEvents='auto';document.getElementById('jsp').addEventListener('pointerdown',e=>{e.preventDefault();e.stopPropagation();jClose()});
+(function(){const E=document.getElementById('ov');let q=0;const BASE='min(1cqw,1.78cqh)';
+ const mo=new MutationObserver(()=>{if(!q){q=1;requestAnimationFrame(fit)}});
+ function fit(){q=0;mo.disconnect();try{if(getComputedStyle(E).display!=='none'){E.style.setProperty('--u',BASE);const ch=E.clientHeight,sh=E.scrollHeight;if(sh>ch+1){const k=Math.max(.5,ch/sh*.96);E.style.setProperty('--u','calc('+BASE+'*'+k.toFixed(3)+')')}}}catch(e){}mo.takeRecords();mo.observe(E,{childList:true,subtree:true,characterData:true,attributes:true,attributeFilter:['class','style']})}
+ mo.observe(E,{childList:true,subtree:true,characterData:true,attributes:true,attributeFilter:['class','style']});addEventListener('resize',fit);setTimeout(fit,300)})();
 function judgeLines(k,s,pc,nb){const n=s;
  if(sel===2){const E=(t,e)=>({t,e});
   if(k==='clear'){const g=E('ゴール おめでとう！',n>=800?'jump':'smile');
