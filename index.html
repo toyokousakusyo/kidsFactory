@@ -158,6 +158,7 @@ html,body{height:100%;height:100svh}
 #gsel .gc.sel{opacity:1;z-index:2;animation:gbob .75s ease-in-out infinite;filter:drop-shadow(0 calc(.5*var(--u)) 0 rgba(0,0,0,.45)) drop-shadow(0 0 calc(1.2*var(--u)) #ffd447) saturate(1.1)}
 @keyframes gbob{0%,100%{transform:translateY(0) scale(1.05)}50%{transform:translateY(calc(-1.4*var(--u))) scale(1.08)}}
 #gstart{all:unset;cursor:pointer;box-sizing:border-box;font-size:calc(2.6*var(--u));font-weight:900;padding:calc(.9*var(--u)) calc(4.5*var(--u));border-radius:calc(2*var(--u));background:#ffd447;color:#173044;box-shadow:0 calc(.5*var(--u)) 0 #c78521;animation:gpulse 1s ease-in-out infinite}
+#pcn{font-size:calc(1.7*var(--u));font-weight:900;color:#ffd447;background:rgba(0,0,0,.35);border-radius:calc(2*var(--u));padding:calc(.4*var(--u)) calc(2*var(--u));min-height:calc(2.6*var(--u));box-sizing:border-box}#pcn:empty{visibility:hidden}#pcn b{font-size:calc(2.4*var(--u));color:#fff;margin:0 calc(.3*var(--u))}#gsel .gc em.pc{font-style:normal;font-size:calc(1.1*var(--u));font-weight:900;color:#ffd447;margin-top:calc(.2*var(--u));min-height:calc(1.4*var(--u))}
 #gstart:active{transform:translateY(calc(.3*var(--u)))}
 @keyframes gpulse{50%{transform:scale(1.05)}}
 #gsel .gc .bd{width:100%;box-sizing:border-box;background:linear-gradient(#b9bec6,#8b909a);border-radius:calc(1*var(--u)) calc(1*var(--u)) calc(.5*var(--u)) calc(.5*var(--u));padding:calc(.8*var(--u)) calc(1*var(--u)) calc(.9*var(--u));border:calc(.25*var(--u)) solid #5c616b}
@@ -196,7 +197,7 @@ html,body{height:100%;height:100svh}
    <div id="dlg"><div id="nm">しゃちょう</div><div id="itx"></div><div id="iarr">▼</div></div>
    <button id="skip">SKIP ▶</button>
   </div>
-  <div id="gsel"><h2>あそぶゲームを えらんでね！</h2><div class="gr" id="gr"></div><div class="slg">パイプでワクワクをつなぎ未来をソウゾウする</div><button id="gstart">▶ スタート！</button></div>
+  <div id="gsel"><h2>あそぶゲームを えらんでね！</h2><div class="gr" id="gr"></div><div id="pcn"></div><div class="slg">パイプでワクワクをつなぎ未来をソウゾウする</div><button id="gstart">▶ スタート！</button></div>
   <div id="judge">
    <img id="jsp" alt="" src="data:,">
    <div id="jdlg"><div id="jnm">しゃちょう</div><div id="jtx"></div><div id="jarr">▼</div></div>
@@ -498,7 +499,7 @@ const GT=['メイン','ミツオ','テルージ','ケイリー','ワクワーク
 GS.forEach((g,i)=>{const b=document.createElement('button');b.className='gc'+(g.h<0?' main':'');
  const bd=document.createElement('div');bd.className='bd';const lb=document.createElement('div');lb.className='lb';lb.style.backgroundImage='url('+GI[i]+')';lb.style.backgroundSize='100% '+(GN*100)+'%';lb.style.backgroundPosition='0 0';lb.classList.add('anim');
  const tg=document.createElement('i');tg.textContent=GT[i];const tt=document.createElement('b');tt.textContent=g.t;lb.appendChild(tg);lb.appendChild(tt);bd.appendChild(lb);b.appendChild(bd);
- const cn=document.createElement('div');cn.className='cn';b.appendChild(cn);const d=document.createElement('span');d.textContent=g.d;b.appendChild(d);
+ const cn=document.createElement('div');cn.className='cn';b.appendChild(cn);const d=document.createElement('span');d.textContent=g.d;b.appendChild(d);const pc=document.createElement('em');pc.className='pc';b.appendChild(pc);
  b.addEventListener('click',()=>{wake();if(gSel===i)gGo();else{gPick(i);gSnd('t')}});document.getElementById('gr').appendChild(b)});
 let gSel=0;const gCards=[...document.querySelectorAll('#gr .gc')];
 const BGM=[
@@ -529,11 +530,12 @@ let gBusy=false;function gInsert(i,cb){const card=gCards[i],gr=gsel.getBoundingC
  setTimeout(()=>{try{tone(200,.07,'square',.09,-120);setTimeout(()=>tone(100,.12,'sawtooth',.09),60)}catch(e){}ins.classList.add('pw');try{setTimeout(()=>{tone(784,.1,'square',.05);setTimeout(()=>tone(1175,.16,'square',.05),90)},120)}catch(e){}},1300);
  setTimeout(()=>{ins.classList.add('flash')},1750);
  setTimeout(()=>{card.style.visibility='';cb(ins)},2150)}
-function gGo(){if(gBusy)return;const g=GS[gSel];gBusy=true;bgmStop();gSnd('ok');gInsert(gSel,ins=>{if(g.u)location.href=g.u;else{gBusy=false;gsel.style.display='none';ins.remove()}})}
+function gGo(){if(gBusy)return;const g=GS[gSel];gBusy=true;if(g.h>=0)try{playLog(10+g.h)}catch(e){}bgmStop();gSnd('ok');gInsert(gSel,ins=>{if(g.u)location.href=g.u;else{gBusy=false;gsel.style.display='none';ins.remove()}})}
 document.getElementById('gstart').addEventListener('click',()=>{wake();gGo()});
 window.addEventListener('keydown',e=>{if(gsel.style.display!=='flex')return;if(e.code==='ArrowLeft'){gPick(gSel-1);gSnd('t');e.preventDefault()}else if(e.code==='ArrowRight'){gPick(gSel+1);gSnd('t');e.preventDefault()}else if(e.code==='Enter'||e.code==='Space'){gGo();e.preventDefault()}});
 gPick(0);
-function showGsel(){bgmMainOn=false;gsel.style.display='flex';try{bgmPlay(gSel)}catch(e){}}
+let pcT=0;async function pcLoad(){if(Date.now()-pcT<15000)return;try{const K=[0,1,2,3,10,11,12,13,14],R=await Promise.all(K.map(k=>fetch(RKDB+'/plays/'+k+'.json?shallow=true').then(r=>r.ok?r.json():null).catch(()=>null)));if(R.every(o=>o===null))return;pcT=Date.now();const n=R.map(o=>o?Object.keys(o).length:0),m=n[0]+n[1]+n[2]+n[3],a=[m,n[4],n[5],n[6],n[7],n[8]];[...document.querySelectorAll('#gr .gc .pc')].forEach((e,i)=>{e.textContent=a[i]+'回'});document.getElementById('pcn').innerHTML='みんなの あそんだ回数<b>'+a.reduce((x,y)=>x+y,0)+'</b>回'}catch(e){}}
+function showGsel(){bgmMainOn=false;gsel.style.display='flex';try{pcLoad()}catch(e){}try{bgmPlay(gSel)}catch(e){}}
 function closeIntro(){introOn=false;introEl.style.display='none';sfx('z');showGsel()}
 setInterval(introTick,100);
 introEl.addEventListener('pointerdown',e=>{if(e.target.id==='skip')return;e.preventDefault();wake();advance()});
@@ -766,6 +768,7 @@ async function popLoad(){try{const g=u=>fetch(RKDB+u).then(r=>r.ok?r.json():null
   if(T[top]>T[low])bd[top]='🔥 いちばん人気！'}
  [...cards.children].forEach((d,i)=>{const o=d.querySelector('.bdg');if(o)o.remove();if(bd[i]){const e=document.createElement('div');e.className='bdg b'+(bd[i].startsWith('🔥')?'1':bd[i].startsWith('📈')?'2':'3');e.textContent=bd[i];d.append(e)}})}catch(e){}}
 try{popLoad()}catch(e){}
+try{pcLoad()}catch(e){}
 document.getElementById('rkb').addEventListener('click',rkOpen);document.getElementById('gbk').addEventListener('click',()=>{wake();gPick(0);showGsel();gSnd('t')});
 document.getElementById('rkx').addEventListener('click',()=>{document.getElementById('rk').style.display='none'});
 document.getElementById('mk').addEventListener('click',avOpen);
