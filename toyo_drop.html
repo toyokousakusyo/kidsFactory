@@ -5,7 +5,23 @@ function go(){var d=document.createElement('div');var u=location.href.split('#')
 d.style.cssText='position:fixed;left:50%;top:8px;transform:translateX(-50%);z-index:99999;width:min(86vw,340px);box-sizing:border-box;background:#000;color:#fff;border:3px solid #fff;outline:3px solid #000;padding:10px 12px;font:700 13px/1.6 "DotGothic16",system-ui,sans-serif;text-align:center';
 d.innerHTML='\ud83d\udcf1 LINEの なかで ひらいてるよ<br>ブラウザで ひらくと 大きく あそべるよ！<br><a href="'+u+'" style="display:inline-block;margin-top:6px;padding:6px 14px;background:#e4382f;color:#fff;border:2px solid #fff;text-decoration:none">\u25b6 ブラウザで ひらく</a><div style="font-size:11px;opacity:.8;margin-top:6px">うまく いかないときは メニュー（…）から<br>「ブラウザで ひらく」を えらんでね</div><div style="font-size:11px;opacity:.7;margin-top:4px">（このカードを タップで とじる）</div>';
 d.addEventListener('click',function(e){if(e.target.tagName!=='A')d.remove()});document.body.appendChild(d);setTimeout(function(){d.remove()},15000)}
-if(document.body)go();else addEventListener('DOMContentLoaded',go)})()</script><link href="https://fonts.googleapis.com/css2?family=DotGothic16&display=swap" rel="stylesheet"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+if(document.body)go();else addEventListener('DOMContentLoaded',go)})()</script><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><script>(function(){function fs(){try{var d=document.documentElement;if(document.fullscreenElement||document.webkitFullscreenElement)return;var f=d.requestFullscreen||d.webkitRequestFullscreen;if(f&&!/iPhone|iPod/.test(navigator.userAgent)){var r=f.call(d);if(r&&r.catch)r.catch(function(){})}}catch(e){}}0})()</script><script>(function(){try{var ua=navigator.userAgent;if(!/iPhone|iPad|iPod/.test(ua)||/Line\//i.test(ua)||navigator.standalone||sessionStorage.getItem('ioh'))return;sessionStorage.setItem('ioh','1')}catch(e){return}
+function go(){var d=document.createElement('div');d.style.cssText='position:fixed;left:50%;bottom:10px;transform:translateX(-50%);z-index:99999;width:min(86vw,340px);box-sizing:border-box;background:#000;color:#fff;border:3px solid #fff;outline:3px solid #000;padding:10px 12px;font:700 13px/1.6 "DotGothic16",system-ui,sans-serif;text-align:center';
+d.innerHTML='\ud83d\udcf1 上の URLを けして 大きく あそぶには<br>下の「共有」ボタン →「ホーム画面に追加」<br>→ できた アイコンから ひらいてね！<div style="font-size:11px;opacity:.7;margin-top:4px">（このカードを タップで とじる）</div>';
+d.addEventListener('click',function(){d.remove()});document.body.appendChild(d);setTimeout(function(){d.remove()},14000)}
+if(document.body)go();else addEventListener('DOMContentLoaded',go)})()</script><script>(function(){var d=document.documentElement,rq=d.requestFullscreen||d.webkitRequestFullscreen;if(!rq||/iPhone|iPod/.test(navigator.userAgent))return;
+function isFs(){return !!(document.fullscreenElement||document.webkitFullscreenElement)}
+function go(){if(isFs())return;try{var r=rq.call(d,{navigationUI:"hide"});if(r&&r.catch)r.catch(function(){})}catch(e){try{rq.call(d)}catch(_){}}}
+var b;function upd(){if(b)b.style.display=isFs()?"none":"block"}
+function mk(){b=document.createElement("div");b.textContent="\u26f6";b.title="全画面";b.style.cssText="position:fixed;right:0;top:50%;margin-top:-16px;width:26px;height:32px;line-height:32px;text-align:center;z-index:99998;background:rgba(0,0,0,.35);color:#fff;border-radius:6px 0 0 6px;opacity:.55;font:700 16px system-ui,sans-serif";var sx,sy,ox,oy,mv=0;try{var q=JSON.parse(localStorage.getItem("fsb")||"null");if(q){b.style.left=q[0]+"px";b.style.top=q[1]+"px";b.style.right="auto";b.style.marginTop="0"}}catch(e){}
+b.style.touchAction="none";b.addEventListener("pointerdown",function(e){var r=b.getBoundingClientRect();sx=e.clientX;sy=e.clientY;ox=r.left;oy=r.top;mv=0;try{b.setPointerCapture(e.pointerId)}catch(_){}e.stopPropagation()});
+b.addEventListener("pointermove",function(e){if(sx==null)return;var dx=e.clientX-sx,dy=e.clientY-sy;if(!mv&&Math.abs(dx)+Math.abs(dy)<8)return;mv=1;var x=Math.max(0,Math.min(innerWidth-26,ox+dx)),y=Math.max(0,Math.min(innerHeight-32,oy+dy));b.style.left=x+"px";b.style.top=y+"px";b.style.right="auto";b.style.marginTop="0";e.preventDefault()});
+b.addEventListener("pointerup",function(e){e.stopPropagation();if(sx==null)return;sx=null;if(mv){try{var r=b.getBoundingClientRect();localStorage.setItem("fsb",JSON.stringify([r.left,r.top]))}catch(_){}}else go()});
+document.body.appendChild(b);upd();
+function pl(){try{if(localStorage.getItem("fsb"))return}catch(e){}var s=document.getElementById("sb")||document.getElementById("sndb");if(!s)return;var r=s.getBoundingClientRect();if(!r.width)return;b.style.left=Math.round(r.left+(r.width-26)/2)+"px";b.style.top=Math.round(r.bottom+6)+"px";b.style.right="auto";b.style.marginTop="0"}
+function cl(){var r=b.getBoundingClientRect();if(!r.width)return;var x=Math.max(0,Math.min(innerWidth-26,r.left)),y=Math.max(0,Math.min(innerHeight-32,r.top));b.style.left=x+"px";b.style.top=y+"px";b.style.right="auto";b.style.marginTop="0"}function al(){pl();cl()}al();[300,800,1600,3000].forEach(function(t){setTimeout(al,t)});["resize","orientationchange","fullscreenchange","webkitfullscreenchange"].forEach(function(n){addEventListener(n,function(){setTimeout(al,150)})})}
+document.addEventListener("fullscreenchange",upd);document.addEventListener("webkitfullscreenchange",upd);
+if(document.body)mk();else addEventListener("DOMContentLoaded",mk)})()</script><style>html,body{position:fixed;inset:0;width:100%;overscroll-behavior:none;-webkit-overflow-scrolling:auto}canvas{touch-action:none}</style><script>["touchmove","gesturestart","gesturechange"].forEach(function(n){document.addEventListener(n,function(e){e.preventDefault()},{passive:false})})</script><link href="https://fonts.googleapis.com/css2?family=DotGothic16&display=swap" rel="stylesheet"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
 <title>ハイドロワクワーク 東洋工作所</title>
 <style>
 :root{--bg:#10202c}
@@ -22,7 +38,7 @@ canvas{position:absolute;inset:0;width:100%;height:100%;image-rendering:pixelate
 .bt2{display:inline-block;text-decoration:none;cursor:pointer;font-weight:900;font-size:3.8cqw;padding:1.4cqw 5cqw;border-radius:3cqw;background:rgba(255,255,255,.18);color:#fff;border:.6cqw solid rgba(255,255,255,.5)}
 #mb{position:absolute;left:50%;top:2.5cqw;transform:translateX(-50%);z-index:3;width:8cqw;height:8cqw;border-radius:50%;background:rgba(0,0,0,.4);color:#fff;font-size:4.4cqw;font-weight:900;display:none;align-items:center;justify-content:center;border:.5cqw solid rgba(255,255,255,.55);cursor:pointer}
 #pz{z-index:4;display:none}
-#back{position:absolute;left:3cqw;top:3cqw;color:#9fd0f0;font-size:3.6cqw;font-weight:800;text-decoration:none}
+#back{position:absolute;left:3cqw;top:2cqw;color:#9fd0f0;font-size:3.2cqw;font-weight:800;text-decoration:none;white-space:nowrap}#title .pre{margin-top:7cqw}
 .bt:active{transform:translateY(.6cqw)}
 #pad{position:absolute;left:0;right:0;bottom:0;height:17cqh;display:flex;justify-content:space-between;align-items:center;padding:0 3cqw;box-sizing:border-box;pointer-events:none}
 #pad div{display:flex;gap:2.5cqw;pointer-events:auto}
@@ -195,8 +211,18 @@ function dWaku(r,f){const O='#ff8c1a',Od='#d96a0a',Ol='#ffb050',Cr='#ffe2b0',Y='
  r(9,0,2,4,Y);r(14,0,2,3,Y);r(8,2,1,2,Y);
  r(15+w,17,5,3,O);r(20+w,17,2,3,Cr)}
 
-const CHN=['ミツオ','テルージ','ケイリー','ワクワーク'];
-const HIM=[dMitsuo,dTeruji,dKeiri,dWaku].map(d=>[build(d,0),build(d,1)]);
+function dRobo(r,f){const L='#c9d3dc',M='#b0bcc6',D='#8794a0',DD='#6f7b85',K='#173044',C='#4dd2ff',O='#f08a24',w=f?2:0;
+ r(11,0,4,2,'#ff5a4a');r(12,2,2,3,D);
+ r(6,5,14,10,L);r(6,5,14,1,'#eef3f7');r(6,14,14,1,D);r(4,8,2,4,D);r(20,8,2,4,D);
+ r(8,8,4,4,K);r(14,8,4,4,K);r(9,9,2,2,C);r(15,9,2,2,C);r(9,13,8,1,K);r(11,13,1,1,L);r(14,13,1,1,L);
+ r(11,15,4,2,DD);
+ r(5,17,16,10,M);r(5,17,16,1,'#e4ebf0');r(5,26,16,1,DD);
+ r(9,19,8,5,'#e4382f');r(10,20,2,2,'#ffd447');r(13,20,2,2,C);r(10,22,6,1,'#fff');
+ r(1,18+w,4,8,D);r(21,18+(2-w),4,8,D);r(1,26+w,4,3,O);r(21,26+(2-w),4,3,O);
+ if(f){r(9,27,5,4,DD);r(14,27,5,3,DD);r(8,31,7,3,'#3a4552');r(15,30,6,3,'#3a4552')}
+ else{r(7,27,5,4,DD);r(14,27,5,4,DD);r(6,31,7,3,'#3a4552');r(14,31,7,3,'#3a4552')}}
+const CHN=['ミツオ','テルージ','ケイリー','ワクワーク','ロボ'];
+const HIM=[dMitsuo,dTeruji,dKeiri,dWaku,dRobo].map(d=>[build(d,0),build(d,1)]);
 let HERO=3;
 function hero(cx,fy,s,fr,flip){const c=HIM[HERO][fr?1:0];x.save();x.translate(Math.round(cx),Math.round(fy));if(flip)x.scale(-1,1);x.drawImage(c,Math.round(-13*s),Math.round(-34*s),Math.round(26*s),Math.round(34*s));x.restore()}
 (()=>{const hp=$('hp'),b=document.createElement('div');b.className='hb';const cc=document.createElement('canvas');cc.width=26;cc.height=34;cc.getContext('2d').drawImage(HIM[HERO][0],0,0);b.appendChild(cc);const n=document.createElement('span');n.textContent=CHN[HERO];b.appendChild(n);hp.appendChild(b)})();
