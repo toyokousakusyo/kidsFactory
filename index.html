@@ -59,7 +59,7 @@ canvas{display:block;width:100%;height:100%;image-rendering:pixelated}
 .rk .nw{color:#ffd447;animation:bl .5s steps(2) infinite}
 #tb,#qt{background:#5d8ba5;box-shadow:0 4px 0 #36607a;color:#fff;margin-left:8px;display:none;font-size:clamp(11px,calc(2*var(--u)),16px);animation:none}
 #tt,#tt2{background:#3a4a5a;box-shadow:0 4px 0 #222c36;color:#9fb4c4;margin-left:8px;font-size:clamp(9px,calc(1.7*var(--u)),13px);padding:6px 12px;animation:none}
-#qt{background:#7a6a82;box-shadow:0 4px 0 #4f4356}#tl{position:absolute;left:6px;bottom:4px;font-size:10px;opacity:.55;color:#cfe6f3}
+#qt{display:none!important;background:#7a6a82;box-shadow:0 4px 0 #4f4356}#tl{position:absolute;left:6px;bottom:4px;font-size:10px;opacity:.55;color:#cfe6f3}
 .rt{display:inline-block;font-size:clamp(12px,3.2vw,26px);font-size:clamp(12px,calc(3.2*var(--u)),26px);font-weight:900;color:#ffd447;text-shadow:0 2px 0 #173044;margin-bottom:4px}
 #cards{display:flex;gap:6px;margin:0 0 8px}
 .card{background:#173044;border:2px solid #5d8ba5;border-radius:8px;padding:4px 6px;font-size:clamp(7px,1.45vw,12px);line-height:1.35;cursor:pointer;width:clamp(70px,19vw,132px)}
@@ -184,7 +184,12 @@ html,body{height:100%;height:100svh}
 #ins .fl{position:absolute;inset:0;z-index:9;background:#fff;opacity:0;pointer-events:none}
 #ins.flash .fl{animation:fl .5s forwards}@keyframes fl{0%{opacity:0;transform:scaleY(.02)}40%{opacity:1;transform:scaleY(.05)}100%{opacity:1;transform:scaleY(1)}}
 </style>
-</head>
+<script>(function(){function f(){document.documentElement.style.setProperty("--vh",window.innerHeight+"px")}f();addEventListener("resize",f);addEventListener("orientationchange",function(){setTimeout(f,250)});if(window.visualViewport)visualViewport.addEventListener("resize",f)})()</script><style>html,body{height:var(--vh,100svh)}#wrap{height:var(--vh,100%)}#box{width:min(100vw,calc(var(--vh,100svh)*16/9))}</style><script>(function(){try{if(!/Line\//i.test(navigator.userAgent)||/openExternalBrowser/.test(location.search)||sessionStorage.getItem('lnh'))return;sessionStorage.setItem('lnh','1')}catch(e){return}
+function go(){var d=document.createElement('div');var u=location.href.split('#')[0];u+=(u.indexOf('?')<0?'?':'&')+'openExternalBrowser=1';
+d.style.cssText='position:fixed;left:50%;top:8px;transform:translateX(-50%);z-index:99999;width:min(86vw,340px);box-sizing:border-box;background:#000;color:#fff;border:3px solid #fff;outline:3px solid #000;padding:10px 12px;font:700 13px/1.6 "DotGothic16",system-ui,sans-serif;text-align:center';
+d.innerHTML='\ud83d\udcf1 LINEの なかで ひらいてるよ<br>ブラウザで ひらくと 大きく あそべるよ！<br><a href="'+u+'" style="display:inline-block;margin-top:6px;padding:6px 14px;background:#e4382f;color:#fff;border:2px solid #fff;text-decoration:none">\u25b6 ブラウザで ひらく</a><div style="font-size:11px;opacity:.8;margin-top:6px">うまく いかないときは メニュー（…）から<br>「ブラウザで ひらく」を えらんでね</div><div style="font-size:11px;opacity:.7;margin-top:4px">（このカードを タップで とじる）</div>';
+d.addEventListener('click',function(e){if(e.target.tagName!=='A')d.remove()});document.body.appendChild(d);setTimeout(function(){d.remove()},15000)}
+if(document.body)go();else addEventListener('DOMContentLoaded',go)})()</script></head>
 <body>
 <div id="wrap">
  <div id="box">
@@ -228,7 +233,7 @@ html,body{height:100%;height:100svh}
    <div id="avcf"><div>これで いい？</div><div class="avbt"><button class="bt" id="avGo2">OK</button><button class="bt g" id="avRe">つくりなおし</button></div></div>
   <div id="avsave"><div>🏆 ランキングに とうろくしたよ！<br>📲 がぞうを ながおし（パソコンは みぎクリック）で ほぞんしてね！</div><div class="avbt"><button class="bt" id="avDL">がぞうを ほぞん</button><button class="bt g" id="avClose">とじる</button></div></div>
   </div></div>
- <div id="rk"><div id="rkbox"><div class="rkh">🏆 ランキング</div><div id="rkt"></div><div id="rkl"><div class="rkm">よみこみ中…</div></div><div class="rkbx"><button class="bt" id="rkx">とじる</button></div></div></div>
+ <div id="rk"><div id="rkbox"><div class="rkh">🏆 ランキング</div><div id="rkt"></div><div id="rkl"><div class="rkm">よみこみ中…</div></div><div class="rkbx"><button class="bt" id="rkx" style="display:none">とじる</button><small style="font-weight:700;opacity:.8;font-size:calc(1.4*var(--u))">タップで もどる</small></div></div></div>
  <div id="rot">📱 スマホを よこ向きにすると 大きく あそべるよ！</div>
 </div>
 <script>
@@ -771,7 +776,7 @@ async function popLoad(){try{const g=u=>fetch(RKDB+u).then(r=>r.ok?r.json():null
 try{popLoad()}catch(e){}
 try{pcLoad()}catch(e){}
 document.getElementById('rkb').addEventListener('click',rkOpen);document.getElementById('gbk').addEventListener('click',()=>{wake();gPick(0);showGsel();gSnd('t')});
-document.getElementById('rkx').addEventListener('click',()=>{document.getElementById('rk').style.display='none'});
+document.getElementById('rkx').addEventListener('click',()=>{document.getElementById('rk').style.display='none'});document.getElementById('rk').addEventListener('click',()=>{document.getElementById('rk').style.display='none'});
 document.getElementById('mk').addEventListener('click',avOpen);
 document.getElementById('avN').addEventListener('input',avRender);
 document.getElementById('avBack').addEventListener('click',()=>{av.style.display='none'});

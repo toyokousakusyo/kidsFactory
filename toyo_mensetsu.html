@@ -111,7 +111,12 @@ a.btn{text-decoration:none;display:inline-block}
 #rk{z-index:40;justify-content:flex-start;padding-top:18px;background:#3a1434}#rk h2{color:#ffd447;font-size:20px;margin-bottom:6px;font-weight:normal}#rkl{width:100%;max-width:360px;flex:1;overflow:auto;-webkit-overflow-scrolling:touch;touch-action:pan-y}.rr{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.14);border-radius:10px;padding:5px 8px;margin:4px 0;font-size:15px;color:#fff}.rr.me{background:rgba(255,212,71,.35)}.rr b{width:38px;text-align:center;font-weight:normal}.rr img{width:38px;height:38px;border-radius:6px;animation:none;margin:0;height:38px}.rn{flex:1;text-align:left}.rs{color:#ffd447}.rkm{color:#fff;font-size:15px;margin:30px 0}
 .rowb{display:flex;gap:6px;justify-content:center;flex-wrap:wrap}.rowb .btn{margin:4px 2px;font-size:13px;padding:8px 14px}#backL{position:absolute;left:10px;top:10px;font-size:12px!important;padding:6px 12px!important;margin:0!important}#sndB{position:absolute;right:10px;top:10px;margin:0}
 </style>
-</head>
+<script>(function(){function f(){document.documentElement.style.setProperty("--vh",window.innerHeight+"px")}f();addEventListener("resize",f);addEventListener("orientationchange",function(){setTimeout(f,250)});if(window.visualViewport)visualViewport.addEventListener("resize",f)})()</script><style>html,body{height:var(--vh,100%)}#game{height:var(--vh,100%)}</style><script>(function(){try{if(!/Line\//i.test(navigator.userAgent)||/openExternalBrowser/.test(location.search)||sessionStorage.getItem('lnh'))return;sessionStorage.setItem('lnh','1')}catch(e){return}
+function go(){var d=document.createElement('div');var u=location.href.split('#')[0];u+=(u.indexOf('?')<0?'?':'&')+'openExternalBrowser=1';
+d.style.cssText='position:fixed;left:50%;top:8px;transform:translateX(-50%);z-index:99999;width:min(86vw,340px);box-sizing:border-box;background:#000;color:#fff;border:3px solid #fff;outline:3px solid #000;padding:10px 12px;font:700 13px/1.6 "DotGothic16",system-ui,sans-serif;text-align:center';
+d.innerHTML='\ud83d\udcf1 LINEの なかで ひらいてるよ<br>ブラウザで ひらくと 大きく あそべるよ！<br><a href="'+u+'" style="display:inline-block;margin-top:6px;padding:6px 14px;background:#e4382f;color:#fff;border:2px solid #fff;text-decoration:none">\u25b6 ブラウザで ひらく</a><div style="font-size:11px;opacity:.8;margin-top:6px">うまく いかないときは メニュー（…）から<br>「ブラウザで ひらく」を えらんでね</div><div style="font-size:11px;opacity:.7;margin-top:4px">（このカードを タップで とじる）</div>';
+d.addEventListener('click',function(e){if(e.target.tagName!=='A')d.remove()});document.body.appendChild(d);setTimeout(function(){d.remove()},15000)}
+if(document.body)go();else addEventListener('DOMContentLoaded',go)})()</script></head>
 <body>
 <div id="game">
   <div id="room">
@@ -152,7 +157,7 @@ a.btn{text-decoration:none;display:inline-block}
     <div class="flash"></div>
   </div>
 
-  <div class="screen hide" id="rk"><h2>🏆 ランキング</h2><div id="rkl"></div><button class="btn sub" id="rkx">✕ とじる</button></div>
+  <div class="screen hide" id="rk"><h2>🏆 ランキング</h2><div id="rkl"></div><button class="btn sub" id="rkx" style="display:none">✕ とじる</button><small style="display:block;margin-top:1.2em;font-size:12px;font-weight:700;opacity:.85">タップで もどる</small></div>
   <!-- 結果 -->
   <div class="screen hide" id="result">
     <div class="letter">
@@ -523,7 +528,7 @@ async function rkOpen(){$('rk').classList.remove('hide');const el=$('rkl');el.in
   if(!a.length){el.innerHTML='<div class="rkm">まだ だれも いないよ！<br>いちばんのりを めざそう！</div>';return}
   a.forEach((v,i)=>{const d=document.createElement('div');d.className='rr'+(v.k===rkMe?' me':'');const b=document.createElement('b');b.textContent=i<3?['🥇','🥈','🥉'][i]:(i+1)+'位';const im=document.createElement('img');if(typeof v.i==='string'&&v.i.startsWith('data:image/'))im.src=v.i;const n=document.createElement('span');n.className='rn';n.textContent=String(v.n||'');const sp=document.createElement('span');sp.className='rs';sp.textContent=v.s;d.append(b,im,n,sp);el.appendChild(d)})}
  catch(e){el.innerHTML='<div class="rkm">つながらなかったよ…<br>もういちど ためしてね</div>'}}
-$('rkBtn').onclick=rkOpen;$('rkx').onclick=()=>$('rk').classList.add('hide');
+$('rkBtn').onclick=rkOpen;$('rkx').onclick=()=>$('rk').classList.add('hide');$('rk').onclick=()=>$('rk').classList.add('hide');
 $('retryBtn').addEventListener('click',()=>{rkSent=false;rkMe=''});
 if(me.n)$('pname').value=me.n;
 setSound(sound);

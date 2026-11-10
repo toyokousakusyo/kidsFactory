@@ -1,6 +1,11 @@
 <!doctype html>
 <html lang="ja"><head><meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<script>(function(){function f(){document.documentElement.style.setProperty("--vh",window.innerHeight+"px")}f();addEventListener("resize",f);addEventListener("orientationchange",function(){setTimeout(f,250)});if(window.visualViewport)visualViewport.addEventListener("resize",f)})()</script><script>(function(){try{if(!/Line\//i.test(navigator.userAgent)||/openExternalBrowser/.test(location.search)||sessionStorage.getItem('lnh'))return;sessionStorage.setItem('lnh','1')}catch(e){return}
+function go(){var d=document.createElement('div');var u=location.href.split('#')[0];u+=(u.indexOf('?')<0?'?':'&')+'openExternalBrowser=1';
+d.style.cssText='position:fixed;left:50%;top:8px;transform:translateX(-50%);z-index:99999;width:min(86vw,340px);box-sizing:border-box;background:#000;color:#fff;border:3px solid #fff;outline:3px solid #000;padding:10px 12px;font:700 13px/1.6 "DotGothic16",system-ui,sans-serif;text-align:center';
+d.innerHTML='\ud83d\udcf1 LINEの なかで ひらいてるよ<br>ブラウザで ひらくと 大きく あそべるよ！<br><a href="'+u+'" style="display:inline-block;margin-top:6px;padding:6px 14px;background:#e4382f;color:#fff;border:2px solid #fff;text-decoration:none">\u25b6 ブラウザで ひらく</a><div style="font-size:11px;opacity:.8;margin-top:6px">うまく いかないときは メニュー（…）から<br>「ブラウザで ひらく」を えらんでね</div><div style="font-size:11px;opacity:.7;margin-top:4px">（このカードを タップで とじる）</div>';
+d.addEventListener('click',function(e){if(e.target.tagName!=='A')d.remove()});document.body.appendChild(d);setTimeout(function(){d.remove()},15000)}
+if(document.body)go();else addEventListener('DOMContentLoaded',go)})()</script><link href="https://fonts.googleapis.com/css2?family=DotGothic16&display=swap" rel="stylesheet"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
 <title>ミツオ大配管 東洋工作所</title>
 <style>
 :root{--bg:#10202c}
@@ -27,6 +32,13 @@ canvas{position:absolute;inset:0;width:100%;height:100%;image-rendering:pixelate
 #hp{display:flex;gap:2.2cqw}.hb{width:30cqw;text-align:center;font-size:4cqw;font-weight:900;color:#ffd447}.hb canvas{width:16cqw;height:21cqw;image-rendering:pixelated;display:block;margin:0 auto .5cqw}.hb.on{border-color:#ffd447;background:rgba(255,212,71,.25);box-shadow:0 0 2cqw #ffd447}
 #rk{z-index:30;background:rgba(10,20,40,.94)}#rk h2{margin:0 0 1cqw;font-size:5cqw;color:#ffd447}#rkl{width:88%;flex:1;overflow:auto;-webkit-overflow-scrolling:touch;touch-action:pan-y}.rr{display:flex;align-items:center;gap:2cqw;background:rgba(255,255,255,.1);border-radius:2cqw;padding:1cqw 2cqw;margin:.8cqw 0;font-size:3.8cqw;color:#fff}.rr.me{background:rgba(255,212,71,.3)}.rr b{width:9cqw;text-align:center}.rr img{width:11cqw;height:11cqw;border-radius:1.5cqw}.rn{flex:1;text-align:left;font-weight:800}.rs{font-weight:900;color:#ffd447}.rkm{color:#fff;font-size:3.8cqw;margin:6cqw 0}#nm{width:50cqw;font-size:4.5cqw;text-align:center;border-radius:2cqw;border:.6cqw solid #ffd447;padding:1cqw;font-family:inherit}.bt3{font-size:3.6cqw;color:#ffd447;font-weight:800;cursor:pointer;margin:1.5cqw}
 #sb{position:absolute;right:2.5cqw;top:10.5cqw;z-index:40;width:8cqw;height:8cqw;border-radius:50%;background:rgba(0,0,0,.45);color:#fff;font-size:4.2cqw;display:flex;align-items:center;justify-content:center;border:.5cqw solid rgba(255,255,255,.55);cursor:pointer}
+#over{background:rgba(8,16,30,.45);overflow:hidden}#over>*:not(#tbg){position:relative;z-index:1}#over #tbg{position:absolute}
+#over .big{font-size:9cqw;-webkit-text-stroke:.7cqw #0a1824;paint-order:stroke fill;text-shadow:0 1cqw 0 #0a1824}
+#over .panel{background:rgba(8,16,30,.78);border:.8cqw solid var(--acc,#ffd447);border-radius:4cqw;padding:1.6cqw 9cqw 2cqw;box-shadow:0 0 5cqw var(--acc,#ffd447);display:flex;flex-direction:column;align-items:center;gap:.4cqw}
+#over .panel p{font-size:3.6cqw;letter-spacing:.3em;color:#cfe3f2}#over .panel .sc{font-size:12cqw;text-shadow:0 1cqw 0 #0a1824,0 0 4cqw var(--acc,#ffd447)}
+#ohs{flex:none;height:27cqw;display:flex;align-items:flex-end;justify-content:center}#over #thero{width:20cqw;height:26cqw;flex:none}
+#nrec{display:none;font-size:5cqw;font-weight:900;color:#fff;background:#ff4f6a;border-radius:3cqw;padding:.4cqw 3.5cqw;transform:rotate(-4deg);animation:pop .6s ease-in-out infinite alternate;box-shadow:0 .8cqw 0 #8a1f33}@keyframes pop{to{transform:rotate(3deg) scale(1.1)}}
+#bst{font-size:3.4cqw;color:#cfe3f2}
 #title{background:#0b1626;overflow:hidden}#tbg{position:absolute;inset:0;width:100%;height:100%;image-rendering:pixelated;z-index:0}#title>*:not(#tbg):not(#back){position:relative;z-index:1}
 #title .pre{font-size:3.4cqw;font-weight:900;letter-spacing:.18em;color:#cfe3f2;background:rgba(8,16,30,.7);border:.4cqw solid rgba(255,255,255,.3);border-radius:5cqw;padding:.8cqw 4cqw}
 #thero{width:30cqw;height:39cqw;image-rendering:pixelated;animation:hop .8s ease-in-out infinite;filter:drop-shadow(0 1.4cqw 0 rgba(0,0,0,.45))}@keyframes hop{50%{transform:translateY(-3.4cqw)}}
@@ -36,15 +48,57 @@ canvas{position:absolute;inset:0;width:100%;height:100%;image-rendering:pixelate
 @keyframes bn{0%,100%{transform:translateY(0)}50%{transform:translateY(-1.4cqw)}}
 #title .bt{animation:pl 1s ease-in-out infinite}@keyframes pl{50%{transform:scale(1.07)}}
 #title p{font-size:3.7cqw;background:rgba(8,16,30,.62);border-radius:3cqw;padding:1.6cqw 3cqw}#hp{display:none!important}#title small{background:rgba(8,16,30,.62);border-radius:3cqw;padding:1cqw 3cqw}
-#sb{top:auto;bottom:2.5cqw}</style></head><body>
+
+/* ファミコン風 */
+.ui,.ui *,#rk,#rk *{font-family:'DotGothic16','Hiragino Maru Gothic ProN','Hiragino Sans','Noto Sans JP',system-ui,sans-serif}
+#tbg{filter:brightness(.55) saturate(.9)}
+#title,#over{background:#000}
+.ui{background:rgba(0,0,0,.35)}
+#title .pre{border-radius:0;border:.6cqw solid #fff;background:#000;font-size:3.6cqw;letter-spacing:.1em;padding:1cqw 3cqw}
+#hiq{font-size:4.4cqw;color:#ffd447;background:#000;border:.5cqw solid #fff;padding:.6cqw 3cqw;letter-spacing:.1em}
+#title p{background:#000;border:.7cqw solid #fff;outline:.7cqw solid #000;border-radius:0;font-size:4.2cqw;line-height:1.65;padding:2cqw 3cqw;text-shadow:none;width:84%;box-sizing:border-box;font-weight:400}
+#title small,#over small{border-radius:0;font-weight:400}
+#title small{background:#000;border:.5cqw solid #fff;padding:1cqw 3cqw;font-size:3.2cqw}
+.bt{font-size:7.4cqw;font-weight:400;border-radius:0;padding:2.4cqw 9cqw;background:#e4382f;color:#fff;border:1cqw solid #fff;outline:1cqw solid #000;box-shadow:0 1.8cqw 0 1cqw #000;text-shadow:.6cqw .6cqw 0 #000;letter-spacing:.08em}
+.bt3{display:inline-block;cursor:pointer;font-weight:400;font-size:5.6cqw;padding:2cqw 6cqw;background:#2a3ad0;color:#fff;border:.8cqw solid #fff;outline:.8cqw solid #000;box-shadow:0 1.4cqw 0 .8cqw #000;margin:1.4cqw .8cqw;text-shadow:.5cqw .5cqw 0 #000}
+.bt3:active,.bt:active{transform:translateY(.8cqw)}
+.bt2{font-size:4.8cqw;font-weight:400;border-radius:0;padding:2cqw 6cqw;background:#000;border:.8cqw solid #fff;color:#fff}
+#over .big{font-size:11.5cqw;font-weight:400;color:#fff;-webkit-text-stroke:0;text-shadow:.8cqw .8cqw 0 #e4382f,1.6cqw 1.6cqw 0 #000;letter-spacing:.08em}
+#over .panel{border-radius:0;background:#000;border:.8cqw solid #fff;outline:.8cqw solid #000;box-shadow:none;padding:2cqw 11cqw}
+#over .panel p{color:#fff;font-size:4.6cqw;font-weight:400;letter-spacing:.2em;text-shadow:none}
+#over .panel .sc{font-family:inherit;font-weight:400;font-size:13cqw;color:#ffd447;text-shadow:.7cqw .7cqw 0 #8a5a00}
+#nrec{font-weight:400;border-radius:0;font-size:5.4cqw}
+#bst{font-size:4cqw;color:#fff}
+#over p#od{font-size:4cqw;background:#000;padding:1cqw 3cqw;text-shadow:none;font-weight:400}
+#nm{font-family:inherit;font-size:6cqw;padding:2cqw;width:64cqw;max-width:80%;box-sizing:border-box;border:.8cqw solid #fff;outline:.8cqw solid #000;background:#000;color:#fff;border-radius:0;text-align:center}
+#rksec{display:flex;flex-direction:column;align-items:center;gap:0}
+#rk h2{font-size:8cqw;font-weight:400;color:#fff;text-shadow:.6cqw .6cqw 0 #e4382f}
+.rr{font-size:5cqw;border-radius:0;padding:1.6cqw 2cqw;font-weight:400;border:.5cqw solid #fff;background:#000}
+.rr.me{background:#5a1a1a}
+
+.ui{gap:1.5cqh}
+#title p{font-size:3.7cqw;line-height:1.5;padding:1.4cqw 2.4cqw;width:88%}
+#title .bt{font-size:6.8cqw;padding:2cqw 8cqw}
+#title .bt3{font-size:5cqw;padding:1.3cqw 5cqw;margin:.4cqw}
+#title small{font-size:2.8cqw;padding:.7cqw 2.4cqw}
+#title #thero{width:24cqw;height:31cqw}
+#hiq{font-size:4cqw}
+#over #ohs{height:22cqw}#over #thero{width:17cqw;height:22cqw}
+#over .big{font-size:10.5cqw}
+#over .panel{padding:1.4cqw 10cqw}#over .panel .sc{font-size:12cqw}
+#over .bt{font-size:6.4cqw;padding:1.8cqw 8cqw}
+#over .bt3{font-size:5cqw;padding:1.5cqw 5cqw;margin:.6cqw}
+#over .bt2{font-size:4.2cqw;padding:1.4cqw 5cqw}
+#nm{font-size:5.4cqw;padding:1.5cqw}
+html,body{height:var(--vh,100%)}#wrap{inset:auto;top:0;left:0;right:0;height:var(--vh,100%)}#box{height:var(--vh,100dvh)}#sb{top:auto;bottom:2.5cqw}</style></head><body>
 <div id="wrap"><div id="box">
 <canvas id="c" width="270" height="480"></canvas>
 <div id="pad" style="display:none"></div>
-<div class="ui" id="title"><canvas id="tbg"></canvas><a id="back" href="index.html?menu=1">◀ ゲームえらびへ</a><div class="pre">株式会社東洋工作所 PRESENTS</div><canvas id="thero"></canvas><h1>ミツオ<br>大配管！</h1><p>マスを タップすると パイプが おかれます。<br>タップするたび かたちが かわるよ！<br>スタートから ゴールまで 水を とどけよう。<br>きいろ×くろの マスには おけないよ！</p><div id="hp"></div><span class="bt" id="go">▶ スタート！</span><span class="bt3" id="rkb">🏆 ランキング</span><small>株式会社東洋工作所<br>パイプでワクワクをつなぎ未来をソウゾウする</small></div>
+<div class="ui" id="title"><canvas id="tbg"></canvas><a id="back" href="index.html?menu=1">◀ ゲームえらびへ</a><div class="pre">株式会社東洋工作所 PRESENTS</div><div id="hiq">HI-SCORE 000000</div><canvas id="thero"></canvas><h1>ミツオ<br>大配管！</h1><p>マスを タップすると パイプが おかれます。<br>タップするたび かたちが かわるよ！<br>スタートから ゴールまで 水を とどけよう。<br>きいろ×くろの マスには おけないよ！</p><div id="hp"></div><span class="bt" id="go">▶ スタート！</span><span class="bt3" id="rkb">🏆 ランキング</span><small>株式会社東洋工作所<br>パイプでワクワクをつなぎ未来をソウゾウする</small></div>
 <span id="sb">🔊</span><span id="mb">☰</span>
 <div class="ui" id="pz"><p class="big">ポーズ</p><span class="bt" id="pc">▶ つづける</span><a class="bt2" href="index.html?menu=1">ゲームえらびへ</a></div>
-<div class="ui" id="over" style="display:none"><p class="big" id="ot">GAME OVER</p><p>SCORE</p><div class="sc" id="os">0</div><p id="od"></p><div id="rksec"><input id="nm" maxlength="6" placeholder="なまえ（6もじ）"><br><span class="bt3" id="rksend">📤 ランキングにのせる</span><span class="bt3" id="rkb2">🏆 ランキング</span></div><span class="bt" id="again">▶ もう一回！</span><a class="bt2" href="index.html?menu=1">ほかのゲームへ</a></div>
-<div class="ui" id="rk" style="display:none"><h2>🏆 ランキング</h2><div id="rkl"></div><span class="bt" id="rkx">✕ とじる</span></div>
+<div class="ui" id="over" style="display:none"><div id="ohs"></div><p class="big" id="ot">GAME OVER</p><div class="panel"><p>SCORE</p><div class="sc" id="os">0</div><div id="nrec">🎉 しんきろく！</div><small id="bst"></small></div><p id="od"></p><div id="rksec"><input id="nm" maxlength="6" placeholder="なまえ（6もじ）"><br><span class="bt3" id="rksend">📤 ランキングにのせる</span><span class="bt3" id="rkb2">🏆 ランキング</span></div><span class="bt" id="again">▶ もう一回！</span><a class="bt2" href="index.html?menu=1">ほかのゲームへ</a></div>
+<div class="ui" id="rk" style="display:none"><h2>🏆 ランキング</h2><div id="rkl"></div><span class="bt" id="rkx" style="display:none">✕ とじる</span><small style="display:block;margin-top:1.2em;font-size:12px;font-weight:700;opacity:.85">タップで もどる</small></div>
 </div></div>
 <script>
 (()=>{
@@ -76,9 +130,12 @@ function myIcon(){if(me.i)return me.i;const c=document.createElement('canvas');c
 async function rkSubmit(){if(rkSent)return;const n=($('nm').value||'').trim();if(!n){$('nm').style.borderColor='#ff5a4a';$('nm').placeholder='← なまえを いれてね！';return}rkSent=true;me.n=n;try{localStorage.setItem('toyo_me',JSON.stringify(me))}catch(e){}$('rksend').textContent='送信中…';try{const ctl=new AbortController();setTimeout(()=>ctl.abort(),8000);const r=await fetch(RKDB+'/scores/'+GID+'.json',{method:'POST',body:JSON.stringify({n:rkClean(n).slice(0,6),s:Math.min(99999,Math.max(0,Math.floor(lastSc))),i:myIcon(),t:Date.now()}),signal:ctl.signal});const j=await r.json();if(j&&j.name){rkMe=j.name;$('rksend').textContent='✅ のせたよ！'}else throw 0}catch(e){rkSent=false;$('rksend').textContent='📤 もういちど おくる'}rkOpen()}
 function rkOpen(){$('rk').style.display='flex';rkLoad()}
 async function rkLoad(){const el=$('rkl');el.innerHTML='<div class="rkm">よみこみ中…</div>';try{const ctl=new AbortController();setTimeout(()=>ctl.abort(),8000);const r=await fetch(RKDB+'/scores/'+GID+'.json?orderBy=%22s%22&limitToLast=30',{signal:ctl.signal});if(!r.ok)throw 0;const o=await r.json()||{};const a=Object.keys(o).map(k=>({k,...o[k]})).filter(v=>v&&typeof v.s==='number').sort((p,q)=>q.s-p.s||p.t-q.t);el.innerHTML='';if(!a.length){el.innerHTML='<div class="rkm">まだ だれも いないよ！<br>いちばんのりを めざそう！</div>';return}a.forEach((v,i)=>{const d=document.createElement('div');d.className='rr'+(v.k===rkMe?' me':'');const b=document.createElement('b');b.textContent=i<3?['🥇','🥈','🥉'][i]:(i+1)+'位';const im=document.createElement('img');if(typeof v.i==='string'&&v.i.startsWith('data:image/'))im.src=v.i;const n=document.createElement('span');n.className='rn';n.textContent=String(v.n||'');const sp=document.createElement('span');sp.className='rs';sp.textContent=v.s;d.append(b,im,n,sp);el.appendChild(d)})}catch(e){el.innerHTML='<div class="rkm">つながらなかったよ…<br>もういちど ためしてね</div>'}}
-$('rkb').addEventListener('click',rkOpen);$('rkb2').addEventListener('click',rkOpen);$('rkx').addEventListener('click',()=>{$('rk').style.display='none'});$('rksend').addEventListener('click',rkSubmit);
+$('rkb').addEventListener('click',rkOpen);$('rkb2').addEventListener('click',rkOpen);$('rkx').addEventListener('click',()=>{$('rk').style.display='none'});$('rk').addEventListener('click',()=>{$('rk').style.display='none'});$('rksend').addEventListener('click',rkSubmit);
 function start(){rkSent=false;$('rksend').textContent='📤 ランキングにのせる';wake();held={};pressed={};paused=false;$('pz').style.display='none';$('mb').style.display='flex';GAME.reset();tone(523,.08,'triangle',.06);setTimeout(()=>tone(784,.16,'triangle',.06),80);mode='play';if(!bT)setTimeout(bgStart,350);$('title').style.display='none';$('over').style.display='none';if(hasPad)$('pad').style.display='flex'}
-function finish(score,detail,ttl){if(mode!=='play')return;mode='end';lastSc=score;$('nm').value=me.n||'';bgStop();$('pad').style.display='none';$('mb').style.display='none';$('ot').textContent=ttl||'GAME OVER';$('os').textContent=String(Math.floor(score)).padStart(6,'0');$('od').textContent=detail||'';setTimeout(()=>{$('over').style.display='flex'},600)}
+function finish(score,detail,ttl){if(mode!=='play')return;mode='end';lastSc=score;$('nm').value=me.n||'';bgStop();$('pad').style.display='none';$('mb').style.display='none';$('ot').textContent=ttl||'GAME OVER';const sc0=Math.floor(score),BK='toyo_best_'+GID;let best=0;try{best=+localStorage.getItem(BK)||0}catch(e){}const nr=sc0>best&&sc0>0;if(nr)try{localStorage.setItem(BK,String(sc0))}catch(e){}
+$('nrec').style.display=nr?'block':'none';$('bst').textContent=nr?'':(best?'ベスト '+String(best).padStart(6,'0'):'');$('od').textContent=detail||'';$('os').textContent='000000';
+const ov=$('over');try{ov.insertBefore($('tbg'),ov.firstChild);$('ohs').appendChild($('thero'))}catch(e){}
+setTimeout(()=>{ov.style.display='flex';const t0=performance.now();(function cu(n){const k=Math.min(1,(n-t0)/900);$('os').textContent=String(Math.floor(sc0*(1-Math.pow(1-k,3)))).padStart(6,'0');if(k<1)requestAnimationFrame(cu)})(t0)},600)}
 $('mb').addEventListener('pointerdown',ev=>{ev.preventDefault();ev.stopPropagation();if(mode==='play'){paused=true;held={};bgStop();$('pz').style.display='flex'}});
 $('pc').addEventListener('click',()=>{paused=false;$('pz').style.display='none';bgStart()});
 $('sb').addEventListener('pointerdown',ev=>{ev.preventDefault();ev.stopPropagation();wake();muted=!muted;try{localStorage.setItem('toyo_mute',muted?'1':'0')}catch(e){}applyMute()});applyMute();
@@ -204,7 +261,7 @@ GAME={reset:rst,update:upd,render:rend,tap:placeAt};
 
 GAME.reset();requestAnimationFrame(loop);
 {const tb=document.getElementById('tbg'),t=tb.getContext('2d');tb.width=135;tb.height=240;t.imageSmoothingEnabled=false;
-const ACC=['#4dc3ff','#ff8a3d','#ff6fa8','#6be08a'][HERO]||'#ffd447';document.getElementById('title').style.setProperty('--acc',ACC);
+const ACC=['#4dc3ff','#ff8a3d','#ff6fa8','#6be08a'][HERO]||'#ffd447';document.getElementById('title').style.setProperty('--acc',ACC);document.getElementById('over').style.setProperty('--acc',ACC);{let bs=0;try{bs=+localStorage.getItem('toyo_best_'+GID)||0}catch(e){}document.getElementById('hiq').textContent='HI-SCORE '+String(bs).padStart(6,'0')}
 const th=document.getElementById('thero'),tc=th.getContext('2d');th.width=26;th.height=34;
 const h1=document.querySelector('#title h1');{const ls=h1.innerHTML.split(/<br\s*\/?>/i);const L2=(ls[1]||'').length;if(L2>4)h1.style.setProperty('--f2',(60/L2)+'cqw');h1.innerHTML=ls.map((l,k)=>'<div class="l l'+(k?2:1)+'">'+[...l].map((c,i)=>'<span style="animation-delay:'+((k*5+i)*.09)+'s">'+c+'</span>').join('')+'</div>').join('')}
 const R=Math.random,tt=(x,y,w,h,c)=>{t.fillStyle=c;t.fillRect(x|0,y|0,w,h)};
@@ -230,7 +287,7 @@ function bg3(tm){const g=t.createLinearGradient(0,0,0,240);g.addColorStop(0,'#08
   for(let x=0;x<135;x+=9)tt(x,0,1,240,'rgba(255,255,255,.04)');
   FP.forEach(p=>{p.y+=p.v*.016;if(p.y>245){p.y=-30;p.x=((R()*13)|0)*9;p.t=PS[(R()*5)|0]}p.t.forEach(([cx,cy])=>{const X=Math.round(p.x/9)*9+cx*9,Y=p.y+cy*9;tt(X,Y,9,9,p.c);tt(X,Y,9,1,'rgba(255,255,255,.55)');tt(X,Y+8,9,1,'rgba(0,0,0,.35)');tt(X+3,Y+3,3,3,'rgba(0,0,0,.3)')})})}
 const BGF=[bg0,bg1,bg2,bg3][HERO]||bg0;
-function tf(n){if(mode!=='title'){requestAnimationFrame(tf);return}const tm=n/1000;
+function tf(n){if(mode!=='title'&&mode!=='end'){requestAnimationFrame(tf);return}const tm=n/1000;
  BGF(tm);
  tc.clearRect(0,0,26,34);try{tc.drawImage(HIM[HERO][(tm*3|0)%2],0,0)}catch(e){}
  requestAnimationFrame(tf)}
