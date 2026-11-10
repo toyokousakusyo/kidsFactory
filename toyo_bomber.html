@@ -122,7 +122,7 @@ html,body{height:var(--vh,100%)}#wrap{inset:auto;top:0;left:0;right:0;height:var
 <div class="ui" id="pz"><p class="big">ポーズ</p><span class="bt" id="pc">▶ つづける</span><a class="bt2" href="index.html?menu=1">ゲームえらびへ</a></div>
 <div class="ui" id="over" style="display:none"><div id="ohs"></div><p class="big" id="ot">GAME OVER</p><div class="panel"><p>SCORE</p><div class="sc" id="os">0</div><div id="nrec">🎉 しんきろく！</div><small id="bst"></small></div><p id="od"></p><div id="rksec"><input id="nm" maxlength="6" placeholder="なまえ（6もじ）"><br><span class="bt3" id="rksend">📤 ランキングにのせる</span><span class="bt3" id="rkb2">🏆 ランキング</span></div><span class="bt" id="again">▶ もう一回！</span><a class="bt2" href="index.html?menu=1">ほかのゲームへ</a></div>
 <div class="ui" id="lobby" style="display:none"><h2 id="lbh">📡 ちかくの ひとと たいせん</h2><div class="lbs" id="lbm"><p>おなじ かいじょうの ともだちと<br>「あいことば」の へやで あそぼう！<br>さいだい 4にん</p><span class="bt vb" id="lbc">🏠 へやを つくる</span><span class="bt vb" id="lbj" style="background:#2a3ad0">🚪 へやに はいる</span></div>
-<div class="lbs" id="lbw" style="display:none"><p id="lbwp">へやの ばんごう</p><div id="lbcode">----</div><p id="lbcnt">1にん あつまっているよ</p><span class="bt vb" id="lbgo" style="background:#e4382f;display:none">🔒 しめきって スタート！</span><p id="lbst"></p></div>
+<div class="lbs" id="lbw" style="display:none"><p id="lbwp">へやの ばんごう</p><div id="lbcode">----</div><p id="lbcnt">1にん あつまっているよ</p><span class="bt vb" id="lbgo" style="background:#e4382f;display:none">🔒 しめきって スタート！<br><small>たりない ぶんは CPU</small></span><p id="lbst"></p></div>
 <div class="lbs" id="lbl" style="display:none"><p id="lblp">いま あいている へや</p><div id="lbrooms"></div><span class="bt2" id="lbtype">⌨ ばんごうを いれる</span></div>
 <div class="lbs" id="lbk" style="display:none"><p id="lbkp">ばんごうを いれてね</p><div id="lbin">----</div><div id="kp"></div><span class="bt2" id="lbrnd" style="display:none">🎲 おまかせ</span><p id="lbmsg"></p></div>
 <span class="bt2" id="lbx">◀ もどる</span></div>
@@ -255,8 +255,8 @@ function genMap(seed){const r=mkr(seed);mp=[];itm=[];for(let y=0;y<RO;y++){mp.pu
 function mkP(i){const s=starts[i];return {i,x:s[0]*TS+TS/2,y:s[1]*TS+TS/2,al:true,r:1,m:1,sp:0,lu:0,inv:0,dx:0,dy:0,face:1,bomb:0,ai:null,path:[],tm:0,tx:0,ty:0}}
 function reset(o){const net=o&&o.mode==='net';vsNet=net;rngS=net?o.seed:1+Math.floor(Math.random()*99999);genMap(rngS);
  bombs=[];flames=[];items=[];pend=[];seenB=new Set();bid=0;crates=0;got=0;T=0;cd=3.4;cdn=0;over=false;endT=0;res=null;lostN=false;stick=null;ptrs.clear();
- const nn=net?Math.max(2,Math.min(4,o.n||2)):4;pl=[];for(let i=0;i<nn;i++)pl.push(mkP(i));GAME.me=net?o.role:0;GAME.op=(GAME.me+1)%nn;
- if(!net){pl[1].ai=true;pl[2].ai=true;pl[3].ai=true}
+ const hn=net?Math.max(1,Math.min(4,o.n||2)):1;pl=[];for(let i=0;i<4;i++)pl.push(mkP(i));GAME.me=net?o.role:0;GAME.op=(GAME.me+1)%4;
+ for(let i=hn;i<4;i++){pl[i].ai=(!net)||o.role===0;const pool=[0,1,2,4].filter(h=>h!==(net?(o.role===0?HERO:0):HERO));pl[i].hero=pool[(i-1+pool.length)%pool.length]}
  $('cd').textContent='';window.__bgBoost=0}
 const cell=v=>Math.floor(v/TS);
 function bombAt(gx,gy){return bombs.find(b=>b.gx===gx&&b.gy===gy)}
@@ -322,7 +322,7 @@ function update(dt){
   if((p===m||p.ai)&&p.inv<=0&&inFlame(gx,gy)){if(p.lu){p.lu=0;p.inv=1.6;tone(300,.3,'square',.06,-120)}else{p.al=false;tone(200,.5,'sawtooth',.07,-150)}}}
  // 決着
  
- if(!over){const mAl=m.al,oAl=pl.some((q,i)=>i!==GAME.me&&q.al);if(!mAl||!oAl||T>=LIM){over=true;endT=1.4;res=(!mAl&&!oAl)||T>=LIM&&mAl&&oAl?'draw':mAl?'win':'lose';if(T>=LIM&&mAl&&oAl)res='draw'}}
+ if(!over){const mAl=m.al,alive=pl.filter(q=>q.al).length,oAl=alive-(mAl?1:0)>0;const fin=vsNet?(alive<=1||T>=LIM):(!mAl||!oAl||T>=LIM);if(fin){over=true;endT=1.4;res=(T>=LIM&&alive>1)?'draw':(mAl&&!oAl)?'win':(!mAl&&!oAl)?'draw':'lose'}}
  else{endT-=dt;if(endT<=0)endGame()}
  if(vsNet&&lostN&&!over){over=true;endT=.5;res='win'}
  pressed.a=0}
@@ -357,6 +357,7 @@ function render(){
  try{x.drawImage(HIM[HERO][0],4,5,20,26)}catch(e){}ot('💣'+m.m+' 🔥'+m.r+' 👟'+m.sp+(m.lu?' 🥚':''),28,22,12,'#fff');
  ot('のこり '+Math.max(0,Math.ceil(LIM-T))+'びょう',W/2,56,11,'#ffd447','center');
  {let k=0;for(const q of pl){if(q===m)continue;x.globalAlpha=q.al?1:.3;try{x.drawImage(HIM[heroOf(q)][0],W-24-k*24,5,20,26)}catch(e){}x.globalAlpha=1;if(!q.al)ot('×',W-14-k*24,24,14,'#ff6a6a','center');k++}}
+ if(vsNet&&!over&&!m.al)ot('やられた…  みんなを みてるよ',W/2,OY+RO*TS/2,14,'#fff','center');
  if(over&&res)ot(res==='win'?'かち！':res==='lose'?'まけ…':'ひきわけ',W/2,OY+RO*TS/2,30,'#fff','center');
  if(cd>0&&!stick)ot('ゆびを スワイプで いどう / タップで ばくだん！',W/2,H-6,10,'#fff','center')}
 function ot(s,a,b,sz,col,al){txt(s,a+1,b+1,sz,'#000',al);txt(s,a,b,sz,col,al)}
@@ -366,8 +367,8 @@ cv.addEventListener('pointermove',e=>{const s=ptrs.get(e.pointerId);if(!s||s.bom
 const pend2=e=>{const s=ptrs.get(e.pointerId);if(!s)return;ptrs.delete(e.pointerId);if(s.bomb)return;if(!s.moved&&performance.now()-s.t<400)dropBomb(pl[GAME.me]);if(stick===s)stick=null};
 cv.addEventListener('pointerup',pend2);cv.addEventListener('pointercancel',pend2);
 GAME={reset,update,render,me:0,op:1,
- netState:()=>{const m=pl[GAME.me];return {h:HERO,x:Math.round(m.x),y:Math.round(m.y),f:m.face,a:m.al?1:0,r:m.r,B:bombs.filter(b=>b.own===GAME.me).map(b=>[b.id,b.gx,b.gy,b.r]),T:Math.round(T)}},
- netPeer:(p,ix)=>{const o=pl[ix===undefined?GAME.op:ix];if(!o)return;o.hero=p.h;o.x+=(p.x-o.x)*.6;o.y+=(p.y-o.y)*.6;o.face=p.f||1;o.r=p.r||o.r;if(p.a===0&&o.al&&cd<=0){o.al=false;tone(200,.5,'sawtooth',.07,-150)}
+ netState:(i)=>{const ix=i===undefined?GAME.me:i,m=pl[ix];return {h:(ix===GAME.me?HERO:m.hero),x:Math.round(m.x),y:Math.round(m.y),f:m.face,a:m.al?1:0,r:m.r,B:bombs.filter(b=>b.own===ix).map(b=>[b.id,b.gx,b.gy,b.r]),T:Math.round(T)}},
+ netPeer:(p,ix)=>{const o=pl[ix===undefined?GAME.op:ix];if(!o)return;if(p.h!==undefined)o.hero=p.h;o.x+=(p.x-o.x)*.6;o.y+=(p.y-o.y)*.6;o.face=p.f||1;o.r=p.r||o.r;if(p.a===0&&o.al&&cd<=0){o.al=false;tone(200,.5,'sawtooth',.07,-150)}
   (p.B||[]).forEach(q=>{if(seenB.has(q[0]))return;seenB.add(q[0]);const b={id:q[0],gx:q[1],gy:q[2],t:BT-.1,r:q[3],own:o.i,pass:{}};b.pass[GAME.me]=false;if(!bombAt(b.gx,b.gy)){bombs.push(b);o.bomb++;tone(180,.08,'square',.04)}})},
  netPeerLost:i=>{const o=pl[i];if(o&&o.al){o.al=false}},netLost:()=>{lostN=true}};
 window.__bm={get pl(){return pl},get mp(){return mp},get bombs(){return bombs},get flames(){return flames},get items(){return items},get over(){return over},get res(){return res}};
@@ -434,18 +435,25 @@ function lobbyOpen(){wake();NET.on=false;clearInterval(NET.timer);$('over').styl
 function lobbyClose(){clearInterval(NET.timer);NET.timer=null;$('lobby').style.display='none';if(VS.mode==='net'&&mode!=='play'){mode='title';$('title').style.display='flex'}}
 function leaveRoom(){clearInterval(NET.timer);if(NET.code&&NET.role===0&&NET.host){jf(RM(NET.code),{method:'DELETE'});lbDel(NET.code)}else if(NET.code&&NET.id)jf(RKDB+'/rooms/'+NET.code+'/pl/'+NET.id+'.json',{method:'DELETE'});NET.code='';NET.host=false}
 $('lbx').addEventListener('click',()=>{if($('lbm').style.display!=='none'){lobbyClose();VS.mode='solo';$('title').style.display='flex';mode='title'}else{clearInterval(rlTimer);leaveRoom();lbShow('lbm')}});
-function netGo(role,seed,code,n){clearInterval(NET.timer);NET.role=role;NET.seed=seed;NET.code=code;NET.n=n;NET.on=true;NET.room=null;NET.last=[];for(let i=0;i<n;i++)NET.last.push(Date.now());$('lobby').style.display='none';VS.mode='net';VS.seed=seed;VS.role=role;VS.n=n;start('net');NET.timer=setInterval(netTick,130)}
-async function netTick(){if(!NET.on||NET.busy)return;NET.busy=true;try{const st=GAME.netState&&GAME.netState();if(st)await jf(RKDB+'/rooms/'+NET.code+'/p'+NET.role+'.json',{method:'PUT',body:JSON.stringify(st)});const r=await jf(RM(NET.code));if(r){NET.room=r;const now=Date.now();for(let i=0;i<NET.n;i++){if(i===NET.role)continue;const p=r['p'+i];if(p){NET.last[i]=now;GAME.netPeer&&GAME.netPeer(p,i)}else if(now-NET.last[i]>9000&&mode==='play'){GAME.netPeerLost&&GAME.netPeerLost(i)}}}else if(Date.now()-Math.max.apply(null,NET.last)>9000&&mode==='play'){for(let i=0;i<NET.n;i++)if(i!==NET.role)GAME.netPeerLost&&GAME.netPeerLost(i)}}finally{NET.busy=false}}
+function netGo(role,seed,code,n){clearInterval(NET.timer);NET.role=role;NET.seed=seed;NET.code=code;NET.n=n;NET.k=0;NET.on=true;NET.room=null;NET.last=[];for(let i=0;i<4;i++)NET.last.push(Date.now());$('lobby').style.display='none';VS.mode='net';VS.seed=seed;VS.role=role;VS.n=n;start('net');NET.timer=setInterval(netTick,130)}
+async function netTick(){if(!NET.on||NET.busy)return;NET.busy=true;try{const base=RKDB+'/rooms/'+NET.code;
+ if(NET.role===0){const b={};b['p0']=GAME.netState&&GAME.netState(0);for(let i=NET.n;i<4;i++)b['p'+i]=GAME.netState(i);b.k=++NET.k;b.t=Date.now();await jf(base+'.json',{method:'PATCH',body:JSON.stringify(b)})}
+ else{const st=GAME.netState&&GAME.netState(NET.role);if(st)await jf(base+'/p'+NET.role+'.json',{method:'PUT',body:JSON.stringify(st)})}
+ const r=await jf(RM(NET.code));const now=Date.now();
+ if(r){NET.room=r;for(let i=0;i<4;i++){if(i===NET.role)continue;if(i>=NET.n&&NET.role===0)continue;const p=r['p'+i];if(p){NET.last[i]=now;GAME.netPeer&&GAME.netPeer(p,i)}else if(now-NET.last[i]>9000&&mode==='play'){GAME.netPeerLost&&GAME.netPeerLost(i)}}}
+ else if(r===null&&NET.role!==0&&now-Math.max.apply(null,NET.last)>9000&&mode==='play'){for(let i=0;i<4;i++)if(i!==NET.role)GAME.netPeerLost&&GAME.netPeerLost(i)}}finally{NET.busy=false}}
 function netEnd(){if(NET.on&&NET.role===0&&NET.code)jf(RM(NET.code),{method:'DELETE'});NET.on=false;clearInterval(NET.timer);NET.code=''}
+const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+async function probe(code){const a=await jf(RM(code));if(a===undefined)return undefined;if(!a)return null;await sleep(1800);const b=await jf(RM(code));if(b===undefined)return undefined;if(!b)return null;return {r:b,alive:(b.k!==a.k)}}
 let kin='';
 function kshow(){$('lbin').textContent=(kin+'----').slice(0,4)}
 function openKeys(cm){NET.cm=cm;kin='';kshow();$('lbmsg').textContent='';$('lbkp').textContent=cm==='create'?'つくる へやの ばんごうを きめてね':'はいる へやの ばんごうを いれてね';$('lbrnd').style.display=cm==='create'?'block':'none';lbShow('lbk')}
 const LB=()=>RKDB+'/lobby';
-function lbPut(code,n){return jf(LB()+'/'+code+'.json',{method:'PUT',body:JSON.stringify({t:Date.now(),n})})}
+let lbK=0;function lbPut(code,n){return jf(LB()+'/'+code+'.json',{method:'PUT',body:JSON.stringify({t:Date.now(),n,k:++lbK})})}
 function lbDel(code){return jf(LB()+'/'+code+'.json',{method:'DELETE'})}
-let rlTimer=null;
+let rlTimer=null;const SEEN={};
 async function roomList(){const d=await jf(LB()+'.json');const box=$('lbrooms');if(d===undefined){box.innerHTML='';$('lblp').textContent='へやの いちらんが よめないよ\nばんごうを いれてね';return}
- const now=Date.now(),a=Object.entries(d||{}).filter(([c,q])=>q&&q.t&&now-q.t<15000&&(q.n||1)<4);box.innerHTML='';$('lblp').textContent=a.length?'はいる へやを タップ！':'まだ へやが ないよ\n（ともだちが つくると ここに でるよ）';
+ const now=Date.now(),a=Object.entries(d||{}).filter(([c,q])=>{if(!q||q.k===undefined)return false;const o=SEEN[c];if(!o||o.k!==q.k){SEEN[c]={k:q.k,at:now,ch:o?1:(SEEN[c]&&SEEN[c].ch)||0}}const s=SEEN[c];if(o&&o.k!==q.k)s.ch=1;return s.ch&&now-s.at<8000&&(q.n||1)<4});box.innerHTML='';$('lblp').textContent=a.length?'はいる へやを タップ！':'まだ へやが ないよ\n（ともだちが つくると ここに でるよ）';
  a.forEach(([c,q])=>{const s=document.createElement('span');s.className='bt vb';s.style.background='#2a3ad0';s.textContent='🚪 '+c+'　'+(q.n||1)+'/4にん';s.addEventListener('click',()=>{clearInterval(rlTimer);NET.cm='join';kin=c;kshow();lbShow('lbk');$('lbmsg').textContent='';keyDone()});box.appendChild(s)})}
 function openList(){lbShow('lbl');$('lbrooms').innerHTML='';$('lblp').textContent='さがしています…';roomList();clearInterval(rlTimer);rlTimer=setInterval(roomList,2000)}
 $('lbtype').addEventListener('click',()=>{clearInterval(rlTimer);openKeys('join')});
@@ -454,11 +462,11 @@ $('lbrnd').addEventListener('click',async()=>{kin=String(1000+Math.floor(Math.ra
 (()=>{const kp=$('kp');['1','2','3','4','5','6','7','8','9','←','0','OK'].forEach(k=>{const s=document.createElement('span');s.textContent=k;s.addEventListener('click',()=>{wake();tone(660,.04,'square',.04);if(k==='←')kin=kin.slice(0,-1);else if(k==='OK'){if(kin.length===4)keyDone()}else if(kin.length<4)kin+=k;kshow();if(kin.length===4&&k!=='OK'&&k!=='←')keyDone()});kp.appendChild(s)})})();
 let lbBusy=false;
 function showWait(host){lbShow('lbw');$('lbcode').textContent=NET.code;$('lbgo').style.display=host?'block':'none';$('lbcnt').textContent='1にん あつまっているよ';$('lbst').textContent=host?'ともだちに ばんごうを おしえてね':'ホストが スタートするのを まっててね'}
-async function keyDone(){if(lbBusy)return;lbBusy=true;try{const code=kin;$('lbmsg').textContent='まっててね…';const r=await jf(RM(code));if(r===undefined){$('lbmsg').textContent='つながらないよ…\nネットを かくにんしてね';return}
- const fresh=r&&r.t&&Date.now()-r.t<1800000;
+async function keyDone(){if(lbBusy)return;lbBusy=true;try{const code=kin;$('lbmsg').textContent='まっててね…';const pr=await probe(code);if(pr===undefined){$('lbmsg').textContent='つながらないよ…\nネットを かくにんしてね';return}
+ const r=pr&&pr.r,fresh=!!(pr&&pr.alive);
  if(NET.cm==='create'){if(fresh){$('lbmsg').textContent='その ばんごうは\nもう つかわれているよ';kin='';kshow();return}
   const id='h'+Math.random().toString(36).slice(2,8),seed=1+Math.floor(Math.random()*99999),pl={};pl[id]=Date.now();
-  const ok=await jf(RM(code),{method:'PUT',body:JSON.stringify({s:'wait',t:Date.now(),seed,pl})});if(ok===undefined){$('lbmsg').textContent='つながらないよ…';return}
+  const ok=await jf(RM(code),{method:'PUT',body:JSON.stringify({s:'wait',t:Date.now(),k:0,seed,pl})});if(ok===undefined){$('lbmsg').textContent='つながらないよ…';return}
   NET.code=code;NET.id=id;NET.role=0;NET.host=true;lbPut(code,1);showWait(true);hostPoll(code,seed)}
  else{if(!r||!fresh){$('lbmsg').textContent='へやが みつからないよ\nばんごうを かくにんしてね';kin='';kshow();return}
   if(r.s!=='wait'){$('lbmsg').textContent='もう しめきられているよ';kin='';kshow();return}
@@ -468,8 +476,8 @@ async function keyDone(){if(lbBusy)return;lbBusy=true;try{const code=kin;$('lbms
   NET.code=code;NET.id=id;NET.host=false;showWait(false);guestPoll(code,id)}
  }finally{lbBusy=false}}
 function sortedIds(r){const e=Object.entries(r.pl||{});e.sort((a,b)=>a[1]-b[1]);return e.map(q=>q[0])}
-function hostPoll(code,seed){let n=0,hb=0;clearInterval(NET.timer);NET.timer=setInterval(async()=>{if(++n>1800){leaveRoom();lbShow('lbm');return}const r=await jf(RM(code));if(!r)return;const c=Math.min(4,Object.keys(r.pl||{}).length);$('lbcnt').textContent=c+'にん あつまっているよ'+(c>=4?'（まんいん）':'');if(++hb%6===1)lbPut(code,c);$('lbgo').style.opacity=c>=2?1:.4})}
-$('lbgo').addEventListener('click',async()=>{const code=NET.code;if(!code||!NET.host)return;const r=await jf(RM(code));if(!r)return;const ids=sortedIds(r).slice(0,4);if(ids.length<2){$('lbst').textContent='ふたり いじょう あつまってから おしてね';return}
+function hostPoll(code,seed){let n=0,hb=0;clearInterval(NET.timer);NET.timer=setInterval(async()=>{if(++n>1800){leaveRoom();lbShow('lbm');return}const r=await jf(RM(code));if(!r)return;const c=Math.min(4,Object.keys(r.pl||{}).length);$('lbcnt').textContent=c+'にん あつまっているよ'+(c>=4?'（まんいん）':'');if(++hb%3===1){lbPut(code,c);jf(RM(code),{method:'PATCH',body:JSON.stringify({k:hb,t:Date.now()})})}$('lbgo').style.opacity=1},500)}
+$('lbgo').addEventListener('click',async()=>{const code=NET.code;if(!code||!NET.host)return;const r=await jf(RM(code));if(!r)return;const ids=sortedIds(r).slice(0,4);
  clearInterval(NET.timer);lbDel(code);await jf(RM(code),{method:'PATCH',body:JSON.stringify({s:'go',ids})});netGo(0,r.seed,code,ids.length)});
 function guestPoll(code,id){let n=0;clearInterval(NET.timer);NET.timer=setInterval(async()=>{if(++n>1500){leaveRoom();lbShow('lbm');return}const q=await jf(RM(code));if(q===null){clearInterval(NET.timer);NET.code='';$('lbst').textContent='へやが なくなったよ';return}if(!q)return;
   if(q.s==='go'){clearInterval(NET.timer);const k=(q.ids||[]).indexOf(id);if(k>=0)netGo(k,q.seed,code,q.ids.length);else{$('lbst').textContent='しめきられて はいれなかったよ'}return}
