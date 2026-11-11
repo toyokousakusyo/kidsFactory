@@ -4,7 +4,7 @@
 function go(){var u=location.href.split('#')[0];u+=(u.indexOf('?')<0?'?':'&')+'openExternalBrowser=1';var d=document.createElement('div');
 d.style.cssText='position:fixed;left:0;right:0;bottom:0;z-index:99999;display:flex;gap:8px;align-items:center;justify-content:center;padding:6px 8px;background:rgba(0,0,0,.85);color:#fff;font:700 12px/1.3 system-ui,sans-serif;pointer-events:none';
 d.innerHTML='<span>LINE いがいの ブラウザが おすすめ</span><a href="'+u+'" style="pointer-events:auto;padding:5px 10px;background:#e4382f;color:#fff;border:2px solid #fff;text-decoration:none;white-space:nowrap">ブラウザで ひらく</a><span style="pointer-events:auto;padding:5px 10px">\u2715</span>';
-d.lastChild.addEventListener('click',function(){d.remove()});document.body.appendChild(d);setTimeout(function(){d.remove()},10000)}
+d.lastChild.addEventListener('click',function(){d.remove()});document.addEventListener('pointerdown',function(e){if(!d.contains(e.target))d.remove()},true);document.body.appendChild(d);setTimeout(function(){d.remove()},10000)}
 if(document.body)go();else addEventListener('DOMContentLoaded',go)})()</script>
 <meta http-equiv="Cache-Control" content="no-cache">
 <script>if(/[?&]menu=1/.test(location.search))document.documentElement.className='mn'</script>
@@ -560,7 +560,7 @@ function gGo(){if(gBusy)return;const g=GS[gSel];gBusy=true;if(g.h>=0)try{playLog
 document.getElementById('gstart').addEventListener('click',()=>{wake();gGo()});
 window.addEventListener('keydown',e=>{if(gsel.style.display!=='flex')return;if(e.code==='ArrowLeft'){gPick(gSel-1);gSnd('t');e.preventDefault()}else if(e.code==='ArrowRight'){gPick(gSel+1);gSnd('t');e.preventDefault()}else if(e.code==='Enter'||e.code==='Space'){gGo();e.preventDefault()}});
 gPick(0);
-let pcT=0;async function pcLoad(){if(Date.now()-pcT<15000)return;try{const K=[0,1,2,3,10,11,12,13,14,15,16],R=await Promise.all(K.map(k=>fetch(RKDB+'/plays/'+k+'.json?shallow=true').then(r=>r.ok?r.json():null).catch(()=>null)));if(R.every(o=>o===null))return;pcT=Date.now();const n=R.map(o=>o?Object.keys(o).length:0),m=n[0]+n[1]+n[2]+n[3],a=[m,n[4],n[5],n[6],n[7],n[8],n[9],n[10]];[...document.querySelectorAll('#gr .gc .pc')].forEach((e,i)=>{e.textContent=a[i]+'回'});document.getElementById('pcn').innerHTML='みんなの あそんだ回数<b>'+a.reduce((x,y)=>x+y,0)+'</b>回'}catch(e){}}
+let pcT=0;async function pcLoad(){if(Date.now()-pcT<15000)return;try{const K=[0,1,2,3,10,11,12,13,14,16],R=await Promise.all(K.map(k=>fetch(RKDB+'/plays/'+k+'.json?shallow=true').then(r=>r.ok?r.json():null).catch(()=>null)));if(R.every(o=>o===null))return;pcT=Date.now();const n=R.map(o=>o?Object.keys(o).length:0),m=n[0]+n[1]+n[2]+n[3],a=[m,n[4],n[5],n[6],n[7],n[8],n[9]];[...document.querySelectorAll('#gr .gc .pc')].forEach((e,i)=>{e.textContent=a[i]+'回'});document.getElementById('pcn').innerHTML='みんなの あそんだ回数<b>'+a.reduce((x,y)=>x+y,0)+'</b>回'}catch(e){}}
 function showGsel(){bgmMainOn=false;gsel.style.display='flex';try{pcLoad()}catch(e){}try{bgmPlay(gSel)}catch(e){}}
 function closeIntro(){introOn=false;introEl.style.display='none';sfx('z');showGsel()}
 setInterval(introTick,100);
@@ -810,5 +810,8 @@ reset();requestAnimationFrame(loop);
 })();
 try{const fsr=()=>{const d=document.documentElement;if(d&&matchMedia("(pointer:coarse)").matches&&!document.fullscreenElement&&d.requestFullscreen)d.requestFullscreen().catch(()=>{});try{window.scrollTo(0,1)}catch(_){}};0}catch(e){}
 </script>
-</body>
+<script>(function(){var d,t=0,sh=0;function f(){var bad=false;try{bad=innerHeight>innerWidth*1.1&&typeof mode!=='undefined'&&mode==='play'}catch(e){}
+if(bad){if(!d){d=document.createElement('div');d.style.cssText='position:fixed;left:50%;top:10px;transform:translateX(-50%);z-index:99998;padding:8px 16px;background:rgba(0,0,0,.85);color:#ffd447;border:2px solid #fff;border-radius:10px;font:900 15px/1.3 system-ui,sans-serif;text-align:center;pointer-events:none;white-space:nowrap';d.innerHTML='📱 よこに してね<br><span style="font-size:11px;color:#fff;font-weight:700">よこむきの ゲームだよ</span>';document.body.appendChild(d)}}
+else if(d){d.remove();d=null}}
+setInterval(f,500);addEventListener('resize',f)})()</script></body>
 </html>
