@@ -69,7 +69,7 @@ h2{margin:0;font-weight:400;font-size:6.5cqh;color:var(--spark)}
 </div>
 <div class="ov" id="lob" hidden>
  <h2 id="lbh">📡 ネットで たいせん</h2>
- <div class="lbs" id="lbm"><div class="sub">おなじ ばんごうの へやで ともだちと たいせん！\\nへやに ひとが いないときは CPUと たたかうよ</div><div class="row"><button class="btn" id="lbc">🏠 へやを つくる</button><button class="btn" id="lbj" style="background:#2a3ad0;color:#fff;box-shadow:0 .8cqh 0 #121c3a">🚪 へやに はいる</button></div></div>
+ <div class="lbs" id="lbm"><div class="sub">おなじ ばんごうの へやで ともだちと たいせん！\\nへやに ひとが いないときは CPUと たたかうよ</div><div class="row"><button class="btn" id="lbc">🏠 へやを つくる</button><button class="btn" id="lbj" style="background:#2a3ad0;color:#fff;box-shadow:0 .8cqh 0 #121c3a">🚪 へやに はいる</button></div><div class="row"><button class="btn" id="lbtoyo" style="background:#e8503a;color:#fff;white-space:pre-line">🏯 東洋に ちょうせん！</button><button class="btn" id="lbtoyo2" style="display:none;background:#444;color:#fff">👷 社員：まちうけ</button></div></div>
  <div class="lbs" id="lbw" hidden><div class="sub" id="lbwp">へやの ばんごう</div><div id="lbcode">----</div><div class="sub" id="lbcnt"></div><button class="btn" id="lbgo">スタート！</button><div class="sub" id="lbst"></div></div>
  <div class="lbs" id="lbl" hidden><div class="sub" id="lblp"></div><div id="lbrooms"></div><button class="chip" id="lbtype">⌨ ばんごうを いれる</button></div>
  <div class="lbs" id="lbk" hidden><div class="sub" id="lbkp"></div><div id="lbin">----</div><div id="kp"></div><button class="chip" id="lbrnd">🎲 おまかせ</button><div class="sub" id="lbmsg"></div></div>
@@ -286,6 +286,11 @@ async function roomList(){const d=await jf(LB()+'.json');const box=$('lbrooms');
   else if(el){el.remove();delete RB[c]}});
  $('lblp').textContent=cnt?'はいる へやを タップ！':'まだ へやが ないよ\n（ともだちが つくると ここに でるよ）'}
 function openList(){lbShow('lbl');$('lbrooms').innerHTML='';for(const k in RB)delete RB[k];$('lblp').textContent='さがしています…';roomList();clearInterval(rlTimer);rlTimer=setInterval(roomList,2000)}
+const TOYO_AT=Date.UTC(2026,10,28)-9*3600e3;let STAFF=false;try{if(location.hash==='#staff')localStorage.setItem('toyo_staff','1');STAFF=localStorage.getItem('toyo_staff')==='1'}catch(e){}
+const toyoOpen=()=>STAFF||Date.now()>=TOYO_AT;
+{const t=$('lbtoyo'),t2=$('lbtoyo2');const lab=()=>{t.textContent=toyoOpen()?'🏯 東洋に ちょうせん！':'🏯 東洋に ちょうせん！ (11/28 かいきん)';t.style.opacity=toyoOpen()?1:.55};lab();if(STAFF)t2.style.display='';
+ t.onclick=()=>{if(!toyoOpen()){t.textContent='🔒 とうじつ（11/28）に あそべるよ！';setTimeout(lab,2000);return}NT.cm='join';kin='0104';kshow();lbShow('lbk');$('lbmsg').textContent='';keyDone()};
+ t2.onclick=()=>{NT.cm='create';kin='0104';kshow();lbShow('lbk');$('lbmsg').textContent='';keyDone()}}
 $('lbtype').onclick=()=>{clearInterval(rlTimer);openKeys('join')};$('lbc').onclick=()=>openKeys('create');$('lbj').onclick=openList;
 $('lbrnd').onclick=()=>{kin=String(1000+Math.floor(Math.random()*9000));kshow();keyDone()};
 (()=>{const kp=$('kp');['1','2','3','4','5','6','7','8','9','0','←','OK'].forEach(k=>{const e=document.createElement('span');e.textContent=k;e.onclick=()=>{ac();tone(660,.04,'square',.04);if(k==='←')kin=kin.slice(0,-1);else if(k==='OK'){if(kin.length===4)keyDone()}else if(kin.length<4)kin+=k;kshow();if(kin.length===4&&k!=='OK'&&k!=='←')keyDone()};kp.appendChild(e)})})();
@@ -297,10 +302,10 @@ async function keyDone(){if(lbBusy)return;lbBusy=true;try{const code=kin;$('lbms
   const id='h'+Math.random().toString(36).slice(2,8),pl={};pl[id]=Date.now();
   const ok=await jf(RM(code),{method:'PUT',body:JSON.stringify({s:'wait',t:Date.now(),k:0,g:'f',pl})});if(ok===undefined){$('lbmsg').textContent='つながらないよ…';return}
   NT.code=code;NT.id=id;NT.role=0;NT.host=true;lbPut(code,1);showWait(true);hostPoll(code)}
- else{if(!r||!fresh){$('lbmsg').textContent='へやが みつからないよ\nばんごうを かくにんしてね';kin='';kshow();return}
+ else{if(!r||!fresh){$('lbmsg').textContent=code==='0104'?'東洋の ひとが まだ いないよ\nもうすこし まってね':'へやが みつからないよ\nばんごうを かくにんしてね';kin='';kshow();return}
   if(r.g!=='f'){$('lbmsg').textContent='ほかの ゲームの へやだよ';kin='';kshow();return}
-  if(r.s!=='wait'){$('lbmsg').textContent='もう しめきられているよ';kin='';kshow();return}
-  if(Object.keys(r.pl||{}).length>=2){$('lbmsg').textContent='まんいん だよ（2にん）';kin='';kshow();return}
+  if(r.s!=='wait'){$('lbmsg').textContent=code==='0104'?'いま たいせんちゅう！\nすこし まってね':'もう しめきられているよ';kin='';kshow();return}
+  if(Object.keys(r.pl||{}).length>=2){$('lbmsg').textContent=code==='0104'?'いま たいせんちゅう！\nすこし まってね':'まんいん だよ（2にん）';kin='';kshow();return}
   const id='g'+Math.random().toString(36).slice(2,8),b={};b['pl/'+id]=Date.now();
   const ok=await jf(RM(code),{method:'PATCH',body:JSON.stringify(b)});if(ok===undefined){$('lbmsg').textContent='つながらないよ…';return}
   NT.code=code;NT.id=id;NT.host=false;showWait(false);guestPoll(code,id)}

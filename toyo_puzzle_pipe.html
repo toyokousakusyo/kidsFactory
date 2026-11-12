@@ -318,4 +318,7 @@ try{wake();bgStart()}catch(e){}
 const firstG=()=>{wake();if(!bT&&mode!=='end'&&!paused)bgStart();document.removeEventListener('pointerdown',firstG)};document.addEventListener('pointerdown',firstG);
 window.__g={get mode(){return mode},get held(){return held},get GAME(){return GAME},press:k=>{pressed[k]=1}};
 })();
-</script></body></html>
+</script><script>(function(){var d,t=0,sh=0;function f(){var bad=false;try{bad=innerWidth>innerHeight*1.1}catch(e){}
+if(bad){if(!d){d=document.createElement('div');d.style.cssText='position:fixed;left:50%;top:10px;transform:translateX(-50%);z-index:99998;padding:8px 16px;background:rgba(0,0,0,.85);color:#ffd447;border:2px solid #fff;border-radius:10px;font:900 15px/1.3 system-ui,sans-serif;text-align:center;pointer-events:none;white-space:nowrap';d.innerHTML='📱 たてに してね<br><span style="font-size:11px;color:#fff;font-weight:700">たてむきの ゲームだよ</span>';document.body.appendChild(d)}}
+else if(d){d.remove();d=null}}
+setInterval(f,500);addEventListener('resize',f)})()</script></body></html>

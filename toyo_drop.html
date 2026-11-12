@@ -125,13 +125,15 @@ function tone(f,d,ty,v,sl){if(!AC)return;try{const n=AC.currentTime,o=AC.createO
 const R=(c,a,b,w,h)=>{x.fillStyle=c;x.fillRect(Math.round(a),Math.round(b),w,h)};
 const rnd=n=>Math.floor(Math.random()*n);
 function txt(s,a,b,sz,col,al){x.fillStyle=col||'#fff';x.font='bold '+(sz||11)+'px monospace';x.textAlign=al||'left';x.fillText(s,a,b)}
-const BGM={"bpm": 168, "lt": "square", "bt": "triangle", "lead": [84, 0, 88, 84, 91, 0, 88, 0, 86, 0, 89, 86, 93, 0, 89, 0, 88, 0, 84, 88, 91, 88, 84, 0, 79, 81, 83, 84, 86, 0, 84, 0], "bass": [48, 0, 60, 48, 0, 60, 55, 0, 53, 0, 65, 53, 0, 65, 60, 0, 55, 0, 67, 55, 0, 67, 62, 0, 48, 0, 60, 48, 52, 55, 60, 0]};
+const BGM={"bpm": 168, "lt": "square", "bt": "triangle", "lead": [84, 0, 88, 84, 91, 0, 88, 0, 86, 0, 89, 86, 93, 0, 89, 0, 88, 0, 84, 88, 91, 88, 84, 0, 79, 81, 83, 84, 86, 0, 84, 0], "bass": [48, 0, 60, 48, 0, 60, 55, 0, 53, 0, 65, 53, 0, 65, 60, 0, 55, 0, 67, 55, 0, 67, 62, 0, 48, 0, 60, 48, 52, 55, 60, 0], "dr": "k.h.s.h.k.hks.h.k.h.s.h.k.hks.h."};
 let bT=null,bStep=0,bNext=0,bG=null;
 const NOTEF=n=>440*Math.pow(2,(n-69)/12);
 function bgStop(){if(bT){clearInterval(bT);bT=null}if(bG){const g=bG;try{g.gain.setTargetAtTime(0,AC.currentTime,.05)}catch(e){}setTimeout(()=>{try{g.disconnect()}catch(e){}},500);bG=null}}
 function bgN(n,t0,d,ty,v){const o=AC.createOscillator(),g=AC.createGain();o.type=ty;o.frequency.value=NOTEF(n);g.gain.setValueAtTime(v,t0);g.gain.exponentialRampToValueAtTime(.001,t0+d);o.connect(g);g.connect(bG);o.start(t0);o.stop(t0+d+.02)}
+function bgD(c,t){try{const o=AC.currentTime;if(c==='k'){const q=AC.createOscillator(),g=AC.createGain();q.type='sine';q.frequency.setValueAtTime(160,t);q.frequency.exponentialRampToValueAtTime(42,t+.12);g.gain.setValueAtTime(.16,t);g.gain.exponentialRampToValueAtTime(.001,t+.14);q.connect(g);g.connect(bG);q.start(t);q.stop(t+.16);return}
+const len=Math.floor(AC.sampleRate*(c==='s'?.11:.035)),buf=AC.createBuffer(1,len,AC.sampleRate),d=buf.getChannelData(0);for(let i=0;i<len;i++)d[i]=(Math.random()*2-1)*(1-i/len);const s=AC.createBufferSource();s.buffer=buf;const f=AC.createBiquadFilter();f.type='highpass';f.frequency.value=c==='s'?1400:6000;const g=AC.createGain();g.gain.value=c==='s'?.09:.04;s.connect(f);f.connect(g);g.connect(bG);s.start(t)}catch(e){}}
 function bgTick(){if(!AC||document.hidden||mode==='end'||paused){bgStop();return}const sd=60/BGM.bpm/2;const sp=1+Math.min(.25,(window.__bgBoost||0));
- while(bNext<AC.currentTime+.25){const k=bStep%32,tr=[0,0,5,0][Math.floor(bStep/32)%4];const n=BGM.lead[k],b=BGM.bass[k];if(n)bgN(n+tr,bNext,sd*1.6,BGM.lt,.035);if(b)bgN(b+tr,bNext,sd*1.8,BGM.bt,.06);bStep++;bNext+=sd/sp}}
+ while(bNext<AC.currentTime+.25){const k=bStep%32,tr=[0,0,5,0][Math.floor(bStep/32)%4];const n=BGM.lead[k],b=BGM.bass[k];if(n)bgN(n+tr,bNext,sd*1.6,BGM.lt,.035);if(b)bgN(b+tr,bNext,sd*1.8,BGM.bt,.06);if(BGM.dr){const dc=BGM.dr[k];if(dc&&dc!=='.')bgD(dc,bNext)}bStep++;bNext+=sd/sp}}
 function bgStart(){bgStop();if(!AC)return;bStep=0;bNext=AC.currentTime+.15;bG=AC.createGain();bG.gain.value=.5;bG.connect(MG||AC.destination);bT=setInterval(bgTick,60)}
 
 const RKDB='https://toyo-game-default-rtdb.asia-southeast1.firebasedatabase.app',GID=13;let rkMe='',rkSent=false,lastSc=0,me={};try{me=JSON.parse(localStorage.getItem('toyo_me')||'{}')}catch(e){}
@@ -395,7 +397,7 @@ async function netTick(){if(!NT.on||NT.busy||!B1||mode!=='play')return;NT.busy=t
  if(now-NT.lastChg>5000)lastLoseNet('つうしんが きれたよ')}finally{NT.busy=false}}
 // lobby UI
 const zst=document.createElement('style');zst.textContent='#zl{display:none;z-index:60;background:rgba(10,6,30,.96)}#zl h2{margin:0;font-size:7cqw;color:#ffd447}#zl .sub{font-size:4cqw;white-space:pre-line;line-height:1.5}#zl .s{display:flex;flex-direction:column;align-items:center;gap:2cqh}#zl .s[hidden]{display:none}#zcode,#zin{font-size:13cqw;letter-spacing:.14em;color:#ffd447;background:#000;border:.6cqw solid #fff;padding:.6cqw 5cqw}#zk{display:grid;grid-template-columns:repeat(3,18cqw);gap:1.6cqw}#zk span{font-size:7cqw;padding:2cqw 0;background:#2a3ad0;color:#fff;border:.6cqw solid #fff;cursor:pointer;text-align:center}#zrooms{display:flex;flex-direction:column;gap:1.4cqw;max-height:30cqh;overflow-y:auto;width:70cqw;align-items:center}';document.head.appendChild(zst);
-const zl=document.createElement('div');zl.className='ui';zl.id='zl';zl.innerHTML='<h2>📡 ネットで たいせん</h2><div class="s" id="zm"><div class="sub">おなじ ばんごうの へやで\nともだちと たいせん！</div><span class="bt3" id="zc">🏠 へやを つくる</span><span class="bt3" id="zj">🚪 へやに はいる</span></div><div class="s" id="zw" hidden><div class="sub">へやの ばんごう</div><div id="zcode">----</div><div class="sub" id="zcnt"></div><span class="bt3" id="zgo">スタート！</span><div class="sub" id="zst"></div></div><div class="s" id="zr" hidden><div class="sub" id="zrp"></div><div id="zrooms"></div><span class="bt3" id="ztype">⌨ ばんごうを いれる</span></div><div class="s" id="zkk" hidden><div class="sub" id="zkp"></div><div id="zin">----</div><div id="zk"></div><span class="bt3" id="zrnd">🎲 おまかせ</span><div class="sub" id="zmsg"></div></div><span class="bt2" id="zx">◀ もどる</span>';$('box').appendChild(zl);
+const zl=document.createElement('div');zl.className='ui';zl.id='zl';zl.innerHTML='<h2>📡 ネットで たいせん</h2><div class="s" id="zm"><div class="sub">おなじ ばんごうの へやで\nともだちと たいせん！</div><span class="bt3" id="zc">🏠 へやを つくる</span><span class="bt3" id="zj">🚪 へやに はいる</span><span class="bt3" id="ztoyo" style="background:#e8503a">🏯 東洋に ちょうせん！</span><span class="bt3" id="ztoyo2" style="background:#444;display:none">👷 社員：まちうけ</span></div><div class="s" id="zw" hidden><div class="sub">へやの ばんごう</div><div id="zcode">----</div><div class="sub" id="zcnt"></div><span class="bt3" id="zgo">スタート！</span><div class="sub" id="zst"></div></div><div class="s" id="zr" hidden><div class="sub" id="zrp"></div><div id="zrooms"></div><span class="bt3" id="ztype">⌨ ばんごうを いれる</span></div><div class="s" id="zkk" hidden><div class="sub" id="zkp"></div><div id="zin">----</div><div id="zk"></div><span class="bt3" id="zrnd">🎲 おまかせ</span><div class="sub" id="zmsg"></div></div><span class="bt2" id="zx">◀ もどる</span>';$('box').appendChild(zl);
 const zs=w=>{['zm','zw','zr','zkk'].forEach(k=>$(k).hidden=k!==w)};
 function openLobby(){clearInterval(NT.timer);clearInterval(rlTimer);$('zl').style.display='flex';zs('zm')}
 function toTitle(){leaveNet();waitNet=false;NT.on=false;$('zl').style.display='none';mode='title';$('title').style.display='flex';$('mb').style.display='none';bgStop();try{PEND=0}catch(e){}}
@@ -410,6 +412,11 @@ async function roomList(){const d=await jf(LB()+'.json');const box=$('zrooms');i
   if(alive&&s.n<2){cnt++;if(!el){el=document.createElement('span');el.className='bt3';el.addEventListener('click',()=>{clearInterval(rlTimer);NT.cm='join';kin=c;kshow();zs('zkk');$('zmsg').textContent='';keyDone()});RB[c]=el;box.appendChild(el)}const t='🚪 '+c+'　'+s.n+'/2にん';if(el.textContent!==t)el.textContent=t}
   else if(el){el.remove();delete RB[c]}});$('zrp').textContent=cnt?'はいる へやを タップ！':'まだ へやが ないよ\n（ともだちが つくると ここに でるよ）'}
 function openList(){zs('zr');$('zrooms').innerHTML='';for(const k in RB)delete RB[k];$('zrp').textContent='さがしています…';roomList();clearInterval(rlTimer);rlTimer=setInterval(roomList,2000)}
+const TOYO_AT=Date.UTC(2026,10,28)-9*3600e3;let STAFF=false;try{if(location.hash==='#staff')localStorage.setItem('toyo_staff','1');STAFF=localStorage.getItem('toyo_staff')==='1'}catch(e){}
+const toyoOpen=()=>STAFF||Date.now()>=TOYO_AT;
+{const t=$('ztoyo'),t2=$('ztoyo2');const lab=()=>{t.textContent=toyoOpen()?'🏯 東洋に ちょうせん！':'🏯 東洋に ちょうせん！\n11/28 かいきん！';t.style.opacity=toyoOpen()?1:.55;t.style.whiteSpace='pre-line'};lab();if(STAFF)t2.style.display='';
+ t.addEventListener('click',()=>{if(!toyoOpen()){t.textContent='🔒 とうじつ（11/28）に あそべるよ！';setTimeout(lab,2000);return}NT.cm='join';kin='0104';kshow();zs('zkk');$('zmsg').textContent='';keyDone()});
+ t2.addEventListener('click',()=>{NT.cm='create';kin='0104';kshow();zs('zkk');$('zmsg').textContent='';keyDone()})}
 $('ztype').addEventListener('click',()=>{clearInterval(rlTimer);openKeys('join')});$('zc').addEventListener('click',()=>openKeys('create'));$('zj').addEventListener('click',openList);
 $('zrnd').addEventListener('click',()=>{kin=String(1000+Math.floor(Math.random()*9000));kshow();keyDone()});
 ['1','2','3','4','5','6','7','8','9','←','0','OK'].forEach(k=>{const e=document.createElement('span');e.textContent=k;e.addEventListener('click',()=>{wake();tone(660,.04,'square',.04);if(k==='←')kin=kin.slice(0,-1);else if(k==='OK'){if(kin.length===4)keyDone()}else if(kin.length<4)kin+=k;kshow();if(kin.length===4&&k!=='OK'&&k!=='←')keyDone()});$('zk').appendChild(e)});
@@ -419,9 +426,9 @@ async function keyDone(){if(lbBusy)return;lbBusy=true;try{const code=kin;$('zmsg
  if(NT.cm==='create'){if(fresh){$('zmsg').textContent='その ばんごうは\nもう つかわれているよ';kin='';kshow();return}
   const id='h'+Math.random().toString(36).slice(2,8),pl={};pl[id]=Date.now();const ok=await jf(RM(code),{method:'PUT',body:JSON.stringify({s:'wait',t:Date.now(),k:0,g:'p',pl})});if(ok===undefined){$('zmsg').textContent='つながらないよ…';return}
   NT.code=code;NT.id=id;NT.role=0;NT.host=true;lbPut(code,1);showWait(true);hostPoll(code)}
- else{if(!r||!fresh){$('zmsg').textContent='へやが みつからないよ\nばんごうを かくにんしてね';kin='';kshow();return}
+ else{if(!r||!fresh){$('zmsg').textContent=code==='0104'?'東洋の ひとが まだ いないよ\nもうすこし まってね':'へやが みつからないよ\nばんごうを かくにんしてね';kin='';kshow();return}
   if(r.g!=='p'){$('zmsg').textContent='ほかの ゲームの へやだよ';kin='';kshow();return}
-  if(r.s!=='wait'){$('zmsg').textContent='もう しめきられているよ';kin='';kshow();return}
+  if(r.s!=='wait'){$('zmsg').textContent=code==='0104'?'いま たいせんちゅう！\nすこし まってね':'もう しめきられているよ';kin='';kshow();return}
   if(Object.keys(r.pl||{}).length>=2){$('zmsg').textContent='まんいん だよ（2にん）';kin='';kshow();return}
   const id='g'+Math.random().toString(36).slice(2,8),b={};b['pl/'+id]=Date.now();const ok=await jf(RM(code),{method:'PATCH',body:JSON.stringify(b)});if(ok===undefined){$('zmsg').textContent='つながらないよ…';return}
   NT.code=code;NT.id=id;NT.host=false;showWait(false);guestPoll(code,id)}}finally{lbBusy=false}}
