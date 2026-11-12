@@ -45,7 +45,7 @@ h2{margin:0;font-weight:400;font-size:6.5cqh;color:var(--spark)}
 </style>
 </head><body>
 <div id="rot">📱 よこむきに すると おおきく あそべるよ</div></div>
-<div id="stage">
+<div id="stage"><span id="qf" style="display:none;position:absolute;top:17cqh;left:50%;transform:translateX(-50%);z-index:30;font-size:3.4cqh;font-weight:900;color:#fff;background:rgba(0,0,0,.55);border:.3cqh solid #fff;border-radius:3cqh;padding:.5cqh 2.4cqh;cursor:pointer">■ やめる</span>
 <canvas id="cv" width="480" height="270"></canvas>
 <div id="pad">
  <div class="pb" id="bl">◀</div><div class="pb" id="br" style="left:19cqw;bottom:3cqh;display:flex">▶</div>
@@ -337,6 +337,9 @@ $('vsb').onclick=()=>{ac();SFX.ui();lobbyOpen()};
 $('fight').onclick=()=>{ac();SFX.ui();if(NT.code&&!$('pkinfo').hidden){NT.myRd=1;$('fight').disabled=true;return}start(KEYS[pick])};
 $('again').onclick=()=>{SFX.ui();if(NT.lastNet){NT.lastNet=false;$('res').hidden=true;lobbyOpen()}else start(KEYS[pick])};
 $('chg').onclick=()=>{SFX.ui();NT.on=false;NT.lastNet=false;$('res').hidden=true;$('sel').hidden=false;$('lv').hidden=false;$('pkinfo').hidden=true;$('fight').textContent='たたかう！';mode='sel'};
+
+{const q=$('qf');q.addEventListener('click',e=>{e.stopPropagation();ac();SFX.ui();try{bgStop()}catch(_){}NT.on=false;clearInterval(NT.timer);G=null;mode='title';$('res').hidden=true;$('sel').hidden=true;$('lv').hidden=false;$('pkinfo').hidden=true;$('title').hidden=false;try{$('pad').style.display='none'}catch(_){}});
+ setInterval(()=>{q.style.display=(mode==='fight'&&!NT.on&&G)?'block':'none'},250)}
 window.__fg={get G(){return G},NT,start,KEYS,step,update,get mode(){return mode},setPick(i){pick=i}};
 </script>
 

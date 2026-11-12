@@ -107,7 +107,7 @@ html,body{height:var(--vh,100%)}#wrap{inset:auto;top:0;left:0;right:0;height:var
 <div id="pad" style="display:none"></div>
 <div class="ui" id="title"><canvas id="tbg"></canvas><a id="back" href="index.html?menu=1">◀ ゲームえらびへ</a><div class="pre">株式会社東洋工作所 PRESENTS</div><div id="hiq">HI-SCORE 000000</div><canvas id="thero"></canvas><h1>ミツオ<br>大配管！</h1><p>マスを タップすると パイプが おかれます。<br>タップするたび かたちが かわるよ！<br>スタートから ゴールまで 水を とどけよう。<br>きいろ×くろの マスには おけないよ！</p><div id="hp"></div><span class="bt" id="go">▶ スタート！</span><span class="bt3" id="rkb">🏆 ランキング</span><small>株式会社東洋工作所<br>パイプでワクワクをつなぎ未来をソウゾウする</small></div>
 <span id="sb">🔊</span><span id="mb">☰</span>
-<div class="ui" id="pz"><p class="big">ポーズ</p><span class="bt" id="pc">▶ つづける</span><a class="bt2" href="index.html?menu=1">ゲームえらびへ</a></div>
+<div class="ui" id="pz"><p class="big">ポーズ</p><span class="bt" id="pc">▶ つづける</span><span class="bt2" id="pq" style="cursor:pointer">■ やめる（トップへ）</span><a class="bt2" href="index.html?menu=1">ゲームえらびへ</a></div>
 <div class="ui" id="over" style="display:none"><div id="ohs"></div><p class="big" id="ot">GAME OVER</p><div class="panel"><p>SCORE</p><div class="sc" id="os">0</div><div id="nrec">🎉 しんきろく！</div><small id="bst"></small></div><p id="od"></p><div id="rksec"><input id="nm" maxlength="6" placeholder="なまえ（6もじ）"><br><span class="bt3" id="rksend">📤 ランキングにのせる</span><span class="bt3" id="rkb2">🏆 ランキング</span></div><span class="bt" id="again">▶ もう一回！</span><a class="bt2" href="index.html?menu=1">ほかのゲームへ</a></div>
 <div class="ui" id="rk" style="display:none"><h2>🏆 ランキング</h2><div id="rkl"></div><span class="bt" id="rkx" style="display:none">✕ とじる</span><small style="display:block;margin-top:1.2em;font-size:12px;font-weight:700;opacity:.85">タップで もどる</small></div>
 </div></div>
@@ -148,6 +148,8 @@ $('nrec').style.display=nr?'block':'none';$('bst').textContent=nr?'':(best?'ベ�
 const ov=$('over');try{ov.insertBefore($('tbg'),ov.firstChild);$('ohs').appendChild($('thero'))}catch(e){}
 setTimeout(()=>{ov.style.display='flex';const t0=performance.now();(function cu(n){const k=Math.min(1,(n-t0)/900);$('os').textContent=String(Math.floor(sc0*(1-Math.pow(1-k,3)))).padStart(6,'0');if(k<1)requestAnimationFrame(cu)})(t0)},600)}
 $('mb').addEventListener('pointerdown',ev=>{ev.preventDefault();ev.stopPropagation();if(mode==='play'){paused=true;held={};bgStop();$('pz').style.display='flex'}});
+$('pq').addEventListener('click',()=>{paused=false;held={};pressed={};try{bgStop()}catch(e){}$('pz').style.display='none';$('mb').style.display='none';$('over').style.display='none';try{if(hasPad)$('pad').style.display='none'}catch(e){}mode='title';$('title').style.display='';try{GAME.reset&&0}catch(e){}});
+setInterval(()=>{if(mode!=='play')return;let n=false;try{n=(typeof NET!=='undefined'&&NET&&NET.on)||(typeof NT!=='undefined'&&NT&&NT.on&&typeof VSM!=='undefined'&&VSM==='net')}catch(e){}$('mb').style.display=n?'none':'flex'},300);
 $('pc').addEventListener('click',()=>{paused=false;$('pz').style.display='none';bgStart()});
 $('sb').addEventListener('pointerdown',ev=>{ev.preventDefault();ev.stopPropagation();wake();muted=!muted;try{localStorage.setItem('toyo_mute',muted?'1':'0')}catch(e){}applyMute()});applyMute();
 $('go').addEventListener('click',start);$('again').addEventListener('click',start);
