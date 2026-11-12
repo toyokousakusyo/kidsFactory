@@ -114,7 +114,7 @@ html,body{height:var(--vh,100%)}#wrap{inset:auto;top:0;left:0;right:0;height:var
 <div id="cd"></div><div id="pad" style="display:none"></div>
 <div class="ui" id="title"><canvas id="tbg"></canvas><a id="back" href="index.html?menu=1">◀ ゲームえらびへ</a><div class="pre">株式会社東洋工作所 PRESENTS</div><div id="hiq">HI-SCORE 000000</div><canvas id="thero"></canvas><h1>パイプ<br>大爆発！</h1><p>CPU3にんと 4にんたいせん！<br>🔥かりょく 💣ばくだん 👟はやさ<br>🥚たまごで ワクワークが まもる</p><div id="hp"></div><span class="bt vb" id="go">🤖 CPUと たいせん</span><span class="bt vb" id="vsb" style="background:#2a3ad0">📡 ちかくの ひとと たいせん</span><span class="bt3" id="rkb">🏆 ランキング</span><small>株式会社東洋工作所<br>パイプでワクワクをつなぎ未来をソウゾウする</small></div>
 <span id="sb">🔊</span><span id="mb">☰</span>
-<div class="ui" id="pz"><p class="big">ポーズ</p><span class="bt" id="pc">▶ つづける</span><a class="bt2" href="index.html?menu=1">ゲームえらびへ</a></div>
+<div class="ui" id="pz"><p class="big">ポーズ</p><span class="bt" id="pc">▶ つづける</span><span class="bt2" id="pq" style="cursor:pointer">■ やめる（トップへ）</span><a class="bt2" href="index.html?menu=1">ゲームえらびへ</a></div>
 <div class="ui" id="over" style="display:none"><div id="ohs"></div><p class="big" id="ot">GAME OVER</p><div class="panel"><p>SCORE</p><div class="sc" id="os">0</div><div id="nrec">🎉 しんきろく！</div><small id="bst"></small></div><p id="od"></p><div id="rksec"><input id="nm" maxlength="6" placeholder="なまえ（6もじ）"><br><span class="bt3" id="rksend">📤 ランキングにのせる</span><span class="bt3" id="rkb2">🏆 ランキング</span></div><span class="bt" id="again">▶ もう一回！</span><a class="bt2" href="index.html?menu=1">ほかのゲームへ</a></div>
 <div class="ui" id="lobby" style="display:none"><h2 id="lbh">📡 ちかくの ひとと たいせん</h2><div class="lbs" id="lbm"><p>おなじ かいじょうの ともだちと<br>「あいことば」の へやで あそぼう！<br>さいだい 4にん</p><span class="bt vb" id="lbc">🏠 へやを つくる</span><span class="bt vb" id="lbj" style="background:#2a3ad0">🚪 へやに はいる</span><span class="bt vb" id="lbtoyo" style="background:#e8503a;white-space:pre-line">🏯 東洋に ちょうせん！</span><span class="bt vb" id="lbtoyo2" style="background:#444;display:none">👷 社員：まちうけ</span></div>
 <div class="lbs" id="lbw" style="display:none"><p id="lbwp">へやの ばんごう</p><div id="lbcode">----</div><p id="lbcnt">1にん あつまっているよ</p><span class="bt vb" id="lbgo" style="background:#e4382f;display:none">🔒 しめきって スタート！<br><small>たりない ぶんは CPU</small></span><p id="lbst"></p></div>
@@ -163,9 +163,11 @@ $('nrec').style.display=nr?'block':'none';$('bst').textContent=nr?'':(best?'ベ�
 const ov=$('over');try{ov.insertBefore($('tbg'),ov.firstChild);$('ohs').appendChild($('thero'))}catch(e){}
 setTimeout(()=>{ov.style.display='flex';const t0=performance.now();(function cu(n){const k=Math.min(1,(n-t0)/900);$('os').textContent=String(Math.floor(sc0*(1-Math.pow(1-k,3)))).padStart(6,'0');if(k<1)requestAnimationFrame(cu)})(t0)},600)}
 $('mb').addEventListener('pointerdown',ev=>{ev.preventDefault();ev.stopPropagation();if(mode==='play'){paused=true;held={};bgStop();$('pz').style.display='flex'}});
+$('pq').addEventListener('click',()=>{paused=false;held={};pressed={};try{bgStop()}catch(e){}$('pz').style.display='none';$('mb').style.display='none';$('over').style.display='none';try{if(hasPad)$('pad').style.display='none'}catch(e){}mode='title';$('title').style.display='';try{GAME.reset&&0}catch(e){}});
+setInterval(()=>{if(mode!=='play')return;let n=false;try{n=(typeof NET!=='undefined'&&NET&&NET.on)||(typeof NT!=='undefined'&&NT&&NT.on&&typeof VSM!=='undefined'&&VSM==='net')}catch(e){}$('mb').style.display=n?'none':'flex'},300);
 $('pc').addEventListener('click',()=>{paused=false;$('pz').style.display='none';bgStart()});
 $('sb').addEventListener('pointerdown',ev=>{ev.preventDefault();ev.stopPropagation();wake();muted=!muted;try{localStorage.setItem('toyo_mute',muted?'1':'0')}catch(e){}applyMute()});applyMute();
-$('go').addEventListener('click',()=>start('solo'));$('again').addEventListener('click',()=>{if(VS.mode==='net')lobbyOpen();else start('solo')});$('vsb').addEventListener('click',lobbyOpen);
+$('go').addEventListener('click',()=>start('solo'));$('again').addEventListener('click',()=>{if(VS.mode==='net'){if(NET.code)rematch();else lobbyOpen()}else start('solo')});$('vsb').addEventListener('click',lobbyOpen);
 document.querySelectorAll('#pad .pb').forEach(e=>{const k=e.dataset.k;
  e.addEventListener('pointerdown',ev=>{ev.preventDefault();wake();held[k]=1;pressed[k]=1;e.classList.add('on')});
  const off=()=>{held[k]=0;e.classList.remove('on')};
@@ -251,8 +253,8 @@ function genMap(seed){const r=mkr(seed);mp=[];itm=[];for(let y=0;y<RO;y++){mp.pu
  [[3,1],[1,3],[5,1],[7,3],[3,11],[1,9],[5,11],[7,9]].forEach(([x,y])=>{mp[y][x]=2})}
 function mkP(i){const s=starts[i];return {i,x:s[0]*TS+TS/2,y:s[1]*TS+TS/2,al:true,r:1,m:1,sp:0,lu:0,inv:0,dx:0,dy:0,face:1,bomb:0,ai:null,path:[],tm:0,tx:0,ty:0}}
 function reset(o){const net=o&&o.mode==='net';vsNet=net;rngS=net?o.seed:1+Math.floor(Math.random()*99999);genMap(rngS);
- bombs=[];flames=[];items=[];pend=[];seenB=new Set();bid=0;crates=0;got=0;T=0;cd=3.4;cdn=0;over=false;endT=0;res=null;lostN=false;stick=null;ptrs.clear();
- const hn=net?Math.max(1,Math.min(4,o.n||2)):1;HN=hn;cfix=0;pendAb=0;myRd=0;pickT=net&&hn>1?20:0;if(pkEl){pkEl.remove();pkEl=null}if(pickT>0)setTimeout(pickOpen,0);pl=[];for(let i=0;i<4;i++)pl.push(mkP(i));GAME.me=net?o.role:0;GAME.op=(GAME.me+1)%4;
+ bombs=[];flames=[];items=[];pend=[];seenB=new Set();bid=0;crates=0;got=0;T=0;try{pl.forEach(q=>{q.dT=undefined})}catch(e){}cd=3.4;cdn=0;over=false;endT=0;res=null;lostN=false;stick=null;ptrs.clear();
+ const hn=net?Math.max(1,Math.min(4,o.n||2)):1;HN=hn;cfix=0;pendAb=0;myRd=0;pickT=net&&hn>1?20:0;if(pkEl){pkEl.remove();pkEl=null}if(pickT>0)setTimeout(pickOpen,0);pl=[];for(let i=0;i<4;i++)pl.push(mkP(i));if(net&&o.bonus)o.bonus.forEach(k=>{if(pl[k]){pl[k].r=2;pl[k].m=2}});GAME.me=net?o.role:0;GAME.op=(GAME.me+1)%4;
  for(let i=hn;i<4;i++){pl[i].ai=(!net)||o.role===0;const pool=[0,1,2,4].filter(h=>h!==(net?(o.role===0?HERO:0):HERO));pl[i].hero=pool[(i-1+pool.length)%pool.length]}
  $('cd').textContent='';window.__bgBoost=0}
 const cell=v=>Math.floor(v/TS);
@@ -316,7 +318,7 @@ function pickUpd(){if(!pkEl)return;const f=(Date.now()/330|0)%2;pkEl.querySelect
 function update(dt){
  if(pickT>0){pickT-=dt;pickUpd();let all=1;for(let k=0;k<HN;k++)if(!(k===GAME.me?myRd:pl[k].rd))all=0;if(pickT<=0||all){pickT=0;if(pkEl){pkEl.remove();pkEl=null}if(GAME.me===0){cpuAssign();cfix=1}cd=3.4;cdn=0;if(pendAb){over=true;endT=.6;res='abort'}}return}
  if(cd>0){cd-=dt;const n=Math.ceil(cd);if(cd>0){if(cdn!==n){cdn=n;$('cd').textContent=String(n);tone(440,.12,'square',.05)}}else{$('cd').textContent='GO!';tone(880,.3,'square',.06);setTimeout(()=>{if($('cd').textContent==='GO!')$('cd').textContent=''},800);window.__bgBoost=.08}return}
- T+=dt;if(vsNet&&GAME.me===0&&!cfix&&T>1){cfix=1;const used=new Set([HERO]);for(let i=1;i<HN;i++)if(pl[i].hero!==undefined)used.add(pl[i].hero);const free=[0,1,2,4].filter(h=>!used.has(h));for(let i=HN;i<4&&free.length;i++)pl[i].hero=free.shift()}
+ T+=dt;pl.forEach(q=>{if(!q.al&&q.dT===undefined)q.dT=T});if(vsNet&&GAME.me===0&&!cfix&&T>1){cfix=1;const used=new Set([HERO]);for(let i=1;i<HN;i++)if(pl[i].hero!==undefined)used.add(pl[i].hero);const free=[0,1,2,4].filter(h=>!used.has(h));for(let i=HN;i<4&&free.length;i++)pl[i].hero=free.shift()}
  const m=pl[GAME.me];
  if(m.al&&!over){let dx=0,dy=0;if(stick&&stick.dir){dx=stick.dir[0];dy=stick.dir[1]}if(held.l)dx=-1;if(held.r)dx=1;if(held.u)dy=-1;if(held.d)dy=1;if(pressed.a)dropBomb(m);
   if(GAME.dbgAuto){aiMove(m,dt)}else if(dx||dy){if(dx)m.face=dx;movePl(m,dx&&dy?dx:dx,dx?0:dy,dt)}}
@@ -332,12 +334,15 @@ function update(dt){
   if((p===m||p.ai)&&p.inv<=0&&inFlame(gx,gy)){if(p.lu){p.lu=0;p.inv=1.6;tone(300,.3,'square',.06,-120)}else{p.al=false;tone(200,.5,'sawtooth',.07,-150)}}}
  // 決着
  
- if(!over){const mAl=m.al,alive=pl.filter(q=>q.al).length,oAl=alive-(mAl?1:0)>0;const fin=vsNet?(alive<=1||T>=LIM):(!mAl||!oAl||T>=LIM);if(fin){over=true;endT=1.4;res=(T>=LIM&&alive>1)?'draw':(mAl&&!oAl)?'win':(!mAl&&!oAl)?'draw':'lose'}}
+ if(!over){const mAl=m.al,alive=pl.filter(q=>q.al).length,oAl=alive-(mAl?1:0)>0;const fin=vsNet?(alive<=1||T>=LIM):(!mAl||!oAl||T>=LIM);if(fin){over=true;endT=1.4;res=(T>=LIM&&alive>1)?'time':(mAl&&!oAl)?'win':(!mAl&&!oAl)?'draw':'lose'}}
  else{endT-=dt;if(endT<=0)endGame()}
  if(vsNet&&lostN&&!over){over=true;endT=.6;res='abort'}
  pressed.a=0}
-function endGame(){if(mode!=='play')return;$('cd').textContent='';const win=res==='win';const ab=res==='abort';const sc=crates*10+got*30+(win?1000+Math.max(0,Math.round((LIM-T)*5)):res==='draw'?200:0);
- const det='ブロック '+crates+'こ ・ アイテム '+got+'こ'+(win?' ・ しょうり ボーナス！':'');if(vsNet)netEnd();finish(sc,det,ab?'だれかが ぬけたので おわり':win?'YOU WIN!':res==='draw'?'DRAW':'YOU LOSE')}
+const HNM=['ミツオ','テルージ','ケイリー','ワクワーク','ロボ'];
+function placeList(){const a=pl.slice().sort((x,y)=>{const ax=x.al?1e9:(x.dT||0),ay=y.al?1e9:(y.dT||0);return ay-ax});let r=0,last=null,out=[];a.forEach((q,i)=>{const k=q.al?1e9:(q.dT||0);if(k!==last){r=i+1;last=k}out.push({p:q,r})});return out}
+function endGame(){if(mode!=='play')return;$('cd').textContent='';const win=res==='win';const ab=res==='abort';const sc=crates*10+got*30+(win?1000+Math.max(0,Math.round((LIM-T)*5)):(res==='draw'||res==='time')?200:0);
+ let myR=0;try{if(vsNet&&!ab){const L=placeList();const me=L.find(e=>e.p.i===GAME.me);if(me)myR=me.r}}catch(e){}
+ const det=(myR?myR+'い ・ ':'')+'ブロック '+crates+'こ ・ アイテム '+got+'こ'+(win?' ・ しょうり ボーナス！':'');if(vsNet){if(ab)netEnd();else{netKeep();try{const L=placeList().filter(e=>e.r===1);if(L.length===1&&NET.ids&&NET.role===0)NET.win=[NET.ids[L[0].p.i]].filter(Boolean)}catch(e){}}}try{$('again').textContent=(vsNet&&!ab&&NET.code)?'▶ おなじ へやで もう一回！':'▶ もう一回！'}catch(e){}finish(sc,det,ab?'だれかが ぬけたので おわり':win?'YOU WIN!':res==='time'?'TIME OVER':res==='draw'?'DRAW':'YOU LOSE')}
 // ===== 描画 =====
 const ALT={},HOFF=[150,80,230];function mkAlt(h,n){const K=h+'_'+n;if(ALT[K])return ALT[K];ALT[K]=HIM[h].map(c=>{const o=document.createElement('canvas');o.width=c.width;o.height=c.height;const g=o.getContext('2d');g.drawImage(c,0,0);const im=g.getImageData(0,0,o.width,o.height),d=im.data;for(let i=0;i<d.length;i+=4){if(!d[i+3])continue;let r=d[i]/255,gg=d[i+1]/255,b=d[i+2]/255;const mx=Math.max(r,gg,b),mn=Math.min(r,gg,b),dl=mx-mn,l=(mx+mn)/2;if(dl<.12)continue;let hh=mx===r?((gg-b)/dl+6)%6:mx===gg?(b-r)/dl+2:(r-gg)/dl+4;hh*=60;const sat=dl/(1-Math.abs(2*l-1)||1);if(hh>12&&hh<48&&sat<.8&&l>.35)continue;hh=(hh+HOFF[n-1])%360;const C=(1-Math.abs(2*l-1))*sat,X=C*(1-Math.abs((hh/60)%2-1)),m=l-C/2;let R,G,B;const k=Math.floor(hh/60);[R,G,B]=[[C,X,0],[X,C,0],[0,C,X],[0,X,C],[X,0,C],[C,0,X]][k];d[i]=(R+m)*255;d[i+1]=(G+m)*255;d[i+2]=(B+m)*255}g.putImageData(im,0,0);return o});return ALT[K]}
 function hv(p){const h=heroOf(p);let n=0;for(const q of pl){if(q.i<p.i&&heroOf(q)===h)n++}return n?mkAlt(h,Math.min(n,3)):HIM[h]}
@@ -370,7 +375,8 @@ function render(){
  ot('のこり '+Math.max(0,Math.ceil(LIM-T))+'びょう',W/2,56,11,'#ffd447','center');
  {let k=0;for(const q of pl){if(q===m)continue;x.globalAlpha=q.al?1:.3;try{x.drawImage(hv(q)[0],W-24-k*24,5,20,26)}catch(e){}x.globalAlpha=1;if(!q.al)ot('×',W-14-k*24,24,14,'#ff6a6a','center');k++}}
  if(vsNet&&!over&&!m.al)ot('やられた…  みんなを みてるよ',W/2,OY+RO*TS/2,14,'#fff','center');
- if(over&&res)ot(res==='win'?'かち！':res==='lose'?'まけ…':res==='abort'?'だれかが ぬけた！':'ひきわけ',W/2,OY+RO*TS/2,30,'#fff','center');
+ if(over&&vsNet&&res&&res!=='abort'){try{const L=placeList();ot('けっか はっぴょう！',W/2,OY+RO*TS/2-60,14,'#ffd447','center');L.forEach((e,i)=>{const h=heroOf(e.p),nm=HNM[h]||'';ot(e.r+'い　'+nm+(e.p.i===GAME.me?'（あなた）':''),W/2,OY+RO*TS/2+34+i*20,13,e.r===1?'#ffd447':'#fff','center')})}catch(e){}}
+ if(over&&res)ot(res==='win'?'かち！':res==='lose'?'まけ…':res==='abort'?'だれかが ぬけた！':res==='time'?'タイムオーバー！':'ひきわけ',W/2,OY+RO*TS/2,30,'#fff','center');
  if(cd>0&&!stick)ot('ゆびを スワイプで いどう / タップで ばくだん！',W/2,H-6,10,'#fff','center')}
 function ot(s,a,b,sz,col,al){txt(s,a+1,b+1,sz,'#000',al);txt(s,a,b,sz,col,al)}
 // ===== 入力 =====
@@ -382,7 +388,7 @@ GAME={reset,update,render,me:0,op:1,
  netState:(i)=>{const ix=i===undefined?GAME.me:i,m=pl[ix];return {h:(ix===GAME.me?HERO:m.hero),x:Math.round(m.x),y:Math.round(m.y),f:m.face,a:m.al?1:0,r:m.r,B:bombs.filter(b=>b.own===ix).map(b=>[b.id,b.gx,b.gy,b.r]),T:Math.round(T),rd:ix===GAME.me?myRd:undefined,c:ix===GAME.me?++NCt:undefined}},
  netPeer:(p,ix)=>{const o=pl[ix===undefined?GAME.op:ix];if(!o)return;if(p.h!==undefined)o.hero=p.h;if(p.rd!==undefined)o.rd=p.rd;if(p.q&&(ix===undefined?GAME.op:ix)<HN&&!over)GAME.netPeerLost((ix===undefined?GAME.op:ix));o.x+=(p.x-o.x)*.6;o.y+=(p.y-o.y)*.6;o.face=p.f||1;o.r=p.r||o.r;if(p.a===0&&o.al&&cd<=0){o.al=false;tone(200,.5,'sawtooth',.07,-150)}
   (p.B||[]).forEach(q=>{if(seenB.has(q[0]))return;seenB.add(q[0]);const b={id:q[0],gx:q[1],gy:q[2],t:BT-.1,r:q[3],own:o.i,pass:{}};b.pass[GAME.me]=false;if(!bombAt(b.gx,b.gy)){bombs.push(b);o.bomb++;tone(180,.08,'square',.04)}})},
- netPeerLost:i=>{const o=pl[i];if(i<HN&&i!==GAME.me){if(pickT>0){pendAb=1;return}if(!over){over=true;endT=.6;res='abort'}return}if(o&&o.al){o.al=false}},netLost:()=>{lostN=true}};
+ netPeerLost:i=>{const o=pl[i];if(i<HN&&i!==GAME.me){if(pickT>0){pendAb=1;return}if(o&&o.al){o.al=false}return}if(o&&o.al){o.al=false}},netLost:()=>{lostN=true}};
 window.__bm={get pl(){return pl},get mp(){return mp},get bombs(){return bombs},get flames(){return flames},get items(){return items},get over(){return over},get res(){return res}};
 
 (function(){const t=document.getElementById('title'),go=document.getElementById('go');if(!t||!go)return;
@@ -448,13 +454,14 @@ function lobbyOpen(){wake();NET.on=false;clearInterval(NET.timer);$('over').styl
 function lobbyClose(){clearInterval(NET.timer);NET.timer=null;$('lobby').style.display='none';if(VS.mode==='net'&&mode!=='play'){mode='title';$('title').style.display='flex'}}
 function leaveRoom(){clearInterval(NET.timer);if(NET.code&&NET.role===0&&NET.host){jf(RM(NET.code),{method:'DELETE'});lbDel(NET.code)}else if(NET.code&&NET.id)jf(RKDB+'/rooms/'+NET.code+'/pl/'+NET.id+'.json',{method:'DELETE'});NET.code='';NET.host=false}
 $('lbx').addEventListener('click',()=>{if($('lbm').style.display!=='none'){lobbyClose();VS.mode='solo';$('title').style.display='flex';mode='title'}else{clearInterval(rlTimer);leaveRoom();lbShow('lbm')}});
-function netGo(role,seed,code,n){clearInterval(NET.timer);NET.role=role;NET.seed=seed;NET.code=code;NET.n=n;NET.k=0;NET.on=true;NET.room=null;NET.last=[];NET.cc={};for(let i=0;i<4;i++)NET.last.push(Date.now());$('lobby').style.display='none';VS.mode='net';VS.seed=seed;VS.role=role;VS.n=n;start('net');NET.timer=setInterval(netTick,130)}
+function netGo(role,seed,code,n,bonus){VS.bonus=bonus||[];NET.rd=NET.rd||0;clearInterval(NET.timer);NET.role=role;NET.seed=seed;NET.code=code;NET.n=n;NET.k=0;NET.on=true;NET.room=null;NET.last=[];NET.cc={};for(let i=0;i<4;i++)NET.last.push(Date.now());$('lobby').style.display='none';VS.mode='net';VS.seed=seed;VS.role=role;VS.n=n;start('net');NET.timer=setInterval(netTick,130)}
 async function netTick(){if(!NET.on||NET.busy)return;NET.busy=true;try{const base=RKDB+'/rooms/'+NET.code;
  if(NET.role===0){const b={};b['p0']=GAME.netState&&GAME.netState(0);for(let i=NET.n;i<4;i++)b['p'+i]=GAME.netState(i);b.k=++NET.k;b.t=Date.now();await jf(base+'.json',{method:'PATCH',body:JSON.stringify(b)})}
  else{const st=GAME.netState&&GAME.netState(NET.role);if(st)await jf(base+'/p'+NET.role+'.json',{method:'PUT',body:JSON.stringify(st)})}
  const r=await jf(RM(NET.code));const now=Date.now();
  if(r){NET.room=r;for(let i=0;i<4;i++){if(i===NET.role)continue;if(i>=NET.n&&NET.role===0)continue;const p=r['p'+i];NET.cc=NET.cc||{};if(p){if(p.c===undefined||NET.cc[i]!==p.c){NET.last[i]=now;NET.cc[i]=p.c}GAME.netPeer&&GAME.netPeer(p,i)}if(now-NET.last[i]>4500&&mode==='play'){NET.last[i]=now;GAME.netPeerLost&&GAME.netPeerLost(i)}}}
  else if(r===null&&NET.role!==0&&now-Math.max.apply(null,NET.last)>4500&&mode==='play'){for(let i=0;i<4;i++)if(i!==NET.role)GAME.netPeerLost&&GAME.netPeerLost(i)}}finally{NET.busy=false}}
+function netKeep(){NET.on=false;clearInterval(NET.timer);NET.win=[];}
 function netEnd(){if(NET.on&&NET.role===0&&NET.code)jf(RM(NET.code),{method:'DELETE'});NET.on=false;clearInterval(NET.timer);NET.code=''}
 const sleep=ms=>new Promise(r=>setTimeout(r,ms));
 async function probe(code){const a=await jf(RM(code));if(a===undefined)return undefined;if(!a)return null;await sleep(1800);const b=await jf(RM(code));if(b===undefined)return undefined;if(!b)return null;return {r:b,alive:(b.k!==a.k)}}
@@ -490,21 +497,30 @@ async function keyDone(){if(lbBusy)return;lbBusy=true;try{const code=kin;$('lbms
  if(NET.cm==='create'){if(fresh){$('lbmsg').textContent='その ばんごうは\nもう つかわれているよ';kin='';kshow();return}
   const id='h'+Math.random().toString(36).slice(2,8),seed=1+Math.floor(Math.random()*99999),pl={};pl[id]=Date.now();
   const ok=await jf(RM(code),{method:'PUT',body:JSON.stringify({s:'wait',t:Date.now(),k:0,seed,pl})});if(ok===undefined){$('lbmsg').textContent='つながらないよ…';return}
-  NET.code=code;NET.id=id;NET.role=0;NET.host=true;lbPut(code,1);showWait(true);hostPoll(code,seed)}
+  NET.rd=0;NET.code=code;NET.id=id;NET.role=0;NET.host=true;lbPut(code,1);showWait(true);hostPoll(code,seed)}
  else{if(!r||!fresh){$('lbmsg').textContent=code==='0104'?'東洋の ひとが まだ いないよ\nもうすこし まってね':'へやが みつからないよ\nばんごうを かくにんしてね';kin='';kshow();return}
   if(r.g){$('lbmsg').textContent='ほかの ゲームの へやだよ';kin='';kshow();return}
   if(r.s!=='wait'){$('lbmsg').textContent=code==='0104'?'いま たいせんちゅう！\nすこし まってね':'もう しめきられているよ';kin='';kshow();return}
   const cnt=Object.keys(r.pl||{}).length;if(cnt>=4){$('lbmsg').textContent=code==='0104'?'いま たいせんちゅう！\nすこし まってね':'まんいん だよ（4にん）';kin='';kshow();return}
   const id='g'+Math.random().toString(36).slice(2,8),b={};b['pl/'+id]=Date.now();
   const ok=await jf(RM(code),{method:'PATCH',body:JSON.stringify(b)});if(ok===undefined){$('lbmsg').textContent='つながらないよ…';return}
-  NET.code=code;NET.id=id;NET.host=false;showWait(false);guestPoll(code,id)}
+  NET.rd=0;NET.code=code;NET.id=id;NET.host=false;showWait(false);guestPoll(code,id)}
  }finally{lbBusy=false}}
+async function rematch(){wake();$('over').style.display='none';$('pz').style.display='none';$('lobby').style.display='flex';mode='title';const code=NET.code;
+ if(NET.host){const seed=1+Math.floor(Math.random()*99999),pl={};pl[NET.id]=Date.now();NET.rd=(NET.rd||0)+1;
+  const ok=await jf(RM(code),{method:'PUT',body:JSON.stringify({s:'wait',t:Date.now(),k:0,seed,pl,rd:NET.rd,bonus:NET.win||[]})});
+  if(ok===undefined){$('lbmsg').textContent='つながらないよ…';lbShow('lbm');return}
+  NET.role=0;lbPut(code,1);showWait(true);$('lbst').textContent=(NET.win&&NET.win.length)?'まえの 1い は アイテムつきで スタート！':'もういちど あそぶよ！';hostPoll(code,seed)}
+ else{showWait(false);$('lbst').textContent='ホストが もういちど はじめるのを まっててね';guestPoll(code,NET.id,NET.rd||0)}}
 function sortedIds(r){const e=Object.entries(r.pl||{});e.sort((a,b)=>a[1]-b[1]);return e.map(q=>q[0])}
 function hostPoll(code,seed){let n=0,hb=0;clearInterval(NET.timer);NET.timer=setInterval(async()=>{if(++n>1800){leaveRoom();lbShow('lbm');return}const r=await jf(RM(code));if(!r)return;const c=Math.min(4,Object.keys(r.pl||{}).length);$('lbcnt').textContent=c+'にん あつまっているよ'+(c>=4?'（まんいん）':'');if(++hb%3===1){lbPut(code,c);jf(RM(code),{method:'PATCH',body:JSON.stringify({k:hb,t:Date.now()})})}$('lbgo').style.opacity=1},500)}
 $('lbgo').addEventListener('click',async()=>{const code=NET.code;if(!code||!NET.host)return;const r=await jf(RM(code));if(!r)return;const ids=sortedIds(r).slice(0,4);
- clearInterval(NET.timer);lbDel(code);await jf(RM(code),{method:'PATCH',body:JSON.stringify({s:'go',ids})});netGo(0,r.seed,code,ids.length)});
-function guestPoll(code,id){let n=0;clearInterval(NET.timer);NET.timer=setInterval(async()=>{if(++n>1500){leaveRoom();lbShow('lbm');return}const q=await jf(RM(code));if(q===null){clearInterval(NET.timer);NET.code='';$('lbst').textContent='へやが なくなったよ';return}if(!q)return;
-  if(q.s==='go'){clearInterval(NET.timer);const k=(q.ids||[]).indexOf(id);if(k>=0)netGo(k,q.seed,code,q.ids.length);else{$('lbst').textContent='しめきられて はいれなかったよ'}return}
+ clearInterval(NET.timer);lbDel(code);await jf(RM(code),{method:'PATCH',body:JSON.stringify({s:'go',ids})});NET.ids=ids;netGo(0,r.seed,code,ids.length,(r.bonus||[]).map(b=>ids.indexOf(b)).filter(k=>k>=0))});
+function guestPoll(code,id,minRd){let n=0,joined=minRd===undefined;const mr=minRd===undefined?-1:minRd;clearInterval(NET.timer);NET.timer=setInterval(async()=>{if(++n>1500){leaveRoom();lbShow('lbm');return}const q=await jf(RM(code));if(q===null){clearInterval(NET.timer);NET.code='';$('lbst').textContent='へやが なくなったよ';return}if(!q)return;
+  const rd=q.rd||0;if(rd<=mr&&mr>=0)return;
+  if(!joined&&q.s==='wait'){joined=true;const b={};b['pl/'+id]=Date.now();await jf(RM(code),{method:'PATCH',body:JSON.stringify(b)});return}
+  if(q.s==='go'){clearInterval(NET.timer);const ids=q.ids||[],k=ids.indexOf(id);if(k>=0){NET.ids=ids;NET.rd=rd;netGo(k,q.seed,code,ids.length,(q.bonus||[]).map(b=>ids.indexOf(b)).filter(j=>j>=0))}else{$('lbst').textContent='しめきられて はいれなかったよ'}return}
+  if(q.s==='wait'&&(q.bonus||[]).indexOf(id)>=0)$('lbst').textContent='まえの 1い だった きみは アイテムつきで スタート！';
   $('lbcnt').textContent=Object.keys(q.pl||{}).length+'にん あつまっているよ'},400)}
 
 const firstG=()=>{wake();if(!bT&&mode!=='end'&&!paused)bgStart();document.removeEventListener('pointerdown',firstG)};document.addEventListener('pointerdown',firstG);
