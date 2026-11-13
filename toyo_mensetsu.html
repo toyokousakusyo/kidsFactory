@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="ja">
-<head>
+<head><script>try{if(!localStorage.getItem('toyo_snd2')){localStorage.setItem('toyo_snd2','1');localStorage.setItem('toyo_mute','0')}}catch(e){}</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 <title>東洋工作所のドキドキ面接</title>
@@ -546,7 +546,7 @@ setSound(sound);
 document.addEventListener('pointerdown',()=>{if(!BGM.song&&!$('title').classList.contains('hide'))bgmPlay('main')},{once:true});
 </script>
 <script>(function(){var d,t=0,sh=0;function f(){var bad=false;try{bad=innerWidth>innerHeight*1.1}catch(e){}
-if(bad){if(!d){d=document.createElement('div');d.style.cssText='position:fixed;left:50%;top:10px;transform:translateX(-50%);z-index:99998;padding:8px 16px;background:rgba(0,0,0,.85);color:#ffd447;border:2px solid #fff;border-radius:10px;font:900 15px/1.3 system-ui,sans-serif;text-align:center;pointer-events:none;white-space:nowrap';d.innerHTML='📱 たてに してね<br><span style="font-size:11px;color:#fff;font-weight:700">たてむきの ゲームだよ</span>';document.body.appendChild(d)}}
+var pl=false;try{pl=(window.__g&&window.__g.mode==='play')||(!window.__g&&(function(){var t=document.getElementById('title');return !!t&&(t.hidden||getComputedStyle(t).display==='none')})())}catch(e){}if(bad&&!pl){if(!d){d=document.createElement('div');d.style.cssText='position:fixed;left:50%;top:10px;transform:translateX(-50%);z-index:99998;padding:8px 16px;background:rgba(0,0,0,.85);color:#ffd447;border:2px solid #fff;border-radius:10px;font:900 15px/1.3 system-ui,sans-serif;text-align:center;pointer-events:none;white-space:nowrap';d.innerHTML='📱 たてに してね<br><span style="font-size:11px;color:#fff;font-weight:700">たてむきの ゲームだよ</span>';document.body.appendChild(d)}}
 else if(d){d.remove();d=null}}
 setInterval(f,500);addEventListener('resize',f)})()
 document.getElementById('qmen').addEventListener('click',e=>{e.stopPropagation();location.reload()});

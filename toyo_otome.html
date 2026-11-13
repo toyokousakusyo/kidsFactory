@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="ja"><head><meta charset="utf-8">
+<html lang="ja"><head><script>try{if(!localStorage.getItem('toyo_snd2')){localStorage.setItem('toyo_snd2','1');localStorage.setItem('toyo_mute','0')}}catch(e){}</script><meta charset="utf-8">
 <script>(function(){function f(){var h=window.innerHeight||document.documentElement.clientHeight;if(h>100)document.documentElement.style.setProperty("--vh",h+"px")}f();addEventListener("resize",f);addEventListener("orientationchange",function(){setTimeout(f,250)});if(window.visualViewport)visualViewport.addEventListener("resize",f)})()</script><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><script>(function(){function fs(){try{var d=document.documentElement;if(document.fullscreenElement||document.webkitFullscreenElement)return;var f=d.requestFullscreen||d.webkitRequestFullscreen;if(f&&!/iPhone|iPod/.test(navigator.userAgent)){var r=f.call(d);if(r&&r.catch)r.catch(function(){})}}catch(e){}}0})()</script><script>(function(){try{var ua=navigator.userAgent;if(!/iPhone|iPad|iPod/.test(ua)||/Line\//i.test(ua)||navigator.standalone||sessionStorage.getItem('ioh'))return;sessionStorage.setItem('ioh','1')}catch(e){return}
 function go(){var d=document.createElement('div');d.style.cssText='position:fixed;left:50%;bottom:10px;transform:translateX(-50%);z-index:99999;width:min(86vw,340px);box-sizing:border-box;background:#000;color:#fff;border:3px solid #fff;outline:3px solid #000;padding:10px 12px;font:700 13px/1.6 "DotGothic16",system-ui,sans-serif;text-align:center';
 d.innerHTML='\ud83d\udcf1 上の URLを けして 大きく あそぶには<br>下の「共有」ボタン →「ホーム画面に追加」<br>→ できた アイコンから ひらいてね！<div style="font-size:11px;opacity:.7;margin-top:4px">（このカードを タップで とじる）</div>';
@@ -326,10 +326,10 @@ function tf(n){if(mode!=='title'&&mode!=='end'){requestAnimationFrame(tf);return
 requestAnimationFrame(tf)}
 
 try{wake();bgStart()}catch(e){}
-const firstG=()=>{wake();if(!bT&&mode!=='end'&&!paused)bgStart();document.removeEventListener('pointerdown',firstG)};document.addEventListener('pointerdown',firstG);
+const firstG=()=>{wake();if(!bT&&mode!=='end'&&!paused)bgStart();if(AC&&AC.state==='running'&&bT)['pointerdown','touchend','click','keydown'].forEach(e=>document.removeEventListener(e,firstG))};['pointerdown','touchend','click','keydown'].forEach(e=>document.addEventListener(e,firstG));
 window.__g={get mode(){return mode},get held(){return held},get GAME(){return GAME},press:k=>{pressed[k]=1}};
 })();
 </script><script>(function(){var d,t=0,sh=0;function f(){var bad=false;try{bad=innerWidth>innerHeight*1.1}catch(e){}
-if(bad){if(!d){d=document.createElement('div');d.style.cssText='position:fixed;left:50%;top:10px;transform:translateX(-50%);z-index:99998;padding:8px 16px;background:rgba(0,0,0,.85);color:#ffd447;border:2px solid #fff;border-radius:10px;font:900 15px/1.3 system-ui,sans-serif;text-align:center;pointer-events:none;white-space:nowrap';d.innerHTML='📱 たてに してね<br><span style="font-size:11px;color:#fff;font-weight:700">たてむきの ゲームだよ</span>';document.body.appendChild(d)}}
+var pl=false;try{pl=(window.__g&&window.__g.mode==='play')||(!window.__g&&(function(){var t=document.getElementById('title');return !!t&&(t.hidden||getComputedStyle(t).display==='none')})())}catch(e){}if(bad&&!pl){if(!d){d=document.createElement('div');d.style.cssText='position:fixed;left:50%;top:10px;transform:translateX(-50%);z-index:99998;padding:8px 16px;background:rgba(0,0,0,.85);color:#ffd447;border:2px solid #fff;border-radius:10px;font:900 15px/1.3 system-ui,sans-serif;text-align:center;pointer-events:none;white-space:nowrap';d.innerHTML='📱 たてに してね<br><span style="font-size:11px;color:#fff;font-weight:700">たてむきの ゲームだよ</span>';document.body.appendChild(d)}}
 else if(d){d.remove();d=null}}
 setInterval(f,500);addEventListener('resize',f)})()</script></body></html>
