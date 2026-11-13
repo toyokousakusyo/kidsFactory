@@ -529,4 +529,14 @@ window.__g={get mode(){return mode},get held(){return held},get GAME(){return GA
 </script><script>(function(){var d,t=0,sh=0;function f(){var bad=false;try{bad=innerWidth>innerHeight*1.1}catch(e){}
 var pl=false;try{pl=(window.__g&&window.__g.mode==='play')||(!window.__g&&(function(){var t=document.getElementById('title');return !!t&&(t.hidden||getComputedStyle(t).display==='none')})())}catch(e){}if(bad&&!pl){if(!d){d=document.createElement('div');d.style.cssText='position:fixed;left:50%;top:10px;transform:translateX(-50%);z-index:99998;padding:8px 16px;background:rgba(0,0,0,.85);color:#ffd447;border:2px solid #fff;border-radius:10px;font:900 15px/1.3 system-ui,sans-serif;text-align:center;pointer-events:none;white-space:nowrap';d.innerHTML='📱 たてに してね<br><span style="font-size:11px;color:#fff;font-weight:700">たてむきの ゲームだよ</span>';document.body.appendChild(d)}}
 else if(d){d.remove();d=null}}
-setInterval(f,500);addEventListener('resize',f)})()</script></body></html>
+setInterval(f,500);addEventListener('resize',f)})()</script><script>/* ネット対戦は 11/28 から。?test=1 か 社員コードで解除 */
+(function(){var OPEN=new Date('2026-11-28T00:00:00+09:00');try{if(localStorage.getItem('toyo_net')==='ok')return}catch(e){}
+if(/[?&]test=1/.test(location.search)||Date.now()>=OPEN.getTime())return;
+var css=document.createElement('style');css.textContent='.nlk{opacity:1!important;filter:none!important;background:#4a4f63!important;color:#d8dcec!important;box-shadow:none!important;border-color:#7b8199!important;cursor:default!important}.nlk small{display:block;font-size:.65em;color:#ffd447}';document.head.appendChild(css);
+function lock(){['vsb','vnet'].forEach(function(id){var e=document.getElementById(id);if(!e||e.classList.contains('nlk'))return;e.classList.add('nlk');e.innerHTML='\uD83D\uDD12 ネットたいせん<small>COMING SOON 11/28</small>'})}
+lock();new MutationObserver(lock).observe(document.documentElement,{childList:true,subtree:true});
+var taps=0,tt=0;function h(s){var x=0;for(var i=0;i<s.length;i++)x=(x*31+s.charCodeAt(i))|0;return x}
+function stop(ev){var t=ev.target&&ev.target.closest?ev.target.closest('#vsb,#vnet'):null;if(!t)return;ev.stopImmediatePropagation();ev.preventDefault();
+ if(ev.type==='click'){var n=Date.now();taps=(n-tt<2500)?taps+1:1;tt=n;if(taps>=5){taps=0;var c=window.prompt('しゃいんコード');if(c!==null&&h(c.trim())===h('0104')){try{localStorage.setItem('toyo_net','ok')}catch(e){}location.reload()}}}}
+['click','pointerdown','touchstart','mousedown','pointerup','touchend','mouseup'].forEach(function(n){document.addEventListener(n,stop,true)})})();</script>
+</body></html>

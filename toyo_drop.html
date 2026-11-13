@@ -567,4 +567,14 @@ setInterval(f,500);addEventListener('resize',f)})()
 ;(()=>{const st=document.createElement('style');st.textContent='#zlv .lc,#zlv .pl2{white-space:nowrap}#zlv .lc{padding:.8cqw 2cqw}';document.head.appendChild(st)})();
 
 function toyoVox(u,key,boost){try{const P={mitsuo:[1.2,1.1,'m'],keiri:[1.9,1.15,'f'],teruji:[.7,1.0,'m'],waku:[.35,.85,'x']}[key]||[1.2,1.1,'m'];u.lang='ja-JP';const vs=(speechSynthesis.getVoices()||[]).filter(v=>/^ja/i.test(v.lang));const fe=/Kyoko|Haruka|Nanami|Mizuki|Ayumi|Sayaka|Hikari|Female|女|O-Ren|Google 日本語|Microsoft Nanami/i,ma=/Otoya|Ichiro|Keita|Hattori|Takumi|Male|男|Ken/i;let v=null;if(P[2]==='f')v=vs.find(x=>fe.test(x.name));else v=vs.find(x=>ma.test(x.name))||vs.find(x=>!fe.test(x.name));if(v)u.voice=v;u.pitch=Math.min(2,P[0]*(boost||1));u.rate=P[1]}catch(e){}}
-</script></body></html>
+</script><script>/* ネット対戦は 11/28 から。?test=1 か 社員コードで解除 */
+(function(){var OPEN=new Date('2026-11-28T00:00:00+09:00');try{if(localStorage.getItem('toyo_net')==='ok')return}catch(e){}
+if(/[?&]test=1/.test(location.search)||Date.now()>=OPEN.getTime())return;
+var css=document.createElement('style');css.textContent='.nlk{opacity:1!important;filter:none!important;background:#4a4f63!important;color:#d8dcec!important;box-shadow:none!important;border-color:#7b8199!important;cursor:default!important}.nlk small{display:block;font-size:.65em;color:#ffd447}';document.head.appendChild(css);
+function lock(){['vsb','vnet'].forEach(function(id){var e=document.getElementById(id);if(!e||e.classList.contains('nlk'))return;e.classList.add('nlk');e.innerHTML='\uD83D\uDD12 ネットたいせん<small>COMING SOON 11/28</small>'})}
+lock();new MutationObserver(lock).observe(document.documentElement,{childList:true,subtree:true});
+var taps=0,tt=0;function h(s){var x=0;for(var i=0;i<s.length;i++)x=(x*31+s.charCodeAt(i))|0;return x}
+function stop(ev){var t=ev.target&&ev.target.closest?ev.target.closest('#vsb,#vnet'):null;if(!t)return;ev.stopImmediatePropagation();ev.preventDefault();
+ if(ev.type==='click'){var n=Date.now();taps=(n-tt<2500)?taps+1:1;tt=n;if(taps>=5){taps=0;var c=window.prompt('しゃいんコード');if(c!==null&&h(c.trim())===h('0104')){try{localStorage.setItem('toyo_net','ok')}catch(e){}location.reload()}}}}
+['click','pointerdown','touchstart','mousedown','pointerup','touchend','mouseup'].forEach(function(n){document.addEventListener(n,stop,true)})})();</script>
+</body></html>
