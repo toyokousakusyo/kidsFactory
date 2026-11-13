@@ -389,6 +389,19 @@ setInterval(()=>{if(unlocked&&!bgT&&!document.hidden&&(mode==='title'||mode==='s
 }catch(e){}})();
 
 function toyoVox(u,key,boost){try{const P={mitsuo:[1.2,1.1,'m'],keiri:[1.9,1.15,'f'],teruji:[.7,1.0,'m'],waku:[.35,.85,'x']}[key]||[1.2,1.1,'m'];u.lang='ja-JP';const vs=(speechSynthesis.getVoices()||[]).filter(v=>/^ja/i.test(v.lang));const fe=/Kyoko|Haruka|Nanami|Mizuki|Ayumi|Sayaka|Hikari|Female|女|O-Ren|Google 日本語|Microsoft Nanami/i,ma=/Otoya|Ichiro|Keita|Hattori|Takumi|Male|男|Ken/i;let v=null;if(P[2]==='f')v=vs.find(x=>fe.test(x.name));else v=vs.find(x=>ma.test(x.name))||vs.find(x=>!fe.test(x.name));if(v)u.voice=v;u.pitch=Math.min(2,P[0]*(boost||1));u.rate=P[1]}catch(e){}}
+
+;(()=>{try{
+let muted=false;try{muted=localStorage.getItem('toyo_mute')==='1'}catch(e){}
+const b=document.createElement('button');b.id='sndb';b.style.cssText='position:absolute;right:1.5cqh;top:1.5cqh;z-index:60;font-size:5cqh;width:9cqh;height:9cqh;border:.5cqh solid #fff;border-radius:50%;background:rgba(10,16,40,.75);color:#fff;cursor:pointer;padding:0;line-height:1';
+const st=$('stage')||document.body;st.appendChild(b);
+const sp=speechSynthesis.speak.bind(speechSynthesis);speechSynthesis.speak=u=>{if(!muted)sp(u)};
+let rs=null;const hook=()=>{const a=AC;if(a&&!rs){rs=a.resume.bind(a);a.resume=function(){return muted?Promise.resolve():rs()}}};
+const apply=()=>{b.textContent=muted?'🔇':'🔊';hook();try{if(AC){if(muted)AC.suspend();else AC.resume()}}catch(e){}if(muted)try{speechSynthesis.cancel()}catch(e){}try{localStorage.setItem('toyo_mute',muted?'1':'0')}catch(e){}};
+b.addEventListener('pointerdown',e=>e.stopPropagation());
+b.addEventListener('click',e=>{e.stopPropagation();ac();muted=!muted;apply()});
+setInterval(()=>{if(AC&&!rs){hook();if(muted)try{AC.suspend()}catch(e){}}},300);
+b.textContent=muted?'🔇':'🔊';
+}catch(e){}})();
 </script>
 
 </body></html>
