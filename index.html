@@ -11,7 +11,7 @@ if(document.body)go();else addEventListener('DOMContentLoaded',go)})()</script>
 <meta http-equiv="Cache-Control" content="no-cache">
 <script>if(/[?&]menu=1/.test(location.search))location.replace('toyo_menu.html')</script>
 <style>.mn #splash,.mn #intro{display:none!important}.mn #gsel{display:flex}html:not(.tst) #tt,html:not(.tst) #tt2,html:not(.tst) #tt3,html:not(.tst) #tt4,html:not(.tst) #ov #tt,html:not(.tst) #ov #tt2,html:not(.tst) #ov #tt3,html:not(.tst) #ov #tt4{display:none!important}</style>
-<meta charset="utf-8">
+<meta charset="utf-8"><style>#ov,#av,#judge,#c{display:none!important}</style>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
 <meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="theme-color" content="#142b3b">
 <title>TOYO KOUSAKUSYO</title>
@@ -570,7 +570,7 @@ window.addEventListener('keydown',e=>{if(gsel.style.display!=='flex')return;if(e
 gPick(0);
 let pcT=0;async function pcLoad(){if(Date.now()-pcT<15000)return;try{const K=[0,1,2,3,10,11,12,13,14,16],R=await Promise.all(K.map(k=>fetch(RKDB+'/plays/'+k+'.json?shallow=true').then(r=>r.ok?r.json():null).catch(()=>null)));if(R.every(o=>o===null))return;pcT=Date.now();const n=R.map(o=>o?Object.keys(o).length:0),m=n[0]+n[1]+n[2]+n[3];const IDX={'toyo_puzzle_pipe.html':4,'toyo_kart7.html':5,'toyo_fighter.html':6,'toyo_drop.html':7,'toyo_mensetsu.html':8,'toyo_bomber.html':9},a=GS.map(g=>g.u===''?m:(IDX[g.u]!==undefined?n[IDX[g.u]]:-1));[...document.querySelectorAll('#gr .gc .pc')].forEach((e,i)=>{e.textContent=a[i]<0?'':a[i]+'回'});document.getElementById('pcn').innerHTML='みんなの あそんだ回数<b>'+a.reduce((x,y)=>x+Math.max(0,y),0)+'</b>回'}catch(e){}}
 function showGsel(){location.href='toyo_menu.html';return;try{pcLoad()}catch(e){}try{bgmPlay(gSel)}catch(e){}}
-function closeIntro(){introOn=false;introEl.style.display='none';sfx('z');showGsel()}
+function closeIntro(){introOn=false;sfx('z');showGsel()}
 setInterval(introTick,100);
 introEl.addEventListener('pointerdown',e=>{if(e.target.id==='skip')return;e.preventDefault();wake();advance()});
 document.getElementById('skip').addEventListener('click',e=>{e.stopPropagation();wake();closeIntro()});
