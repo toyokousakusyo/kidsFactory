@@ -323,4 +323,12 @@ window.__g={get mode(){return mode},get held(){return held},get GAME(){return GA
 </script><script>(function(){var d,t=0,sh=0;function f(){var bad=false;try{bad=innerWidth>innerHeight*1.1}catch(e){}
 var pl=false;try{pl=(window.__g&&window.__g.mode==='play')||(!window.__g&&(function(){var t=document.getElementById('title');return !!t&&(t.hidden||getComputedStyle(t).display==='none')})())}catch(e){}if(bad&&!pl){if(!d){d=document.createElement('div');d.style.cssText='position:fixed;left:50%;top:10px;transform:translateX(-50%);z-index:99998;padding:8px 16px;background:rgba(0,0,0,.85);color:#ffd447;border:2px solid #fff;border-radius:10px;font:900 15px/1.3 system-ui,sans-serif;text-align:center;pointer-events:none;white-space:nowrap';d.innerHTML='📱 たてに してね<br><span style="font-size:11px;color:#fff;font-weight:700">たてむきの ゲームだよ</span>';document.body.appendChild(d)}}
 else if(d){d.remove();d=null}}
-setInterval(f,500);addEventListener('resize',f)})()</script></body></html>
+setInterval(f,500);addEventListener('resize',f)})()</script><script>(function(){var L=0;try{L=/Line\/|\bLINE\b|LIFF/i.test(navigator.userAgent)&&!/[?&]test=1/.test(location.search)}catch(e){}if(!L)return;
+var u=location.href.split('#')[0].replace(/([?&])openExternalBrowser=1&?/,'$1').replace(/[?&]$/,'');u+=(u.indexOf('?')<0?'?':'&')+'openExternalBrowser=1';
+if(!/openExternalBrowser/.test(location.search)){try{location.replace(u)}catch(e){}}
+function go(){if(document.getElementById('lnx'))return;var d=document.createElement('div');d.id='lnx';
+d.style.cssText='position:fixed;inset:0;z-index:2147483647;display:flex;flex-direction:column;gap:16px;align-items:center;justify-content:center;padding:24px;background:#142b3b;color:#fff;font:700 16px/1.6 system-ui,sans-serif;text-align:center';
+d.innerHTML='<div style="font-size:20px">LINEの なかでは あそべません</div><div>Safariや Chromeなどの<br>ブラウザで ひらいてね！</div><a href="'+u+'" style="padding:14px 22px;background:#e4382f;color:#fff;border:3px solid #fff;border-radius:10px;text-decoration:none;font-size:18px">▶ ブラウザで ひらく</a><div style="font-size:12px;opacity:.8">ひらかないときは 右上の「…」→「ブラウザで開く」</div>';
+document.body.appendChild(d)}
+if(document.body)go();else addEventListener('DOMContentLoaded',go)})()</script>
+</body></html>

@@ -315,14 +315,12 @@ x.imageSmoothingEnabled=true;requestAnimationFrame(loop);
 window.__k={get drift(){return drift},get s(){return{st,px:px_,py:py_,ang,sp,lap,rank,T,prog,M}},start:()=>reset(),give:k=>{item=k},get shots(){return shots.length},get stuns(){return cpus.map(c=>c.stun>0)},press:(l,r)=>{tl=l;tr=r},path:()=>path,mapUrl:()=>mapC.toDataURL()};
 </script><div id="pz" style="display:none;position:fixed;inset:0;z-index:50;background:rgba(0,0,0,.7);flex-direction:column;align-items:center;justify-content:center;gap:2.2vh;color:#fff;font-weight:900"><div style="font-size:calc(var(--u)*6)">ポーズ</div><button class="pzb" id="pzc">▶ つづける</button><button class="pzb" id="pzq" style="background:#555">■ やめる（さいしょへ）</button><a class="pzb" href="index.html?menu=1" style="background:#555;text-decoration:none">ゲームえらびへ</a></div>
 <style>.pzb{font:900 calc(var(--u)*3.2) sans-serif;color:#fff;background:#ee6c33;border:.4vh solid #fff;border-radius:3vh;padding:1vh 4vh;cursor:pointer;display:block;text-align:center}</style>
-<script>/* LINEのアプリ内ブラウザで開いたとき：ふつうのブラウザで開き直すよう案内 */
-(function(){var ua=navigator.userAgent||'';if(!/\bLine\//i.test(ua))return;try{if(sessionStorage.getItem('line_ok')==='1')return}catch(e){}
-var u=location.href.replace(/[?&]openExternalBrowser=1/,'');var ext=u+(u.indexOf('?')>=0?'&':'?')+'openExternalBrowser=1';
-var d=document.createElement('div');d.id='lineGate';d.style.cssText='position:fixed;left:0;top:0;right:0;bottom:0;z-index:2147483000;background:linear-gradient(#10224f,#0a1230);color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:20px;text-align:center;font-family:sans-serif;overflow:auto';
-d.innerHTML='<div style="font-size:22px;font-weight:900;color:#ffd447">ブラウザで ひらいてね！</div><div style="font-size:14px;line-height:1.7;max-width:420px">LINEの中だと、おとが でなかったり、<br>がめんが はみだしたり、<br>きろくが きえたりするよ。<br>ふつうのブラウザ（Safari・Chrome）がおすすめ！</div>'
-+'<a id="lineExt" href="'+ext+'" style="display:block;background:#ee6c33;color:#fff;font-weight:900;font-size:18px;text-decoration:none;border:3px solid #fff;border-radius:30px;padding:12px 28px">▶ ブラウザで ひらく</a>'
-+'<div style="font-size:12px;opacity:.8;max-width:420px;line-height:1.6">ひらかないときは、みぎうえ（またはしたの）「…」メニューから<br>「ブラウザで ひらく」「Safariで ひらく」をえらんでね</div>'
-+'<div id="lineGo" style="font-size:14px;text-decoration:underline;opacity:.85;padding:6px;cursor:pointer">このまま あそぶ</div>';
-function add(){if(!document.body){setTimeout(add,30);return}document.body.appendChild(d);var g=document.getElementById('lineGo');function go(ev){try{ev.preventDefault();ev.stopPropagation()}catch(e){}try{sessionStorage.setItem('line_ok','1')}catch(e){}d.remove()}g.addEventListener('click',go);g.addEventListener('touchend',go);['touchstart','touchmove'].forEach(function(n){d.addEventListener(n,function(ev){ev.stopPropagation()},{passive:true})})}
-add()})();</script>
+<script>(function(){var L=0;try{L=/Line\/|\bLINE\b|LIFF/i.test(navigator.userAgent)&&!/[?&]test=1/.test(location.search)}catch(e){}if(!L)return;
+var u=location.href.split('#')[0].replace(/([?&])openExternalBrowser=1&?/,'$1').replace(/[?&]$/,'');u+=(u.indexOf('?')<0?'?':'&')+'openExternalBrowser=1';
+if(!/openExternalBrowser/.test(location.search)){try{location.replace(u)}catch(e){}}
+function go(){if(document.getElementById('lnx'))return;var d=document.createElement('div');d.id='lnx';
+d.style.cssText='position:fixed;inset:0;z-index:2147483647;display:flex;flex-direction:column;gap:16px;align-items:center;justify-content:center;padding:24px;background:#142b3b;color:#fff;font:700 16px/1.6 system-ui,sans-serif;text-align:center';
+d.innerHTML='<div style="font-size:20px">LINEの なかでは あそべません</div><div>Safariや Chromeなどの<br>ブラウザで ひらいてね！</div><a href="'+u+'" style="padding:14px 22px;background:#e4382f;color:#fff;border:3px solid #fff;border-radius:10px;text-decoration:none;font-size:18px">▶ ブラウザで ひらく</a><div style="font-size:12px;opacity:.8">ひらかないときは 右上の「…」→「ブラウザで開く」</div>';
+document.body.appendChild(d)}
+if(document.body)go();else addEventListener('DOMContentLoaded',go)})()</script>
 </body></html>

@@ -539,4 +539,12 @@ var taps=0,tt=0;function h(s){var x=0;for(var i=0;i<s.length;i++)x=(x*31+s.charC
 function stop(ev){var t=ev.target&&ev.target.closest?ev.target.closest('#vsb,#vnet'):null;if(!t)return;ev.stopImmediatePropagation();ev.preventDefault();
  if(ev.type==='click'){var n=Date.now();taps=(n-tt<2500)?taps+1:1;tt=n;if(taps>=5){taps=0;var c=window.prompt('しゃいんコード');if(c!==null&&h(c.trim())===h('0104')){try{localStorage.setItem('toyo_net','ok')}catch(e){}location.reload()}}}}
 ['click','pointerdown','touchstart','mousedown','pointerup','touchend','mouseup'].forEach(function(n){document.addEventListener(n,stop,true)})})();</script>
+<script>(function(){var L=0;try{L=/Line\/|\bLINE\b|LIFF/i.test(navigator.userAgent)&&!/[?&]test=1/.test(location.search)}catch(e){}if(!L)return;
+var u=location.href.split('#')[0].replace(/([?&])openExternalBrowser=1&?/,'$1').replace(/[?&]$/,'');u+=(u.indexOf('?')<0?'?':'&')+'openExternalBrowser=1';
+if(!/openExternalBrowser/.test(location.search)){try{location.replace(u)}catch(e){}}
+function go(){if(document.getElementById('lnx'))return;var d=document.createElement('div');d.id='lnx';
+d.style.cssText='position:fixed;inset:0;z-index:2147483647;display:flex;flex-direction:column;gap:16px;align-items:center;justify-content:center;padding:24px;background:#142b3b;color:#fff;font:700 16px/1.6 system-ui,sans-serif;text-align:center';
+d.innerHTML='<div style="font-size:20px">LINEの なかでは あそべません</div><div>Safariや Chromeなどの<br>ブラウザで ひらいてね！</div><a href="'+u+'" style="padding:14px 22px;background:#e4382f;color:#fff;border:3px solid #fff;border-radius:10px;text-decoration:none;font-size:18px">▶ ブラウザで ひらく</a><div style="font-size:12px;opacity:.8">ひらかないときは 右上の「…」→「ブラウザで開く」</div>';
+document.body.appendChild(d)}
+if(document.body)go();else addEventListener('DOMContentLoaded',go)})()</script>
 </body></html>
