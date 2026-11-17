@@ -172,7 +172,7 @@ function confetti(){const cs=['#ff5a4a','#ffd447','#5ad06a','#4aa8ff','#ff7ab0',
 function stars(){return taps<=par+2?3:taps<=par+6?2:1}
 function titleScr(){x.fillStyle='rgba(4,12,18,.5)';x.fillRect(0,0,LW,LH);const bob=Math.sin(wt*2)*4;
  if(ok('logo')){const s=AS.logo;x.save();x.translate(LW/2,92+bob+s.h/2);x.rotate(Math.sin(wt*1.3)*.02);x.drawImage(IM.logo,-s.w/2,-s.h/2,s.w,s.h);x.restore()}
- txt('こわれたパイプを なおして',LW/2,326,15,'#fff','#173044');txt('みずを とどけよう！',LW/2,348,15,'#ffd447','#173044');
+ txt('こわれたパイプを なおして',LW/2,326,15,'#fff','#173044');txt('みずを とどけよう！',LW/2,348,15,'#ffd447','#173044');txt('あいた口が あると 水が もれるよ！',LW/2,374,12,'#cfe6f3','#173044');
  if(ok('m3')){const s=AS.m3,k=1.75,hop=Math.abs(Math.sin(wt*4))*8;x.drawImage(IM.m3,LW/2-s.w*k/2,528-s.h*k-hop,s.w*k,s.h*k)}
  if(ok('spark'))[[70,380],[290,400],[110,470],[255,455],[60,300],[305,300]].forEach((q,i)=>{const s=AS.spark,a=.5+.5*Math.sin(wt*4+i*1.7);x.globalAlpha=a;const k=.8+.5*a;x.drawImage(IM.spark,q[0]-s.w*k/2,q[1]-s.h*k/2,s.w*k,s.h*k);x.globalAlpha=1});
  const pl=1+Math.sin(wt*5)*.04;x.save();x.translate(LW/2,578);x.scale(pl,pl);rr(-100,-22,200,50,14);x.fillStyle='#0f6b3a';x.fill();rr(-100,-26,200,50,14);let g=x.createLinearGradient(0,-26,0,24);g.addColorStop(0,'#5cf29a');g.addColorStop(1,'#1fb862');x.fillStyle=g;x.fill();x.strokeStyle='#fff';x.lineWidth=3;x.stroke();txt('▶ スタート！',0,-1,20,'#fff','#0b4a28');x.restore()}
@@ -200,7 +200,7 @@ function render0(){x.setTransform(Q,0,0,Q,0,0);x.clearRect(0,0,LW,LH);x.drawImag
  /* steam */
  for(let i=0;i<5;i++){const k=((wt*.35+i*.2)%1),sy=548-k*150,sx=349+Math.sin(k*6+i)*8;x.fillStyle='rgba(255,255,255,'+(.22*(1-k))+')';x.beginPath();x.arc(sx,sy,6+k*16,0,7);x.fill()}
  /* hud */
- txt('ステージ '+LV,LW/2,24,20,'#ffd447','#173044');txt('こわれたパイプを なおせ！',LW/2+6,46,11,'#cfe6f3');
+ txt('ステージ '+LV,LW/2,24,20,'#ffd447','#173044');txt(SRCS.length>1?'タンク2つ！ 出口ぜんぶへ':KIND==='single'?'こわれたパイプを なおせ！':'T字・十字は 口ぜんぶ！',LW/2+34,46,11,'#cfe6f3');
  {const f=Math.max(0,tl/TLv),bx=22,by=64,bw=316,bh=9;rr(bx,by,bw,bh,4);x.fillStyle='#07131a';x.fill();if(f>0){rr(bx+1,by+1,(bw-2)*f,bh-2,3);x.fillStyle=f>.5?'#3ddc84':f>.25?'#ffd447':((Math.floor(wt*6)%2)?'#ff5a4a':'#ff9a8a');x.fill()}rr(bx,by,bw,bh,4);x.strokeStyle='#cfe6f3';x.lineWidth=1.5;x.stroke();
   txt('のこり '+Math.ceil(tl)+' びょう',14,48,12,tl<=10&&started?'#ff9a8a':'#cfe6f3',null,'left')}
  txt('タップ '+taps,LW-14,48,12,'#cfe6f3',null,'right');

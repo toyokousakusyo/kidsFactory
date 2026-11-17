@@ -10,7 +10,7 @@ document.body.appendChild(d)}
 if(document.body)go();else addEventListener('DOMContentLoaded',go)})()</script>
 <meta http-equiv="Cache-Control" content="no-cache">
 <script>if(/[?&]menu=1/.test(location.search))location.replace('toyo_menu.html')</script>
-<style>.mn #splash,.mn #intro{display:none!important}.mn #gsel{display:flex}html:not(.tst) #tt,html:not(.tst) #tt2,html:not(.tst) #tt3,html:not(.tst) #tt4,html:not(.tst) #ov #tt,html:not(.tst) #ov #tt2,html:not(.tst) #ov #tt3,html:not(.tst) #ov #tt4{display:none!important}#mkw,#rkb,#rk,#av{display:none!important}#cards{margin-bottom:calc(2.2*var(--u,6px))!important}</style>
+<style>.mn #splash,.mn #intro{display:none!important}.mn #gsel{display:flex}html:not(.tst) #tt,html:not(.tst) #tt2,html:not(.tst) #tt3,html:not(.tst) #tt4,html:not(.tst) #ov #tt,html:not(.tst) #ov #tt2,html:not(.tst) #ov #tt3,html:not(.tst) #ov #tt4{display:none!important}#mkw,#rkb,#rk,#av{display:none!important}#gsel .svl{color:#fff;font-size:calc(2.6*var(--u,6px));font-weight:800;text-decoration:none;background:#ff8a1f;border:2px solid #fff;border-radius:999px;padding:calc(.8*var(--u,6px)) calc(2.6*var(--u,6px));box-shadow:0 calc(.5*var(--u,6px)) 0 #b35a0c}#cards{margin-bottom:calc(2.2*var(--u,6px))!important}</style>
 <meta charset="utf-8"><style>#ov,#av,#judge,#c{display:none!important}</style>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
 <meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="theme-color" content="#142b3b">
@@ -218,7 +218,7 @@ if(document.body)mk();else addEventListener("DOMContentLoaded",mk)})()</script><
    <div id="dlg"><div id="nm">しゃちょう</div><div id="itx"></div><div id="iarr">▼</div></div>
    <button id="skip">SKIP ▶</button>
   </div>
-  <div id="gsel"><h2>あそぶゲームを えらんでね！</h2><div class="gr" id="gr"></div><div id="pcn"></div><div class="slg">パイプでワクワクをつなぎ未来をソウゾウする</div><button id="gstart">▶ スタート！</button></div>
+  <div id="gsel"><h2>あそぶゲームを えらんでね！</h2><div class="gr" id="gr"></div><div id="pcn"></div><div class="slg">パイプでワクワクをつなぎ未来をソウゾウする</div><button id="gstart">▶ スタート！</button><a class="svl" href="toyo_mychar.html">❓ アンケートに こたえると…？！</a></div>
   <div id="judge">
    <img id="jsp" alt="" src="data:,">
    <div id="jdlg"><div id="jnm">しゃちょう</div><div id="jtx"></div><div id="jarr">▼</div></div>
@@ -777,15 +777,15 @@ function avOpen(){jClose();clearTimeout(jt);avShowEdit();av.style.display='flex'
 function avShowEdit(){document.getElementById('avedit').style.display='contents';document.getElementById('avcf').style.display='none';document.getElementById('avsave').style.display='none';avc.style.display='block';avi.style.display='none'}
 document.querySelectorAll('#av .tab').forEach((t,i)=>t.addEventListener('click',()=>{document.querySelectorAll('#av .tab').forEach((x,j)=>x.classList.toggle('on',i===j));document.querySelectorAll('#av .avp').forEach((p,j)=>p.style.display=i===j?'flex':'none')}));
 
-const RKDB='https://toyo-game-default-rtdb.asia-southeast1.firebasedatabase.app',CTOP=[8, 8, 8, 9, 8, 9, 8, 8, 9, 9, 3, 3, 8, 3, 4, 6, 6, 6, 7, 6, 27, 28, 31, 31, 36, 33, 36, 36, 33, 34, 27, 19, 23, 25, 29, 21, 22, 22, 21, 23, 32, 26, 34, 32, 31, 32, 32, 31, 32, 32];let rkSent=false,rkMe='';
+const RKOFF=()=>Promise.reject(0);const RKDB='https://toyo-game-default-rtdb.asia-southeast1.firebasedatabase.app',CTOP=[8, 8, 8, 9, 8, 9, 8, 8, 9, 9, 3, 3, 8, 3, 4, 6, 6, 6, 7, 6, 27, 28, 31, 31, 36, 33, 36, 36, 33, 34, 27, 19, 23, 25, 29, 21, 22, 22, 21, 23, 32, 26, 34, 32, 31, 32, 32, 31, 32, 32];let rkSent=false,rkMe='';
 const NG=['しね','ころす','ころし','ばか','あほ','うんこ','うんち','ちんこ','まんこ','きもい','死ね','殺','ブス','デブ','バカ','アホ','ウンコ','ウンチ'];
 function rkClean(n){const t=n.toLowerCase();return NG.some(w=>t.includes(w.toLowerCase()))?'？？？':n}
 const rkPend=[];function rkIcon(c,cv,b){const t=cv.getContext('2d');cv.width=cv.height=64;t.imageSmoothingQuality='high';if(!CHI.complete||!CHI.naturalWidth)return;const bi=BGI[b|0];if(bi&&bi.complete&&bi.naturalWidth)cover(t,bi,0,0,64,64,.5);else{t.fillStyle='#9ed8ff';t.fillRect(0,0,64,64);if(!bi||!bi.complete)rkPend.push(()=>rkIcon(c,cv,b))}const x0=(c%10)*CWD+8,y0=((c/10)|0)*CHD+(CTOP[c]||0);t.drawImage(CHI,x0,y0,152,152,0,0,64,64)}
-async function rkSubmit(n,sc,c,b,h){if(rkSent)return;rkSent=true;try{const ctl=new AbortController();setTimeout(()=>ctl.abort(),8000);const r=await fetch(RKDB+'/scores/'+(h|0)+'.json',{method:'POST',body:JSON.stringify({n:rkClean(n).slice(0,6),s:Math.min(99999,Math.max(0,Math.floor(sc))),c:c|0,b:b|0,t:Date.now()}),signal:ctl.signal});const j=await r.json();if(j&&j.name)rkMe=j.name;else rkSent=false}catch(e){rkSent=false}}
+async function rkSubmit(n,sc,c,b,h){if(rkSent)return;rkSent=true;try{const ctl=new AbortController();setTimeout(()=>ctl.abort(),8000);const r=await RKOFF((h|0)+'.json',{method:'POST',body:JSON.stringify({n:rkClean(n).slice(0,6),s:Math.min(99999,Math.max(0,Math.floor(sc))),c:c|0,b:b|0,t:Date.now()}),signal:ctl.signal});const j=await r.json();if(j&&j.name)rkMe=j.name;else rkSent=false}catch(e){rkSent=false}}
 let rkH=0;function rkTabs(){const t=document.getElementById('rkt');t.innerHTML='';CH.forEach((c,i)=>{const b=document.createElement('button');b.textContent=c.n;b.className='rkt'+(i===rkH?' on':'');b.addEventListener('click',()=>{rkH=i;rkTabs();rkLoad()});t.appendChild(b)})}
 function rkOpen(){bgLoad();rkH=(mode==='over'?avHero:sel)|0;document.getElementById('rk').style.display='flex';rkTabs();rkLoad()}
 async function rkLoad(){const el=document.getElementById('rkl');el.innerHTML='<div class="rkm">よみこみ中…</div>';
- try{const ctl=new AbortController();setTimeout(()=>ctl.abort(),8000);const r=await fetch(RKDB+'/scores/'+rkH+'.json?orderBy=%22s%22&limitToLast=30',{signal:ctl.signal});if(!r.ok)throw 0;const o=await r.json()||{};const a=Object.keys(o).map(k=>({k,...o[k]})).filter(v=>v&&typeof v.s==='number').sort((p,q)=>q.s-p.s||p.t-q.t);
+ try{const ctl=new AbortController();setTimeout(()=>ctl.abort(),8000);const r=await RKOFF(rkH+'.json?orderBy=%22s%22&limitToLast=30',{signal:ctl.signal});if(!r.ok)throw 0;const o=await r.json()||{};const a=Object.keys(o).map(k=>({k,...o[k]})).filter(v=>v&&typeof v.s==='number').sort((p,q)=>q.s-p.s||p.t-q.t);
   el.innerHTML='';if(!a.length){el.innerHTML='<div class="rkm">まだ だれも いないよ！<br>いちばんのりを めざそう！</div>';return}
   a.forEach((v,i)=>{const d=document.createElement('div');d.className='rr'+(v.k===rkMe?' me':'');const b=document.createElement('b');b.textContent=(i<3?['🥇','🥈','🥉'][i]:(i+1)+'位');const cv=document.createElement('canvas');rkIcon(v.c|0,cv,v.b|0);const n=document.createElement('span');n.className='rn';n.textContent=String(v.n||'');const sp=document.createElement('span');sp.className='rs';sp.textContent=v.s+'点';d.append(b,cv,n,sp);el.appendChild(d)})}
  catch(e){el.innerHTML='<div class="rkm">つながらなかったよ…<br>もういちど ためしてね</div>'}}
