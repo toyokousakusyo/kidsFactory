@@ -91,7 +91,7 @@ let okFlag=false;try{const q=new URLSearchParams(location.search);if(q.get('ok')
 /* ---- drawing ---- */
 const cv=$('cv'),cx=cv.getContext('2d');cx.lineCap='round';cx.lineJoin='round';
 const COLS=['#173044','#e84f4f','#ff8a1f','#ffd447','#2fbf6b','#2b9fd9','#7a4fd1','#ff7ab0','#8b5a2b','#ffffff'];
-let col=COLS[0],size=11,eraser=false,drawing=false,last=null;const hist=[];
+let col=COLS[0],size=5,eraser=false,drawing=false,last=null;const hist=[];
 COLS.forEach((c,i)=>{const b=document.createElement('button');b.className='sw'+(i===0?' on':'');b.style.background=c;b.setAttribute('aria-label','いろ');b.onclick=()=>{col=c;eraser=false;$('er').classList.remove('on');document.querySelectorAll('.sw').forEach(x=>x.classList.remove('on'));b.classList.add('on')};$('cols').appendChild(b)});
 document.querySelectorAll('.tb[data-s]').forEach(b=>b.onclick=()=>{size=+b.dataset.s;document.querySelectorAll('.tb[data-s]').forEach(x=>x.classList.remove('on'));b.classList.add('on')});
 $('er').onclick=()=>{eraser=!eraser;$('er').classList.toggle('on',eraser)};
