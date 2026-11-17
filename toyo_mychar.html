@@ -60,12 +60,13 @@ textarea{width:100%;height:84px;border:3px solid #9fc4dc;border-radius:12px;padd
  <!-- STEP 2: キャラをかく -->
  <div class="step" id="s2">
   <h1>🎨 じぶんキャラを<ruby>描<rt>か</rt></ruby>こう！</h1>
-  <div class="sub">アンケートありがとう！<br><b style="color:#ffd447;font-size:17px"><ruby>好<rt>す</rt></ruby>きな<ruby>絵<rt>え</rt></ruby>を<ruby>描<rt>か</rt></ruby>いてね！</b><br>（<ruby>丸<rt>まる</rt></ruby>ひとつでも<ruby>動<rt>うご</rt></ruby>くよ）</div>
+  <div class="sub">アンケートありがとう！<br><b style="color:#ffd447;font-size:17px"><ruby>好<rt>す</rt></ruby>きな<ruby>絵<rt>え</rt></ruby>を<ruby>描<rt>か</rt></ruby>いてね！</b></div>
+  <div class="sub" style="margin:-4px 0 6px;font-size:15px;font-weight:900;color:#fff">この<ruby>向<rt>む</rt></ruby>きに <ruby>走<rt>はし</rt></ruby>るよ！ ➡️</div>
   <div class="board"><canvas id="cv" width="360" height="360"></canvas></div>
   <div class="tools" id="cols"></div>
   <div class="tools">
    <div class="sz"><button class="tb on" data-s="5">ほそい</button><button class="tb" data-s="11">ふつう</button><button class="tb" data-s="22">ふとい</button></div>
-   <button class="tb" id="er">けしゴム</button><button class="tb" id="un">↩ もどす</button><button class="tb" id="cl">ぜんぶけす</button>
+   <button class="tb" id="er">けしゴム</button><button class="tb" id="un">↩ もどす</button><button class="tb" id="fl">↔ むきをかえる</button><button class="tb" id="cl">ぜんぶけす</button>
   </div>
   <div class="pv" id="pv"></div>
   <div class="msg" id="msg2"></div>
@@ -97,6 +98,7 @@ document.querySelectorAll('.tb[data-s]').forEach(b=>b.onclick=()=>{size=+b.datas
 $('er').onclick=()=>{eraser=!eraser;$('er').classList.toggle('on',eraser)};
 function snap(){try{hist.push(cx.getImageData(0,0,cv.width,cv.height));if(hist.length>25)hist.shift()}catch(e){}}
 $('un').onclick=()=>{const h=hist.pop();if(h){cx.putImageData(h,0,0);preview()}};
+$('fl').onclick=()=>{snap();const t=document.createElement('canvas');t.width=cv.width;t.height=cv.height;const g=t.getContext('2d');g.translate(cv.width,0);g.scale(-1,1);g.drawImage(cv,0,0);cx.globalCompositeOperation='source-over';cx.clearRect(0,0,cv.width,cv.height);cx.drawImage(t,0,0);preview()};
 $('cl').onclick=()=>{snap();cx.clearRect(0,0,cv.width,cv.height);preview()};
 const pos=e=>{const r=cv.getBoundingClientRect();return[(e.clientX-r.left)*cv.width/r.width,(e.clientY-r.top)*cv.height/r.height]};
 function stroke(a,b){cx.globalCompositeOperation=eraser?'destination-out':'source-over';cx.strokeStyle=col;cx.lineWidth=size*(cv.width/360);cx.beginPath();cx.moveTo(a[0],a[1]);cx.lineTo(b[0],b[1]);cx.stroke()}
