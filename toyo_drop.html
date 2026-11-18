@@ -435,11 +435,11 @@ function nextRound(){RD++;NT.rd=RD;vsEnd=0;vsT=0;const w1=B1.who,w2=B2.who,n1=B1
 function lastLoseNet(msg){if(vsEnd||mode!=='play')return;vsEnd=2;B2.dead=true;NT.why=msg}
 GAME={reset:rst,update:upd,render:rend,sw:99999,
  down:(px,py)=>{dsx=px;dsy=py;dc0=B1&&B1.pc?B1.pc.x:0;dmv=false;dhd=false},
- drag:(px,py)=>{if(waitNet||!B1||B1.ph!=='drop'||!B1.pc||dhd||B1.dead)return;const cs=B1.cs,dx=px-dsx,dy=py-dsy;if(Math.abs(dx)>8||Math.abs(dy)>8)dmv=true;
+ drag:(px,py)=>{if(waitNet||cdT>0||!B1||B1.ph!=='drop'||!B1.pc||dhd||B1.dead)return;const cs=B1.cs,dx=px-dsx,dy=py-dsy;if(Math.abs(dx)>8||Math.abs(dy)>8)dmv=true;
   const tg=dc0+Math.round(dx/cs);let n=0;while(B1.pc&&B1.pc.x!==tg&&n++<8){const s=Math.sign(tg-B1.pc.x);const p={...B1.pc,x:B1.pc.x+s};if(fits(B1,p)){B1.pc=p;if(n===1)tone(300,.02)}else break}
   if(dy>70&&Math.abs(dx)<dy*.5){dhd=true;dmv=true;hardB(B1,true)}},
- up:()=>{if(!dmv&&B1&&B1.ph==='drop'&&!waitNet)pressed.u=1},
- swipe:k=>{if(waitNet||!B1||B1.ph!=='drop')return;if(k==='l')mvx(B1,-1,true);else if(k==='r')mvx(B1,1,true);else if(k==='d')hardB(B1,true)}};
+ up:()=>{if(!dmv&&B1&&B1.ph==='drop'&&!waitNet&&!(cdT>0))pressed.u=1},
+ swipe:k=>{if(waitNet||cdT>0||!B1||B1.ph!=='drop')return;if(k==='l')mvx(B1,-1,true);else if(k==='r')mvx(B1,1,true);else if(k==='d')hardB(B1,true)}};
 // ---------- network
 const sleep=ms=>new Promise(r=>setTimeout(r,ms));
 async function jf(url,opt){const ctl=new AbortController();const to=setTimeout(()=>ctl.abort(),5000);try{const r=await fetch(url,Object.assign({signal:ctl.signal},opt||{}));if(!r.ok)return undefined;return await r.json()}catch(e){return undefined}finally{clearTimeout(to)}}
