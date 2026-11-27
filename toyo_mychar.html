@@ -61,7 +61,7 @@ textarea{width:100%;height:84px;border:3px solid #9fc4dc;border-radius:12px;padd
  <!-- LOCK -->
  <div class="step cen" id="s0">
   <h1>❓ ？？？</h1>
-  <p class="sub" style="font-size:18px;line-height:2.1"><ruby>特設<rt>とくせつ</rt></ruby>ホームページの<br><b style="color:#ffd447">アンケートに<ruby>答<rt>こた</rt></ruby>えると…</b><br><ruby>何<rt>なに</rt></ruby>かが<ruby>起<rt>お</rt></ruby>きる！？</p>
+  <p class="sub" style="font-size:18px;line-height:2.1"><ruby>特設<rt>とくせつ</rt></ruby>ホームページの<br><b style="color:#ffd447">アンケートに<ruby>答<rt>こた</rt></ruby>えると…</b><br><ruby>自分<rt>じぶん</rt></ruby>で<ruby>描<rt>か</rt></ruby>いた<b style="color:#ffd447">キャラ</b>で<br>TOYODASHが <ruby>遊<rt>あそ</rt></ruby>べる！</p>
   <a class="big" href="https://toyokousakusyo.github.io/#enquete">📝 アンケートに<ruby>答<rt>こた</rt></ruby>える</a>
   <div class="foot">株式会社東洋工作所<br>パイプでワクワクをつなぎ未来をソウゾウする</div>
  </div>
@@ -87,6 +87,7 @@ textarea{width:100%;height:84px;border:3px solid #9fc4dc;border-radius:12px;padd
   <h2>できた！🎉</h2>
   <p>きみの キャラが TOYODASHに とうじょうするよ！<br>「キャラえらび」で <b>「じぶん」</b>を えらんでね。</p>
   <div class="pv" id="pv2"></div>
+  <div id="stv" style="margin:6px 0 10px;font-size:16px;font-weight:900;line-height:1.7;background:#0e2233;border:2px solid #ffd447;border-radius:14px;padding:8px 10px"></div>
   <a class="big" href="toyo_action.html">🏃 TOYODASHで はしる！</a>
   <button class="big g" id="redo">🎨 かきなおす</button>
   <div class="foot">株式会社東洋工作所<br>パイプでワクワクをつなぎ未来をソウゾウする</div>
@@ -130,6 +131,8 @@ function build(){const t=tight(cv);if(!t)return null;const s=Math.min(170/t.heig
 function preview(){const v=build(),box=$('pv');box.innerHTML='';if(!v)return;for(const k of['stand','run1','run2','jump']){const c=document.createElement('canvas');c.width=64;c.height=72;const t=c.getContext('2d'),s=Math.min(58/v[k].width,66/v[k].height);t.drawImage(v[k],(64-v[k].width*s)/2,72-4-v[k].height*s,v[k].width*s,v[k].height*s);box.appendChild(c)}}
 $('fin').onclick=()=>{const v=build();if(!v){$('msg2').className='msg err';$('msg2').textContent='なにか かいてね！';return}
  const o={};for(const k in v)o[k]=url(v[k]);
+ const ST={v:+(.55+Math.random()*1.2).toFixed(2),j:+(6.4+Math.random()*3.1).toFixed(1),g:+(.35+Math.random()*.35).toFixed(2),h:1+Math.floor(Math.random()*6)};try{localStorage.setItem('toyo_mychar_st',JSON.stringify(ST))}catch(e){}
+ const cl=(x)=>Math.max(1,Math.min(5,x)),sa=cl(Math.round((ST.v-.5)/.26)+1),sj=cl(Math.round((ST.j-6.4)/.78)+1),st=(n)=>'★'.repeat(n)+'☆'.repeat(5-n);$('stv').innerHTML='あし　　　'+st(sa)+'<br>ジャンプ　'+st(sj)+'<br>ハート　　'+'♥'.repeat(ST.h)+'<br><span style="font-size:12px;color:#ffd447">ステータスは ランダム！ かきなおすたびに かわるよ</span>';
  try{localStorage.setItem('toyo_mychar',JSON.stringify(o))}catch(e){$('msg2').className='msg err';$('msg2').textContent='ほぞんできなかったよ。もっと シンプルに かいてね';return}
  const pv=$('pv2');pv.innerHTML='';for(const k of['stand','run1','run2']){const c=document.createElement('canvas');c.width=84;c.height=96;const t=c.getContext('2d'),s=Math.min(78/v[k].width,88/v[k].height);t.drawImage(v[k],(84-v[k].width*s)/2,96-4-v[k].height*s,v[k].width*s,v[k].height*s);pv.appendChild(c)}
  show('s3')};

@@ -295,7 +295,7 @@ const CH=[
  {n:'テルージ',d:'ハートがいっぱい！',v:.85,h:5,j:7.4,g:.5,s:[2,3],dr:dTeruji,ai:1,pf:'t_'},
  {n:'ケイリー',d:'とってもはやい！',v:1.35,h:2,j:7.5,g:.55,s:[5,2],dr:dKeiri,k:1,ai:1,pf:'k_'},
  {n:'ワクワーク',d:'ふわっと高くとぶ！',v:.95,h:3,j:8.8,g:.4,s:[3,5],dr:dWaku,ai:1,pf:'w_'}];
-if(MYC)cards.classList.add('c5');if(MYC)CH.push({n:'じぶん',d:'きみが かいた キャラ！',v:1,h:3,j:7.6,g:.5,s:[3,3],dr:dMitsuo,ai:1,pf:'u_'});CH.forEach(c=>{c.im=[build(c.dr,0),build(c.dr,1)]});
+if(MYC)cards.classList.add('c5');if(MYC)CH.push({n:'じぶん',d:'きみが かいた キャラ！',v:1,h:3,j:7.6,g:.5,s:[3,3],dr:dMitsuo,ai:1,pf:'u_'});if(MYC){try{const T=JSON.parse(localStorage.getItem('toyo_mychar_st')||'null');if(T&&T.v>0&&T.j>0&&T.g>0&&T.h>0){const c=CH[CH.length-1],cl=x=>Math.max(1,Math.min(5,x));c.v=T.v;c.j=T.j;c.g=T.g;c.h=T.h|0;c.s=[cl(Math.round((T.v-.5)/.26)+1),cl(Math.round((T.j-6.4)/.78)+1)];c.d='ステータスは ランダム！'}}catch(e){}}CH.forEach(c=>{c.im=[build(c.dr,0),build(c.dr,1)]});
 const PIPE=mk(["..llllllll..",".llllllllll.","..nnnnnnnn..","..nwknnwkn..","..nnnnnnnn..","..nnrrrrnn..","..nnnnnnnn..",".mmmmmmmmmm.",".llllllllll.","...dd..dd...","..ddd..ddd.."]);
 const STEAM=mk(["...cccc.....",".ccccccccc..","ccckcccckccc","ccccrrrrcccc",".cccccccccc.","..aaaaaaaa..","...aaaaaa..."]);
 const FLOWER=mk(["...dddddd...","..dggddddd..",".dddddddddd.",".dkkkkkkkkd.",".dkeeeeeekd.",".dkeewweekd.",".dkkkkkkkkd.",".dddddddddd.","..dddddddd..","...dddddd..."]);
